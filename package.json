@@ -1,0 +1,23 @@
+{
+  "name": "chimesapp-com",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "astro check && bunx biome check --write",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@tailwindcss/vite": "^4.1.12",
+    "astro": "^5.13.3",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^12.6.5",
+    "@biomejs/biome": "^2.2.2",
+    "daisyui": "^5.0.50"
+  }
+}

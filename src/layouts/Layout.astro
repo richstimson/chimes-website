@@ -1,0 +1,164 @@
+---
+import '../styles/app.css'
+
+export interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+	title = "Chimes! - Get notifications when your favourite ice cream van is in your area!",
+	description = "Never miss your favorite ice cream van again. Get real-time notifications when ice cream vans are in your area with Chimes!" 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:site_name" content="Chimes!" />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		
+		<!-- Additional SEO -->
+		<meta name="robots" content="index, follow" />
+		<meta name="author" content="Chimes!" />
+		<link rel="canonical" href={Astro.url} />
+	</head>
+	<body class="bg-base-100 text-base-content">
+		<slot />
+		
+		<!-- Scroll animation script -->
+		<script>
+			document.addEventListener('DOMContentLoaded', function() {
+				// Function to make elements visible immediately (for jumps/hash navigation)
+				function makeElementsVisible(selector) {
+					document.querySelectorAll(selector).forEach(el => {
+						el.classList.add('visible');
+						el.style.transitionDelay = '0ms'; // Remove stagger delay for immediate visibility
+					});
+				}
+
+				// Function to check if element is already in viewport
+				function isInViewport(element) {
+					const rect = element.getBoundingClientRect();
+					return (
+						rect.top >= 0 &&
+						rect.left >= 0 &&
+						rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+						rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+					);
+				}
+
+				// Handle hash navigation on page load
+				if (window.location.hash) {
+					const targetSection = document.querySelector(window.location.hash);
+					if (targetSection) {
+						// Make the target section and its scroll-trigger children visible immediately
+						const sectionElements = targetSection.querySelectorAll('.scroll-trigger');
+						sectionElements.forEach(el => {
+							el.classList.add('visible');
+							el.style.transitionDelay = '0ms';
+						});
+						// Also make the section itself visible if it has scroll-trigger class
+						if (targetSection.classList.contains('scroll-trigger')) {
+							targetSection.classList.add('visible');
+							targetSection.style.transitionDelay = '0ms';
+						}
+					}
+				}
+
+				// Create intersection observer for scroll triggers
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('visible');
+							// Only observe once
+							observer.unobserve(entry.target);
+						}
+					});
+				}, {
+					threshold: 0.05, // Lower threshold for better fast scroll detection
+					rootMargin: '150px 0px 150px 0px' // Larger margin for earlier trigger
+				});
+				
+				// Observe all elements with scroll-trigger class
+				// Group elements by their parent section to reset stagger delays per section
+				const processedSections = new Set();
+				
+				document.querySelectorAll('.scroll-trigger').forEach((el) => {
+					// Check if element is already in viewport (above the fold)
+					if (isInViewport(el)) {
+						// Make it visible immediately without animation delay
+						el.classList.add('visible');
+						el.style.transitionDelay = '0ms';
+					} else {
+						// Find the parent section to group animations
+						const parentSection = el.closest('section') || el.closest('div.container') || document.body;
+						const sectionId = parentSection.id || parentSection.className || 'default';
+						
+						// Get all scroll-trigger elements within this section
+						if (!processedSections.has(sectionId)) {
+							processedSections.add(sectionId);
+							const sectionElements = parentSection.querySelectorAll('.scroll-trigger');
+							sectionElements.forEach((sectionEl, sectionIndex) => {
+								// Cap the delay at 600ms (6 elements * 100ms) to prevent long waits
+								const delay = Math.min(sectionIndex * 100, 600);
+								sectionEl.style.transitionDelay = `${delay}ms`;
+								observer.observe(sectionEl);
+							});
+						}
+					}
+				});
+				
+				// Enhanced smooth scrolling for anchor links
+				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+					anchor.addEventListener('click', function (e) {
+						e.preventDefault();
+						const href = this.getAttribute('href');
+						const target = document.querySelector(href);
+						
+						if (target) {
+							// Immediately make target section elements visible before scrolling
+							const sectionElements = target.querySelectorAll('.scroll-trigger');
+							sectionElements.forEach(el => {
+								el.classList.add('visible');
+								el.style.transitionDelay = '0ms';
+							});
+							// Also handle the target itself if it has scroll-trigger
+							if (target.classList.contains('scroll-trigger')) {
+								target.classList.add('visible');
+								target.style.transitionDelay = '0ms';
+							}
+
+							// Smooth scroll to target
+							target.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start'
+							});
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
+

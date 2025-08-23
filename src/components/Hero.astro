@@ -1,0 +1,78 @@
+---
+// Hero section with Foundit Food style - app mockup and ice cream background
+---
+
+<section class="relative min-h-screen bg-base-100 ice-cream-bg overflow-hidden">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 ice-cream-pattern opacity-30"></div>
+  
+  <!-- Content -->
+  <div class="relative z-10 container mx-auto px-4 py-20">
+    <div class="grid lg:grid-cols-2 gap-12 items-center min-h-screen">
+      
+      <!-- Left side - Content -->
+      <div class="text-center lg:text-left order-2 lg:order-1">
+        <!-- User type selector -->
+        <div class="inline-flex bg-white rounded-full p-1 mb-8 shadow-lg">
+          <a href="#download" class="px-6 py-2 rounded-full bg-primary text-primary-content text-sm font-medium transition-all hover:scale-105">
+            I'm looking for ice cream
+          </a>
+          <a href="#vendor" class="px-6 py-2 text-base-content/70 text-sm font-medium hover:text-base-content transition-colors">
+            I'm a vendor
+          </a>
+        </div>
+        
+        <h1 class="text-4xl lg:text-6xl font-bold text-base-content mb-6 leading-tight animate-fade-in-up">
+          Get notifications when your 
+          <span class="text-primary block">favourite ice cream van</span> 
+          is in your area!
+        </h1>
+        
+        <p class="text-xl text-base-content/80 mb-8 leading-relaxed animate-fade-in-up delay-100">
+          Never miss your favorite ice cream van again. Get real-time notifications 
+          when ice cream vans are in your area with Chimes!
+        </p>
+        
+        <div class="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in-up delay-200">
+          <a href="#download" class="btn btn-primary btn-lg text-primary-content px-8 hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM4.5 17H20M20 7l-5-5 5 5m0 0H4.5" />
+            </svg>
+            Get Notified Now
+          </a>
+          
+          <a href="#features" class="btn btn-outline btn-lg hover:scale-105 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1.01M15 10h1.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Learn More
+          </a>
+        </div>
+        
+        <div class="text-base-content/60 animate-fade-in-up delay-300">
+          <p class="text-sm">
+            Join thousands of ice cream lovers who never miss their favorite treats
+          </p>
+        </div>
+      </div>
+      
+      <!-- Right side - App Mockup -->
+      <div class="order-1 lg:order-2 flex justify-center">
+        <div class="w-64 animate-fade-in-scale delay-400">
+          <img 
+            src="/images/app-mockup.png" 
+            alt="Chimes app interface showing ice cream van locations on a map"
+            class="w-full h-auto rounded-2xl shadow-2xl hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>
