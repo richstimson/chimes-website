@@ -1,5 +1,5 @@
 ---
-// Vendor pricing section for ice cream vendors
+// Vendor pricing section with multiple tiers
 ---
 
 <section class="py-20 bg-white" id="pricing">
@@ -17,46 +17,49 @@
       </div>
       
       <!-- Pricing Cards -->
-      <div class="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         
         <!-- Free Plan -->
-        <div class="card bg-base-100 shadow-xl border border-base-300 scroll-trigger">
-          <div class="card-body p-8">
+        <div class="card bg-gradient-to-br from-sky-500 to-blue-600 text-white shadow-xl border-2 border-sky-300 scroll-trigger">
+          <div class="card-body p-8 flex flex-col">
             <div class="text-center mb-6">
-              <h3 class="text-2xl font-bold text-base-content mb-2">Get Listed</h3>
-              <div class="mb-4">
-                <span class="text-5xl font-bold text-base-content">£0</span>
-                <span class="text-base-content/60 text-lg">/month</span>
+              <h3 class="text-2xl font-bold text-white mb-2">Essentials</h3>
+              <div class="mb-2">
+                <span class="text-5xl font-bold text-white">£0</span>
+                <span class="text-white/60 text-lg">/month</span>
               </div>
-              <p class="text-base-content/80">
-                Get your business on the app
+              <div class="text-sm text-white/60 mb-4">
+                No payment details required
+              </div>
+              <p class="text-white">
+                <strong>Get your business on the app</strong>
               </p>
             </div>
             
-            <div class="space-y-4 mb-8">
+            <div class="space-y-4 mb-8 flex-grow mt-4">
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span class="text-base-content">Business profile on the app</span>
+                <span class="text-white">Static van displayed on the map</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span class="text-base-content">Contact information display</span>
+                <span class="text-white">Your business name and custom message displayed on the van</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span class="text-base-content">Opening hours & menu</span>
+                <span class="text-white">Basic customer discovery</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-success flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span class="text-base-content">Basic customer discovery</span>
+                <span class="text-white">Vendor Privacy</span>
               </div>
             </div>
             
@@ -73,45 +76,48 @@
             <span class="badge badge-accent badge-lg font-bold">Most Popular</span>
           </div>
           
-          <div class="card-body p-8">
+          <div class="card-body p-8 flex flex-col">
             <div class="text-center mb-6">
               <h3 class="text-2xl font-bold mb-2">Track & Notify</h3>
-              <div class="mb-4">
+              <div class="mb-2">
                 <span class="text-5xl font-bold">£20</span>
                 <span class="text-primary-content/80 text-lg">/month</span>
               </div>
-              <p class="text-primary-content/90">
-                Track your van and notify all your customers when you're in the area
+              <div class="text-sm text-primary-content/60 mb-4">
+                £240 billed annually
+              </div>
+              <p class="text-primary-content">
+                <strong>Track your van and notify all your customers when you're in the area</strong>
               </p>
             </div>
             
-            <div class="space-y-4 mb-8">
+            <div class="space-y-4 mb-8 flex-grow">
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Everything in Free plan</span>
+                <span>Everything in Essentials plan</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span><strong>Real-time van tracking</strong></span>
+                <span>Real-time van tracking</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span><strong>Notify customers in your area</strong></span>
+                <span>Notify customers in your area</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                <span>Customer analytics dashboard</span>
+                <span>Discount for multiple vans</span>
               </div>
               <div class="flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-accent flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 <span>Priority support</span>
@@ -120,6 +126,67 @@
             
             <a href="#" class="btn btn-accent btn-lg w-full text-accent-content hover:scale-105 transition-transform">
               Start Tracking
+            </a>
+          </div>
+        </div>
+        
+        <!-- Premium Plus Plan -->
+        <div class="card bg-gradient-to-br from-purple-600 to-purple-800 text-white shadow-xl border-2 border-purple-400 relative scroll-trigger">
+          <!-- Premium badge -->
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+            <span class="badge badge-warning badge-lg font-bold">Premium</span>
+          </div>
+          
+          <div class="card-body p-8 flex flex-col">
+            <div class="text-center mb-6">
+              <h3 class="text-2xl font-bold mb-2">Fully Customizable</h3>
+              <div class="mb-2">
+                <span class="text-5xl font-bold">£45</span>
+                <span class="text-white/80 text-lg">/month</span>
+              </div>
+              <div class="text-sm text-white/60 mb-4">
+                £540 billed annually
+              </div>
+              <p class="text-white">
+                <strong>Complete customization for your brand and maximum customer engagement</strong>
+              </p>
+            </div>
+            
+            <div class="space-y-4 mb-8 flex-grow">
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Everything in previous plans</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Customizable icon - your logo on the map</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Customizable notification sound - your jingle on your customers phones</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Display your menus</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Your routes, stops and schedule</span>
+              </div>
+            </div>
+            
+            <a href="#" class="btn btn-warning btn-lg w-full text-warning-content hover:scale-105 transition-transform">
+              Go Premium
             </a>
           </div>
         </div>

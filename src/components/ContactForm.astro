@@ -1,0 +1,169 @@
+---
+// Simple contact form component
+---
+
+<section class="py-20 bg-gray-50" id="contact">
+  <div class="container mx-auto px-4">
+    <div class="max-w-2xl mx-auto">
+      
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h2 class="text-4xl lg:text-5xl font-bold text-base-content mb-6">
+          Get in <span class="text-primary">Touch</span>
+        </h2>
+        <p class="text-xl text-base-content/80">
+          Have a question about Chimes? We'd love to hear from you!
+        </p>
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="card bg-white shadow-xl">
+        <div class="card-body p-8">
+          <form id="contactForm" class="space-y-6">
+            <!-- Email Field -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">Your Email Address</span>
+              </label>
+              <input 
+                type="email" 
+                name="email" 
+                id="email"
+                placeholder="Enter your email address" 
+                class="input input-bordered w-full" 
+                required 
+              />
+            </div>
+            
+            <!-- Message Field -->
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text font-semibold">Your Message</span>
+              </label>
+              <textarea 
+                name="message" 
+                id="message"
+                placeholder="Tell us about your question or how we can help..." 
+                class="textarea textarea-bordered h-32 w-full" 
+                required
+              ></textarea>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="form-control">
+              <button type="submit" class="btn btn-primary btn-lg w-full" id="submitBtn">
+                Send Message
+              </button>
+            </div>
+            
+            <!-- Success/Error Messages -->
+            <div id="formMessage" class="hidden"></div>
+          </form>
+          
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+              const form = document.getElementById('contactForm') as HTMLFormElement;
+              const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement;
+              const messageDiv = document.getElementById('formMessage') as HTMLDivElement;
+              const emailInput = document.getElementById('email') as HTMLInputElement;
+              const messageInput = document.getElementById('message') as HTMLTextAreaElement;
+              
+              if (form) {
+                form.addEventListener('submit', async function(e) {
+                  e.preventDefault();
+                  
+                  // Show loading state
+                  if (submitBtn) {
+                    submitBtn.textContent = 'Sending...';
+                    submitBtn.disabled = true;
+                  }
+                  
+                  // Get form data
+                  const email = emailInput?.value || '';
+                  const message = messageInput?.value || '';
+                  
+                  try {
+                    // Check if we're on production (has PHP) or dev server
+                    const isProduction = window.location.hostname !== 'localhost' && 
+                                        window.location.hostname !== '127.0.0.1' && 
+                                        !window.location.port;
+                    
+                    console.log('Environment check:', {
+                      hostname: window.location.hostname,
+                      port: window.location.port,
+                      isProduction: isProduction
+                    });
+                    
+                    if (isProduction) {
+                      // Production: Use PHP script
+                      const response = await fetch('/send-email.php', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                          email: email,
+                          message: message
+                        })
+                      });
+                      
+                      const result = await response.json();
+                      
+                      if (messageDiv) {
+                        if (result.success) {
+                          messageDiv.innerHTML = '<div class="alert alert-success"><span>✓ Message sent successfully! We\'ll get back to you soon.</span></div>';
+                          form.reset();
+                        } else {
+                          messageDiv.innerHTML = '<div class="alert alert-error"><span>✗ Failed to send message. Please try again or email us directly.</span></div>';
+                        }
+                        messageDiv.classList.remove('hidden');
+                      }
+                    } else {
+                      // Development: Mock success for testing UI
+                      console.log('DEV MODE - Form data:', { email, message });
+                      console.log('Current URL:', window.location.href);
+                      console.log('To test real email sending, run: npm run upload');
+                      
+                      // Simulate network delay
+                      await new Promise(resolve => setTimeout(resolve, 1000));
+                      
+                      if (messageDiv) {
+                        messageDiv.innerHTML = '<div class="alert alert-warning"><span>⚠️ DEVELOPMENT MODE: Form received but email not sent.<br/>To test real email sending, run <code>npm run upload</code> to deploy to production.</span></div>';
+                        messageDiv.classList.remove('hidden');
+                      }
+                      form.reset();
+                    }
+                  } catch (error) {
+                    console.error('Error:', error);
+                    if (messageDiv) {
+                      messageDiv.innerHTML = '<div class="alert alert-error"><span>✗ Network error. Please check your connection and try again.</span></div>';
+                      messageDiv.classList.remove('hidden');
+                    }
+                  }
+                  
+                  // Reset button
+                  if (submitBtn) {
+                    submitBtn.textContent = 'Send Message';
+                    submitBtn.disabled = false;
+                  }
+                });
+              }
+            });
+          </script>
+          
+          <!-- Alternative Contact Info -->
+          <div class="divider">OR</div>
+          <div class="text-center">
+            <p class="text-base-content/70 mb-4">
+              You can also reach us directly at:
+            </p>
+            <a href="mailto:chimesapp@just-iot.com" class="btn btn-outline">
+              chimesapp@just-iot.com
+            </a>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>

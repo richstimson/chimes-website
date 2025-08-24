@@ -8,7 +8,7 @@ export interface Props {
 
 const { 
 	title = "Chimes! - Get notifications when your favourite ice cream van is in your area!",
-	description = "Never miss your favorite ice cream van again. Get real-time notifications when ice cream vans are in your area with Chimes!" 
+	description = "Never miss your favourite ice cream van again. Get real-time notifications when ice cream vans are in your area with Chimes!" 
 } = Astro.props;
 ---
 
@@ -17,7 +17,15 @@ const {
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		
+		<!-- Favicon - Multiple formats for cross-browser support -->
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/ice-cream-truck3.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/ice-cream-truck3.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/ice-cream-truck3.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="/images/ice-cream-truck3.png" />
+		<link rel="icon" type="image/png" sizes="512x512" href="/images/ice-cream-truck3.png" />
+		<link rel="shortcut icon" href="/images/ice-cream-truck3.png" />
+		
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- Primary Meta Tags -->
