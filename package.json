@@ -8,6 +8,7 @@
     "check": "astro check && bunx biome check --write",
     "preview": "astro preview",
     "astro": "astro",
+    "deploy": "npm run build && npm run upload",
     "upload": "npm run build && cd dist && find . -type f -exec curl -T {} ftp://ftp.chimesapp.com/{} --user \"STIMSONS@chimesapp.com:Kilburn.12345\" --ftp-create-dirs \\;"
   },
   "dependencies": {
