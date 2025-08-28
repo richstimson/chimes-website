@@ -1,0 +1,74 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background blue solid color -->
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+  
+  <!-- Blue background -->
+  <rect width="1200" height="630" fill="#2563eb"/>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="60" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="1100" cy="530" r="80" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="200" cy="500" r="40" fill="rgba(255,255,255,0.05)"/>
+  <circle cx="1000" cy="100" r="50" fill="rgba(255,255,255,0.05)"/>
+  
+  <!-- White circle container for the truck image -->
+  <circle cx="300" cy="315" r="120" fill="white" filter="url(#shadow)"/>
+  
+  <!-- Ice cream truck image (embedded as a simplified representation) -->
+  <!-- Since we can't directly embed PNG in SVG easily, I'll create a truck-like illustration -->
+  <g transform="translate(300, 315) scale(2.5)">
+    <!-- Truck body -->
+    <rect x="-25" y="-15" width="50" height="25" rx="3" fill="#87ceeb" stroke="#4682b4" stroke-width="1"/>
+    
+    <!-- Truck cab -->
+    <rect x="-25" y="-15" width="15" height="20" rx="2" fill="#87ceeb" stroke="#4682b4" stroke-width="1"/>
+    
+    <!-- Windows -->
+    <rect x="-22" y="-12" width="8" height="6" fill="#e6f3ff"/>
+    <rect x="-15" y="-12" width="25" height="6" fill="#e6f3ff"/>
+    
+    <!-- Wheels -->
+    <circle cx="-15" cy="12" r="4" fill="#333" stroke="#222" stroke-width="1"/>
+    <circle cx="15" cy="12" r="4" fill="#333" stroke="#222" stroke-width="1"/>
+    
+    <!-- Ice cream cone logo on side -->
+    <g transform="translate(5, -5) scale(0.8)">
+      <path d="M-3 2 L0 8 L3 2 Z" fill="#d4a574"/>
+      <circle cx="0" cy="0" r="2.5" fill="#f8fafc"/>
+      <circle cx="0" cy="-2" r="2" fill="#fbbf24"/>
+    </g>
+    
+    <!-- Service window -->
+    <rect x="8" y="-8" width="12" height="8" fill="#fff" stroke="#4682b4" stroke-width="1"/>
+  </g>
+  
+  <!-- Main text -->
+  <text x="500" y="250" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white">
+    Chimes!
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="500" y="320" font-family="Arial, sans-serif" font-size="36" fill="rgba(255,255,255,0.9)">
+    Never miss your ice cream van again
+  </text>
+  
+  <!-- Description -->
+  <text x="500" y="380" font-family="Arial, sans-serif" font-size="24" fill="rgba(255,255,255,0.8)">
+    Get real-time notifications when ice cream vans are in your area
+  </text>
+  
+  <!-- Call to action -->
+  <rect x="500" y="420" width="250" height="60" rx="30" fill="white" opacity="0.9"/>
+  <text x="625" y="460" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#2563eb" text-anchor="middle">
+    Download Now
+  </text>
+  
+  <!-- App store badges area (simplified) -->
+  <text x="500" y="540" font-family="Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.7)">
+    Available on App Store and Google Play
+  </text>
+</svg>

@@ -9,7 +9,10 @@
     "preview": "astro preview",
     "astro": "astro",
     "deploy": "npm run build && npm run upload",
-    "upload": "npm run build && cd dist && find . -type f -exec curl -T {} ftp://ftp.chimesapp.com/{} --user \"STIMSONS@chimesapp.com:Kilburn.12345\" --ftp-create-dirs \\;"
+    "upload": "cd dist && find . -type f -exec curl -T {} ftp://ftp.chimesapp.com/{} --user \"STIMSONS@chimesapp.com:Kilburn.12345\" --ftp-create-dirs \\;",
+    "smart-deploy": "npm run build && ./sync-smart.sh",
+    "full-deploy": "npm run build && npm run full-sync",
+    "full-sync": "cd dist && lftp -c 'set ssl:verify-certificate no; set ftp:list-options -a; open ftp://STIMSONS%40chimesapp.com:Kilburn.12345@ftp.chimesapp.com; lcd .; mirror -R --delete --verbose --parallel=3 . /'"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

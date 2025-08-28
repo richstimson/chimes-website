@@ -35,26 +35,28 @@ const {
 		
 		<!-- Open Graph / Facebook -->
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content={Astro.url} />
+		<meta property="og:url" content="https://chimesapp.com" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content="/images/appstore.png" />
-		<meta property="og:image:width" content="1024" />
-		<meta property="og:image:height" content="1024" />
+		<meta property="og:image" content="https://chimesapp.com/images/social-media-card-v2.png" />
+		<meta property="og:image:width" content="3750" />
+		<meta property="og:image:height" content="1968" />
 		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:alt" content="Chimes - Ice Cream Van Tracking App" />
 		<meta property="og:site_name" content="Chimes!" />
 		
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:url" content="https://chimesapp.com" />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content="/images/appstore.png" />
+		<meta property="twitter:image" content="https://chimesapp.com/images/social-media-card-v2.png" />
+		<meta property="twitter:image:alt" content="Chimes - Ice Cream Van Tracking App" />
 		
 		<!-- Additional SEO -->
 		<meta name="robots" content="index, follow" />
 		<meta name="author" content="Chimes!" />
-		<link rel="canonical" href={Astro.url} />
+		<link rel="canonical" href="https://chimesapp.com" />
 	</head>
 	<body class="bg-base-100 text-base-content">
 		<slot />

@@ -54,10 +54,91 @@
           </a>
         </div>
         
-        <div class="text-base-content/60 animate-fade-in-up delay-300">
-          <p class="text-sm">
+        <div class="text-base-content/60 animate-fade-in-up delay-250 mb-6">
+          <p class="text-sm text-center">
             Join thousands of ice cream lovers who never miss their favourite treats
           </p>
+        </div>
+        
+        <!-- Vendor Register Interest Section -->
+        <div class="bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 rounded-xl p-6 shadow-lg mb-8 animate-fade-in-up delay-300">
+          <div class="text-center">
+            <h3 class="text-lg font-semibold text-primary mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-5 0H9m0 0H5m0 0h2M7 7h10M7 11h4" />
+              </svg>
+              Ice Cream Vendor?
+            </h3>
+            <p class="text-sm text-primary/80 mb-4">
+              Enter your business email address and we'll get back to you with more information!
+            </p>
+            <form id="vendor-interest-form" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input 
+                type="email" 
+                name="email"
+                placeholder="Enter your business email" 
+                class="flex-1 px-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary focus:border-transparent text-sm"
+                required
+              />
+              <button 
+                type="submit" 
+                class="btn btn-secondary text-secondary-content px-6 hover:scale-105 transition-transform"
+                id="vendor-submit-btn"
+              >
+                Register Interest
+              </button>
+            </form>
+            <div id="vendor-message" class="mt-3 text-sm hidden"></div>
+          </div>
+        </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('vendor-interest-form') as HTMLFormElement;
+    const submitBtn = document.getElementById('vendor-submit-btn') as HTMLButtonElement;
+    const messageDiv = document.getElementById('vendor-message') as HTMLDivElement;
+
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Disable button and show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Registering...';
+        messageDiv.className = 'mt-3 text-sm hidden';
+
+        try {
+          const formData = new FormData(form);
+          const response = await fetch('/send-vendor-interest.php', {
+            method: 'POST',
+            body: formData
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            messageDiv.className = 'mt-3 text-sm text-green-600';
+            messageDiv.textContent = result.message;
+            form.reset();
+          } else {
+            messageDiv.className = 'mt-3 text-sm text-red-600';
+            messageDiv.textContent = result.message;
+          }
+        } catch (error) {
+          messageDiv.className = 'mt-3 text-sm text-red-600';
+          messageDiv.textContent = 'Something went wrong. Please try again.';
+        } finally {
+          // Reset button
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Register';
+          messageDiv.classList.remove('hidden');
+        }
+      });
+    }
+  });
+</script>
+        
+        <div class="text-base-content/60 animate-fade-in-up delay-400">
         </div>
       </div>
       
