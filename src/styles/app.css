@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: light --default;
-};
+}
 
-/* Custom animations */
+/* Custom animations - refreshed cache */
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -71,8 +71,11 @@
 }
 
 .ice-cream-pattern {
-  background-image: 
-    radial-gradient(circle at 20px 20px, #fecaca 1px, transparent 1px),
+  background-image: radial-gradient(
+      circle at 20px 20px,
+      #fecaca 1px,
+      transparent 1px
+    ),
     radial-gradient(circle at 60px 60px, #bfdbfe 1px, transparent 1px);
   background-size: 80px 80px;
 }

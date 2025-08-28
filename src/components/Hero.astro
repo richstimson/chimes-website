@@ -118,11 +118,11 @@
 
           if (result.success) {
             messageDiv.className = 'mt-3 text-sm text-green-600';
-            messageDiv.textContent = result.message;
+            messageDiv.innerHTML = result.message;
             form.reset();
           } else {
             messageDiv.className = 'mt-3 text-sm text-red-600';
-            messageDiv.textContent = result.message;
+            messageDiv.innerHTML = result.message;
           }
         } catch (error) {
           messageDiv.className = 'mt-3 text-sm text-red-600';
