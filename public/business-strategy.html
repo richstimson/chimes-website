@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chimes: Business Strategy</title>
+    <link rel="stylesheet" href="/styles/app.css" />
+    <link rel="icon" type="image/svg+xml" href="/strategy-favicon.svg" />
+    <style>
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        color: #1a2233;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 8px 40px rgba(42, 124, 255, 0.08),
+          0 2px 16px rgba(0, 0, 0, 0.04);
+        padding: 2rem 2.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #2a7cff, #ffb86c, #ff6f91);
+      }
+      h1 {
+        color: #2a7cff;
+        font-size: 2.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        text-align: center;
+      }
+      .subtitle {
+        text-align: center;
+        color: #6c7a89;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        font-weight: 400;
+      }
+      h2 {
+        color: #ffb86c;
+        font-size: 1.3rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      h2::before {
+        content: "";
+        width: 4px;
+        height: 24px;
+        background: #ffb86c;
+        border-radius: 2px;
+      }
+      .section {
+        background: #f8faff;
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-bottom: 1.2rem;
+        border: 1px solid #e8f2ff;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      li {
+        margin: 0.8rem 0;
+        padding: 1rem;
+        background: #fff;
+        border-radius: 8px;
+        border: 1px solid #e0e6ed;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+      li:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(42, 124, 255, 0.1);
+        border-color: #2a7cff;
+      }
+      a {
+        color: #2a7cff;
+        text-decoration: none;
+        font-size: 1.1rem;
+        font-weight: 600;
+        transition: color 0.3s ease;
+        display: block;
+        margin-bottom: 0.3rem;
+      }
+      a:hover {
+        color: #1a5bb8;
+      }
+      .desc {
+        color: #6c7a89;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        font-weight: 400;
+      }
+      .icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chimes: Business Strategy</h1>
+      <p class="subtitle">
+        Strategic roadmaps and competitive positioning analysis
+      </p>
+
+      <div class="section">
+        <h2><span class="icon">🗺️</span>Chimes Roadmaps</h2>
+        <ul>
+          <li>
+            <a href="/product-roadmap.html">Product Roadmap</a>
+            <span class="desc"
+              >Phased feature and platform development plan</span
+            >
+          </li>
+          <li>
+            <a href="/commercial-roadmap.html">Commercial Roadmap</a>
+            <span class="desc"
+              >Monetization, scaling, and business growth strategy</span
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2><span class="icon">⚔️</span>Competitive Analysis</h2>
+        <ul>
+          <li>
+            <a href="/competitive-analysis-indilocal.html"
+              >Competitive Analysis: Indi Local</a
+            >
+            <span class="desc"
+              >Side-by-side comparison with Indi Local's platform and
+              approach</span
+            >
+          </li>
+          <li>
+            <a href="/competitive-analysis-founditfood.html"
+              >Competitive Analysis: FoundIt Food</a
+            >
+            <span class="desc"
+              >Detailed comparison with FoundIt Food's capabilities and
+              strategy</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

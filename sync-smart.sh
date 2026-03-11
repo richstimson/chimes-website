@@ -2,6 +2,8 @@
 
 # Efficient FTP sync script that only uploads truly changed files
 
+source "$(cd "$(dirname "$0")" && pwd)/load-ftp-secrets.sh"
+
 echo "🔍 Checking for file changes..."
 
 # Create checksums directory if it doesn't exist
@@ -56,7 +58,8 @@ echo "🚀 Syncing to server..."
 lftp -c "
     set ssl:verify-certificate no
     set ftp:list-options -a
-    open ftp://STIMSONS%40chimesapp.com:Kilburn.12345@ftp.chimesapp.com
+    open ftp://$CHIMES_FTP_HOST
+    user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
     lcd dist
     mirror -R --delete --verbose --parallel=3 --ignore-time . /
 "
