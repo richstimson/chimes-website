@@ -84,14 +84,27 @@
       font-size: 1.05rem;
     }
     ul {
+      list-style: none;
       margin-top: 0.2rem;
       margin-bottom: 1.2rem;
-      padding-left: 1.2rem;
+      padding-left: 0;
     }
     li {
+      display: grid;
+      grid-template-columns: 1.4rem 1fr;
+      column-gap: 0.7rem;
+      align-items: flex-start;
       margin-bottom: 0.45rem;
       font-size: 1.04rem;
       line-height: 1.6;
+    }
+    li::before {
+      content: "•";
+      width: 1.4rem;
+      color: #7b8aa6;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      text-align: center;
     }
     .divider {
       margin: 2.5rem 0 2rem 0;
@@ -117,16 +130,18 @@
       backdrop-filter: blur(10px);
     }
     .tick-item {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1.4rem 1fr;
+      column-gap: 0.7rem;
       align-items: flex-start;
       font-size: 1.07rem;
       margin-bottom: 0.35rem;
-      gap: 0.7em;
     }
     .tick-icon {
       color: #22b573;
       font-size: 1.25em;
-      margin-right: 0.5em;
+      width: 1.4rem;
+      text-align: center;
       flex-shrink: 0;
       font-weight: bold;
       line-height: 1.2;
@@ -155,11 +170,11 @@
     onmouseout="this.style.background='#f5faff';this.style.color='#2a7cff';this.style.borderColor='#e0e6ed'"
     >&larr; Back</a>
     <h1>Chimes Product Roadmap</h1>
-    <div class="vision-box">Our vision: To be the leading platform connecting food lovers to amazing experiences through real-time locations and offers – from ice cream vans and food trucks to local restaurants and cafés.</div>
+    <div class="vision-box">Our vision: To be the leading platform connecting food lovers to amazing experiences through real-time locations and offers, starting with mobile vendors and expanding into a broader real-time food discovery network.</div>
   </div>
   <div class="container">
     <div style="margin-bottom: 2.5rem; padding: 1.5rem; background: #f8faff; border-radius: 12px; border-left: 4px solid #2a7cff;">
-      <p style="margin-bottom: 1rem; font-size: 1.1rem; line-height: 1.6; color: #1a2233;">This roadmap outlines Chimes' strategic development across four main areas: <strong>Mobile Ice Cream Vendors</strong>, <strong>Food Trucks & Pop-up Vendors</strong>, <strong>Restaurants & Cafés</strong>, and <strong>Advanced Platform Enhancements</strong>. Each area contains detailed sub-phases that build upon our core vision of connecting food lovers with amazing culinary experiences.</p>
+      <p style="margin-bottom: 1rem; font-size: 1.1rem; line-height: 1.6; color: #1a2233;">This roadmap outlines Chimes' strategic development across three main areas: <strong>Mobile Ice Cream Vendors</strong>, <strong>Food Trucks & Pop-up Vendors</strong>, and <strong>Advanced Platform Enhancements</strong>. Each area contains detailed sub-phases that build on our core vision of connecting food lovers with amazing real-time culinary experiences.</p>
     <p style="margin: 0; font-size: 1.1rem; line-height: 1.6; color: #1a2233;">While presented sequentially, these phases aren't necessarily chronological. Implementation order will be commercially driven based on market research, user feedback, and business opportunities to ensure maximum impact and sustainable growth.</p>
     </div>
     
@@ -185,26 +200,72 @@
         <div class="tick-item"><span class="tick-icon">&#10003;</span> Live commercial trial</div>
       </div>
     </div>
-    
+
     <div class="phase-card">
-      <div class="phase-header"><span class="phase-icon">🚚</span><span class="phase-title">Phase 1.2: Enhanced User Experience</span></div>
-      <div class="phase-goal">Goal: Enhanced vendor customisation, advanced privacy controls, location-based features and promotional capabilities.</div>
+      <div class="phase-header"><span class="phase-icon">🛠️</span><span class="phase-title">Phase 1.2: Vendor Setup, Identity &amp; Operational Readiness</span></div>
+      <div class="phase-goal">Goal: Strengthen day-to-day vendor operations first so the platform is reliable to run before adding more customer-facing complexity.</div>
+      <div class="phase-ticks" style="margin-bottom: 1rem;">
+        <div class="tick-item"><span class="tick-icon">&#10003;</span> Send WhatsApp's to vendor directly from the map</div>
+      </div>
       <ul>
         <li>Customised vendor icons</li>
+        <li>Vendor demo mode: controlled demo movement, e.g. one movement per day for onboarding, sales demos, and training</li>
+        <li>Background location tracking for vendor mode</li>
         <li>Customised vendor notification tones</li>
-        <li>Vendor option to have their own Chimes powered app</li>
-        <li>Enhanced Vendor Privacy - home geofence, rounds geofence and scheduled privacy</li>
-        <li>Mobile Vendor Profiles</li>
-        <li>Mobile Vendor routes &amp; schedules</li>
+        <li>Vendor sign in by Face ID / biometric authentication</li>
         <li>Use customer's current location to create notification zone</li>
+        <li>Show vans outside user geofence</li>
+        <li>Favourite Vendors</li>
+        <li>Android vendor mode</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-header"><span class="phase-icon">📇</span><span class="phase-title">Phase 1.3: Vendor Profiles, Apps &amp; Fleet Management</span></div>
+      <div class="phase-goal">Goal: Expand vendor account capability with richer profiles, white-label options, and support for more complex operating models.</div>
+      <ul>
+        <li>Mobile Vendor Profiles</li>
+        <li>Vendor option to have their own Chimes powered app</li>
+        <li>Ability for a vendor account to manage multiple vans</li>
+        <li>GPS device setup for vendors using dedicated tracking hardware</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-header"><span class="phase-icon">🔒</span><span class="phase-title">Phase 1.4: Privacy, Visibility &amp; Access Control</span></div>
+      <div class="phase-goal">Goal: Improve vendor confidence and flexibility with better visibility controls around routes, home locations, who can track them, and when they are discoverable.</div>
+      <ul>
+        <li>Enhanced Vendor Privacy - home geofence, rounds geofence and scheduled privacy</li>
+        <li>Mobile Vendor routes &amp; schedules</li>
+        <li>Option to only allow tracking by customers who have favourited that vendor</li>
+        <li>Separate visible notification zone and wider fixed search/discovery radius for finding vendors</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-header"><span class="phase-icon">📍</span><span class="phase-title">Phase 1.5: Discovery, Sign-in &amp; Favourite Vendor Journeys</span></div>
+      <div class="phase-goal">Goal: Make it easier for customers to discover the right vendor, sign in, follow favourites, and build an ongoing relationship with repeat vendors.</div>
+      <ul>
+        <li>Simple browse, search &amp; filter</li>
+        <li>Customer sign-in</li>
+        <li>Favourite vendor sign-up / follow flow, similar to a direct vendor broadcast list</li>
+        <li>Search for a vendor and add them to favourites</li>
         <li>Notifications when vendors attend public events (e.g. fairs, markets, festivals)</li>
+      </ul>
+    </div>
+
+    <div class="phase-card">
+      <div class="phase-header"><span class="phase-icon">📣</span><span class="phase-title">Phase 1.6: Messaging, Notifications &amp; Engagement</span></div>
+      <div class="phase-goal">Goal: Introduce richer communications that help vendors drive repeat visits, event attendance, and time-sensitive conversion.</div>
+      <ul>
         <li>Promotions &amp; flash deals: Push notifications for limited-time offers.</li>
-  <li>Simple browse, search &amp; filter</li>
+        <li>Vendor messages and pictures sent to signed-up customers with push notifications</li>
+        <li>Different notification sounds for nearby alerts versus general announcements</li>
       </ul>
     </div>
     
     <div class="phase-card">
-      <div class="phase-header"><span class="phase-icon">🤖</span><span class="phase-title">Phase 1.3: AI & Predictive Features (Mobile Vendors)</span></div>
+      <div class="phase-header"><span class="phase-icon">🤖</span><span class="phase-title">Phase 1.7: AI & Predictive Features (Mobile Vendors)</span></div>
       <div class="phase-goal">Goal: Leverage AI to optimise mobile vendor operations and customer engagement.</div>
       <ul>
         <li>Predictive route planning: Suggest optimal stops based on customer heatmaps, weather, time of day, and local events.</li>
@@ -246,43 +307,14 @@
       </ul>
     </div>
     
-    <!-- MAIN PHASE 3: RESTAURANTS & CAFÉS -->
-    <div style="margin: 3rem 0 1.5rem 0; padding: 1rem 1.5rem; background: linear-gradient(90deg, #22b573, #4ade80); color: white; border-radius: 12px; text-align: center;">
-      <h2 style="margin: 0; font-size: 1.8rem; font-weight: 700;">Phase 3: Restaurants & Cafés</h2>
-      <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.95;">Establishing Chimes as a comprehensive food discovery platform by integrating static food outlets and building a complete ecosystem.</p>
-    </div>
-    
-    <div class="phase-card">
-      <div class="phase-header"><span class="phase-icon">🏪</span><span class="phase-title">Phase 3.1: Roll-out to Restaurants & Cafes</span></div>
-      <div class="phase-goal">Goal: Integrate traditional food outlets to become a comprehensive food discovery platform.</div>
-      <ul>
-        <li>Vendor profiles with customized descriptions, hours, location, and cuisine types</li>
-        <li>Customer ratings and reviews for static outlets</li>
-        <li>Push notifications for special offers and promotions</li>
-        <li>Location-based discovery and filtering</li>
-        <li>Integration with existing restaurant databases</li>
-      </ul>
-    </div>
-    
-    <div class="phase-card">
-      <div class="phase-header"><span class="phase-icon">🌐</span><span class="phase-title">Phase 3.2: Broader Food Ecosystem</span></div>
-      <div class="phase-goal">Goal: Become a full-scale local food discovery &amp; engagement platform.</div>
-      <ul>
-        <li>Subscription/loyalty tiers for premium users</li>
-        <li>Event &amp; festival integration: Pop-up events, food fairs, night markets</li>
-        <li>Collaborations: Optional delivery partnerships</li>
-        <li>Community features: Reviews, comments, sharing favorite vendors, user-created events</li>
-      </ul>
-    </div>
-    
-    <!-- MAIN PHASE 4: ADVANCED PLATFORM ENHANCEMENTS -->
+    <!-- MAIN PHASE 3: ADVANCED PLATFORM ENHANCEMENTS -->
     <div style="margin: 3rem 0 1.5rem 0; padding: 1rem 1.5rem; background: linear-gradient(90deg, #8b5cf6, #a855f7); color: white; border-radius: 12px; text-align: center;">
-      <h2 style="margin: 0; font-size: 1.8rem; font-weight: 700;">Phase 4: Advanced Platform Enhancements</h2>
+      <h2 style="margin: 0; font-size: 1.8rem; font-weight: 700;">Phase 3: Advanced Platform Enhancements</h2>
       <p style="margin: 0.5rem 0 0 0; font-size: 1.1rem; opacity: 0.95;">Advanced features and monetization tools to enhance user engagement and create additional revenue streams across the entire platform.</p>
     </div>
     
     <div class="phase-card">
-      <div class="phase-header"><span class="phase-icon">💼</span><span class="phase-title">Phase 4.1: Monetization & Business Features</span></div>
+      <div class="phase-header"><span class="phase-icon">💼</span><span class="phase-title">Phase 3.1: Monetization &amp; Business Features</span></div>
       <div class="phase-goal">Goal: Implement sustainable revenue streams and advanced business tools for vendors.</div>
       <ul>
         <li>Premium vendor subscriptions for analytics &amp; promotion tools</li>
@@ -294,7 +326,7 @@
     </div>
     
     <div class="phase-card">
-      <div class="phase-header"><span class="phase-icon">🚀</span><span class="phase-title">Phase 4.2: Advanced Platform Interactivity</span></div>
+      <div class="phase-header"><span class="phase-icon">🚀</span><span class="phase-title">Phase 3.2: Advanced Platform Interactivity</span></div>
       <div class="phase-goal">Goal: Enhance user engagement and platform interactivity through advanced features and interactive tools.</div>
       <ul>
         <li>In-app chat – simple customer ⇄ vendor messaging</li>
