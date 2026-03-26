@@ -61,7 +61,10 @@ lftp -c "
     open ftp://$CHIMES_FTP_HOST
     user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
     lcd dist
-    mirror -R --delete --verbose --parallel=3 --ignore-time . /
+    mirror -R --delete --verbose --parallel=3 --ignore-time \
+        --exclude-glob .well-known \
+        --exclude-glob .ftpquota \
+        . /
 "
 
 # Save current checksums as previous for next run

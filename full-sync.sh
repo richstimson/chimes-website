@@ -10,5 +10,8 @@ lftp -c "
     open ftp://$CHIMES_FTP_HOST
     user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
     lcd dist
-    mirror -R --delete --verbose --parallel=3 . /
+    mirror -R --delete --verbose --parallel=3 \
+        --exclude-glob .well-known \
+        --exclude-glob .ftpquota \
+        . /
 "
