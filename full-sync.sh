@@ -11,7 +11,13 @@ lftp -c "
     user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
     lcd dist
     mirror -R --delete --verbose --parallel=3 \
+        --exclude-glob _astro \
+        --exclude-glob _astro/* \
+        --exclude-glob _astro/** \
         --exclude-glob .well-known \
         --exclude-glob .ftpquota \
         . /
+    lcd _astro
+    mirror -R --verbose --parallel=3 \
+        . /_astro
 "

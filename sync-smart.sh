@@ -12,20 +12,28 @@ mkdir -p .deploy-cache
 # Generate checksums for current dist files
 find dist -type f -exec md5 {} \; > .deploy-cache/current-checksums.txt 2>/dev/null
 
-# Extract current and previous asset filenames for comparison
-CURRENT_CSS=$(find dist/_astro -name "index.*.css" 2>/dev/null | head -1 | sed 's/dist\///')
-CURRENT_JS=$(find dist/_astro -name "*.js" 2>/dev/null | head -1 | sed 's/dist\///')
+# Extract current hashed asset filenames for comparison
+CURRENT_ASTRO_ASSETS=$(find dist/_astro -maxdepth 1 -type f 2>/dev/null | sort | sed 's#^dist/##')
 
 # Check for hashed asset changes (Astro cache-busting)
 FORCE_SYNC=false
 if [ -f .deploy-cache/previous-assets.txt ]; then
-    PREVIOUS_CSS=$(grep "css:" .deploy-cache/previous-assets.txt 2>/dev/null | cut -d':' -f2-)
-    PREVIOUS_JS=$(grep "js:" .deploy-cache/previous-assets.txt 2>/dev/null | cut -d':' -f2-)
+    PREVIOUS_ASTRO_ASSETS=$(cat .deploy-cache/previous-assets.txt 2>/dev/null)
     
-    if [ "$CURRENT_CSS" != "$PREVIOUS_CSS" ] || [ "$CURRENT_JS" != "$PREVIOUS_JS" ]; then
-        echo "🔄 Detected new hashed assets (CSS/JS cache-busting files)"
-        echo "  Previous CSS: $PREVIOUS_CSS"
-        echo "  Current CSS:  $CURRENT_CSS"
+    if [ "$CURRENT_ASTRO_ASSETS" != "$PREVIOUS_ASTRO_ASSETS" ]; then
+        echo "🔄 Detected changes in hashed Astro assets"
+        echo "  Previous assets:"
+        if [ -n "$PREVIOUS_ASTRO_ASSETS" ]; then
+            echo "$PREVIOUS_ASTRO_ASSETS" | sed 's/^/    - /'
+        else
+            echo "    - none"
+        fi
+        echo "  Current assets:"
+        if [ -n "$CURRENT_ASTRO_ASSETS" ]; then
+            echo "$CURRENT_ASTRO_ASSETS" | sed 's/^/    - /'
+        else
+            echo "    - none"
+        fi
         FORCE_SYNC=true
     fi
 else
@@ -62,16 +70,21 @@ lftp -c "
     user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
     lcd dist
     mirror -R --delete --verbose --parallel=3 --ignore-time \
+        --exclude-glob _astro \
+        --exclude-glob _astro/* \
+        --exclude-glob _astro/** \
         --exclude-glob .well-known \
         --exclude-glob .ftpquota \
         . /
+    lcd _astro
+    mirror -R --verbose --parallel=3 --ignore-time \
+        . /_astro
 "
 
 # Save current checksums as previous for next run
 cp .deploy-cache/current-checksums.txt .deploy-cache/previous-checksums.txt
 
 # Save current asset filenames for next run
-echo "css:$CURRENT_CSS" > .deploy-cache/previous-assets.txt
-echo "js:$CURRENT_JS" >> .deploy-cache/previous-assets.txt
+printf '%s\n' "$CURRENT_ASTRO_ASSETS" > .deploy-cache/previous-assets.txt
 
 echo "✅ Sync complete!"

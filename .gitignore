@@ -1,3 +1,5 @@
 node_modules
 .env.local
 .astro/
+dist/
+.deploy-cache/

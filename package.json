@@ -13,6 +13,7 @@
     "deploy": "npm run build && npm run upload",
     "upload": "./upload-ftp.sh",
     "smart-deploy": "npm run build && ./sync-smart.sh",
+    "verify-deploy": "./verify-deploy.sh",
     "full-deploy": "npm run build && npm run full-sync",
     "full-sync": "./full-sync.sh"
   },
