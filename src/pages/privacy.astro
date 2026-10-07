@@ -1,0 +1,235 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// Linked from Google Play Console (App content > Privacy policy) and
+// App Store Connect (App Information > Privacy Policy URL). Keep this page
+// in the repo: deploys mirror dist/ with --delete, so a page that exists only
+// on the server is removed by the next deploy. That is how the previous
+// policy (/ios-privacy-policy/) was lost, and Play removed the app over it.
+const lastUpdated = '7 October 2026';
+const contactEmail = 'chimesapp@just-iot.com';
+---
+
+<Layout
+  title="Privacy Policy - Chimes!"
+  description="How the Chimes! app and website collect, use and protect your information."
+>
+  <Header />
+  <main class="container mx-auto max-w-3xl px-4 py-12 text-base-content">
+    <h1 class="text-4xl font-bold mb-2">Privacy Policy</h1>
+    <p class="text-base-content/60 mb-8">Last updated: {lastUpdated}</p>
+
+    <section class="space-y-4 mb-10">
+      <p>
+        Chimes! ("Chimes", "we", "us") is an app that tells you when an ice cream van or other
+        mobile vendor is in your area. This policy explains what information the Chimes app (for
+        iPhone, iPad and Android) and this website collect, why, who we share it with, and the
+        choices you have.
+      </p>
+      <p>
+        Chimes is run by Richard Stimson in the United Kingdom, who is the data controller for
+        the information described here. You can contact us at
+        <a class="link link-primary" href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+      </p>
+      <p class="font-semibold">The short version:</p>
+      <ul class="list-disc pl-6 space-y-1">
+        <li>You can use Chimes as a customer without an account, a name or an email address.</li>
+        <li>
+          As a customer, your phone never sends us its location. We store the centre and size of
+          the area you choose, so we can tell you when a van enters it.
+        </li>
+        <li>
+          Vendors share their location on purpose, so customers can find them, and only while
+          they choose to.
+        </li>
+        <li>We don't sell your information, show adverts, or use advertising or analytics trackers.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">1. If you use Chimes as a customer</h2>
+      <p>You don't need to create an account. When you first open the app, we create a random guest ID for your phone. We collect:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>
+          <strong>Your notification area (Geofence Circle).</strong> The postcode or place you enter,
+          its map position, and the radius you choose. The position comes from what you type, not from
+          your phone's GPS. We use this to work out when a vendor enters your area. We store the area,
+          not a history of where you go.
+        </li>
+        <li>
+          <strong>Your phone's location, on your phone only.</strong> If you allow location access,
+          the app uses it to show where you are on the map. It is not sent to us or stored by us.
+        </li>
+        <li>
+          <strong>Push notification identifiers.</strong> A token from Firebase Cloud Messaging
+          (Google), and on iPhone also an Apple Push Notification service token, so we can send you
+          alerts.
+        </li>
+        <li>
+          <strong>Your settings.</strong> Whether notifications are on, and the vendors you save as
+          favourites.
+        </li>
+      </ul>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">2. If you use Chimes as a vendor</h2>
+      <p>Vendor accounts are available on iPhone and iPad. When you sign up and use vendor mode, we collect:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>
+          <strong>Account details.</strong> Your email address and password. The password is held by
+          our sign-in provider, Amazon Cognito, and we never see it.
+        </li>
+        <li>
+          <strong>Business details you choose to add.</strong> For example your business name, a
+          description, phone number, address, postcode, town, website and social media links, and an
+          icon. These are shown to customers.
+        </li>
+        <li>
+          <strong>Your live location while you are sharing it.</strong> When you are live, the app
+          sends your vehicle's position so customers can see you on the map and be notified when you
+          enter their area. This can continue while the app is in the background. We store your most
+          recent position, and our location provider keeps a position history for up to 30 days. You
+          can stop sharing at any time by going offline or switching on Privacy Mode.
+        </li>
+        <li>
+          <strong>Service usage.</strong> Daily counts of successful and failed location updates, with
+          your app version and platform, so we can spot problems with the service.
+        </li>
+      </ul>
+      <p>
+        Your business details and live location are visible to Chimes users by design. That is the
+        purpose of vendor mode.
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">3. Businesses listed from public sources</h2>
+      <p>
+        The map also shows some ice cream businesses that don't use Chimes. We add these from publicly
+        available information: business name, location, and public contact details such as a website,
+        social media page, email or phone number. If it's your business and you'd like the listing
+        corrected or removed, email us and we will do it.
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">4. When you contact us</h2>
+      <p>
+        If you use "Contact us" in the app, or a form on this website, we receive what you send: your
+        email address, your message, and any other details you type in, such as your name. We use them
+        to reply to you. In-app messages are sent to us by email through Amazon Simple Email Service.
+      </p>
+      <p>
+        If you pay for a vendor plan, payment is handled by Stripe. We receive your name, email address
+        and payment status, but never your card details.
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">5. Why we use your information</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>
+          <strong>To provide the service you asked for:</strong> sending alerts when a vendor enters your
+          area, showing vendors on the map, running vendor accounts. (Legal basis: performing our
+          agreement with you.)
+        </li>
+        <li>
+          <strong>To keep Chimes working and secure:</strong> diagnosing faults, preventing misuse, and
+          removing out-of-date push tokens. (Legal basis: our legitimate interests.)
+        </li>
+        <li>
+          <strong>Where you have given permission:</strong> location access and notifications. You can
+          withdraw permission at any time in your phone's settings or the app's settings. (Legal basis:
+          consent.)
+        </li>
+      </ul>
+      <p>We don't use your information for advertising, and we don't make automated decisions about you that have legal or similar effects.</p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">6. Who we share it with</h2>
+      <p>We don't sell your information. We use these service providers to run Chimes, and they process data only on our behalf:</p>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Amazon Web Services:</strong> hosting, database, sign-in, location processing, push delivery and email (USA, us-east-1 region).</li>
+        <li><strong>Google Firebase Cloud Messaging:</strong> delivering push notifications.</li>
+        <li><strong>Apple:</strong> push notifications and maps on iPhone and iPad.</li>
+        <li><strong>Google Maps:</strong> maps on Android.</li>
+        <li><strong>Stripe:</strong> vendor payments.</li>
+        <li><strong>Bluehost and Cloudflare:</strong> hosting and protecting this website.</li>
+      </ul>
+      <p>
+        On your phone, postcodes and place names you type are turned into a map position by your
+        phone's built-in location service (Apple on iPhone, Google on Android). We may also disclose
+        information if the law requires it.
+      </p>
+      <p>
+        Some of these providers process data outside the UK, including in the USA. Where they do, the
+        transfer is protected by safeguards recognised under UK data protection law, such as the
+        UK International Data Transfer Addendum or the UK–US data bridge.
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">7. How long we keep it</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Guest data is kept while the app is in use. We may delete guest records that have not been used for a long time.</li>
+        <li>Vendor account data is kept until you delete your account.</li>
+        <li>Vendor position history is kept by our location provider for up to 30 days.</li>
+        <li>Push tokens are removed when they stop working, for example after you uninstall the app.</li>
+        <li>Messages you send us are kept as long as needed to deal with them.</li>
+      </ul>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">8. Your choices and rights</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li><strong>Notifications:</strong> turn them off in the app's Settings, or in your phone's settings.</li>
+        <li><strong>Location:</strong> you can refuse or withdraw location access. You can still set your area by postcode.</li>
+        <li><strong>Vendors:</strong> go offline or use Privacy Mode to stop sharing your location, and delete your account in the app under Settings &gt; Advanced Settings &gt; Account.</li>
+        <li>
+          <strong>Delete your data:</strong> uninstalling the app removes the guest ID from your phone.
+          To have the information we hold about you deleted, email us. If you use a guest ID, include
+          your postcode or the approximate area you set so we can find it.
+        </li>
+      </ul>
+      <p>
+        Under UK data protection law you have the right to access, correct, delete or restrict the use
+        of your personal information, to object to how we use it, and to receive a copy of it. To use
+        any of these rights, email
+        <a class="link link-primary" href={`mailto:${contactEmail}`}>{contactEmail}</a>. We will reply
+        within one month. You also have the right to complain to the Information Commissioner's Office
+        (<a class="link link-primary" href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">ico.org.uk</a>).
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">9. Security</h2>
+      <p>
+        Information is sent over encrypted connections and stored with AWS. Access is restricted to
+        what each part of the service needs. No system is perfectly secure, but we take reasonable
+        steps to protect your information.
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">10. Children</h2>
+      <p>
+        Chimes is not directed at children under 13, and customers don't need to give a name or email
+        address to use it. Vendor accounts are for businesses. If you believe a child has given us
+        personal information, email us and we will delete it.
+      </p>
+    </section>
+
+    <section class="space-y-4 mb-10">
+      <h2 class="text-2xl font-bold">11. Changes to this policy</h2>
+      <p>
+        If we change this policy, we will update the date at the top of this page. If a change
+        significantly affects how we use your information, we will also tell you in the app.
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>
