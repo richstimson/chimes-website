@@ -1,8 +1,22 @@
 #!/bin/bash
 
 # Efficient FTP sync script that only uploads truly changed files
+#
+# DRY_RUN=1 ./sync-smart.sh shows what the mirror would upload and delete
+# without changing the server or the deploy cache.
 
-source "$(cd "$(dirname "$0")" && pwd)/load-ftp-secrets.sh"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+source "$SCRIPT_DIR/deploy-guards.sh"
+require_deploy_guards || exit 1
+
+source "$SCRIPT_DIR/load-ftp-secrets.sh"
+
+DRY_RUN_FLAG=""
+if [ "${DRY_RUN:-}" = "1" ]; then
+    DRY_RUN_FLAG="--dry-run"
+    echo "🧪 Dry run: nothing will be uploaded or deleted"
+fi
 
 echo "🔍 Checking for file changes..."
 
@@ -41,6 +55,11 @@ else
     FORCE_SYNC=true
 fi
 
+# A dry run always shows the full mirror plan
+if [ -n "$DRY_RUN_FLAG" ]; then
+    FORCE_SYNC=true
+fi
+
 # Compare with previous checksums if they exist
 if [ -f .deploy-cache/previous-checksums.txt ] && [ "$FORCE_SYNC" = false ]; then
     # Find files that have actually changed
@@ -69,17 +88,28 @@ lftp -c "
     open ftp://$CHIMES_FTP_HOST
     user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
     lcd dist
-    mirror -R --delete --verbose --parallel=3 --ignore-time \
+    mirror -R --delete --verbose --parallel=3 --ignore-time $DRY_RUN_FLAG \
         --exclude-glob _astro \
         --exclude-glob _astro/* \
         --exclude-glob _astro/** \
-        --exclude-glob .well-known \
+        --exclude-glob .well-known/ \
         --exclude-glob .ftpquota \
         . /
     lcd _astro
-    mirror -R --verbose --parallel=3 --ignore-time \
+    mirror -R --verbose --parallel=3 --ignore-time $DRY_RUN_FLAG \
         . /_astro
-"
+" 2>&1 | sed -E 's#://[^/@ ]+@#://<redacted>@#g'
+LFTP_STATUS=${PIPESTATUS[0]}
+
+if [ "$LFTP_STATUS" -ne 0 ]; then
+    echo "❌ lftp failed (exit $LFTP_STATUS); deploy cache left unchanged"
+    exit "$LFTP_STATUS"
+fi
+
+if [ -n "$DRY_RUN_FLAG" ]; then
+    echo "✅ Dry run complete; deploy cache left unchanged"
+    exit 0
+fi
 
 # Save current checksums as previous for next run
 cp .deploy-cache/current-checksums.txt .deploy-cache/previous-checksums.txt

@@ -2,7 +2,12 @@
 
 set -euo pipefail
 
-source "$(cd "$(dirname "$0")" && pwd)/load-ftp-secrets.sh"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+source "$SCRIPT_DIR/deploy-guards.sh"
+require_deploy_guards
+
+source "$SCRIPT_DIR/load-ftp-secrets.sh"
 
 lftp -c "
     set ssl:verify-certificate no
@@ -14,7 +19,7 @@ lftp -c "
         --exclude-glob _astro \
         --exclude-glob _astro/* \
         --exclude-glob _astro/** \
-        --exclude-glob .well-known \
+        --exclude-glob .well-known/ \
         --exclude-glob .ftpquota \
         . /
     lcd _astro
