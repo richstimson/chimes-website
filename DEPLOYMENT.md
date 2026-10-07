@@ -4,41 +4,38 @@ This document explains the two main deployment methods for the Chimes website: *
 
 It also includes a verification command to confirm the live site is serving the expected HTML and asset cache headers after deployment.
 
-## Required Environment Variables
+## Deploy access
 
-Before running any deployment command, set your FTP password in the shell:
+Deploys use SFTP with an SSH key; there is no password. The Bluehost account
+allows SFTP but not shell access, so `lftp` mirrors over SFTP rather than
+`rsync`. Connection settings are in `deploy-target.sh`:
 
-```bash
-export CHIMES_FTP_PASSWORD="<your-ftp-password>"
-```
+| Setting | Default |
+|---|---|
+| `CHIMES_SSH_HOST` | `box2276.bluehost.com` |
+| `CHIMES_SSH_USER` | `stimsons` |
+| `CHIMES_SSH_KEY` | `~/.ssh/chimes_deploy_ed25519` |
+| `CHIMES_REMOTE_ROOT` | `/home1/stimsons/public_html/chimesapp` |
 
-Or store it locally on macOS Keychain once (recommended):
+To deploy from a new machine:
 
-```bash
-npm run set-ftp-password
-```
+1. Generate a key there: `ssh-keygen -t ed25519 -f ~/.ssh/chimes_deploy_ed25519`
+2. In cPanel → SSH Access → Manage SSH Keys → Import Key, paste the contents
+   of `~/.ssh/chimes_deploy_ed25519.pub`. Then click **Manage → Authorize**;
+   imported keys start unauthorized.
+3. Test: `sftp -i ~/.ssh/chimes_deploy_ed25519 stimsons@box2276.bluehost.com`
 
-After that, deploy commands will read the password from Keychain automatically.
+Generate the key locally rather than with cPanel's "Generate a New Key", so the
+private key never leaves your machine.
 
-To print the currently configured password locally:
+Before uploading, every deploy script runs `deploy-guards.sh`, which refuses to
+deploy a checkout that is behind `origin/main`, has uncommitted changes, or
+whose build lacks the privacy policy. See "Privacy policy" in `README.md`.
 
-```bash
-npm run show-ftp-password
-```
-
-Optional local file (not committed): create `.env.local` with:
-
-```bash
-CHIMES_FTP_PASSWORD=<your-ftp-password>
-CHIMES_FTP_USER=STIMSONS@chimesapp.com
-CHIMES_FTP_HOST=ftp.chimesapp.com
-```
-
-Optional overrides:
+To preview a deploy without changing anything:
 
 ```bash
-export CHIMES_FTP_USER="STIMSONS@chimesapp.com"
-export CHIMES_FTP_HOST="ftp.chimesapp.com"
+npm run build && DRY_RUN=1 ./sync-smart.sh
 ```
 
 ---
@@ -59,7 +56,7 @@ export CHIMES_FTP_HOST="ftp.chimesapp.com"
      - Calculates checksums for all files in `dist/`.
     - Compares with previous deployment to detect changes.
     - Tracks hashed Astro assets in `dist/_astro` separately.
-     - Only uploads changed files to the FTP server using `lftp`.
+     - Only uploads changed files to the server using `lftp` over SFTP.
     - Deletes removed top-level site files, but preserves older hashed files in `/_astro` so browsers with cached HTML do not lose their CSS or JS bundles mid-rollout.
      - Skips upload if nothing changed.
      - Updates cache/checksum files for next run.
@@ -83,7 +80,7 @@ export CHIMES_FTP_HOST="ftp.chimesapp.com"
 - **How it works:**
   1. Runs a production build (`npm run build`).
   2. Executes `full-sync` (defined in `package.json`), which:
-     - Uses `lftp` to mirror the site to the FTP server.
+     - Uses `lftp` over SFTP to mirror the site to the server.
      - Deletes files outside `/_astro` that are not present locally.
      - Uploads the current `/_astro` directory without deleting older hashed bundles.
      - Keeps stale cached HTML from breaking when it references a previous hashed CSS or JS filename.

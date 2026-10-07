@@ -7,13 +7,10 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/deploy-guards.sh"
 require_deploy_guards
 
-source "$SCRIPT_DIR/load-ftp-secrets.sh"
+source "$SCRIPT_DIR/deploy-target.sh"
 
 lftp -c "
-    set ssl:verify-certificate no
-    set ftp:list-options -a
-    open ftp://$CHIMES_FTP_HOST
-    user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
+    $CHIMES_LFTP_OPEN
     lcd dist
     mirror -R --delete --verbose --parallel=3 \
         --exclude-glob _astro \
@@ -21,8 +18,8 @@ lftp -c "
         --exclude-glob _astro/** \
         --exclude-glob .well-known/ \
         --exclude-glob .ftpquota \
-        . /
+        . $CHIMES_REMOTE_ROOT
     lcd _astro
     mirror -R --verbose --parallel=3 \
-        . /_astro
+        . $CHIMES_REMOTE_ROOT/_astro
 "

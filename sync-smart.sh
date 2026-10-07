@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Efficient FTP sync script that only uploads truly changed files
+# Efficient SFTP sync script that only uploads truly changed files
 #
 # DRY_RUN=1 ./sync-smart.sh shows what the mirror would upload and delete
 # without changing the server or the deploy cache.
@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/deploy-guards.sh"
 require_deploy_guards || exit 1
 
-source "$SCRIPT_DIR/load-ftp-secrets.sh"
+source "$SCRIPT_DIR/deploy-target.sh" || exit 1
 
 DRY_RUN_FLAG=""
 if [ "${DRY_RUN:-}" = "1" ]; then
@@ -83,10 +83,7 @@ fi
 # Use lftp with more conservative settings
 echo "🚀 Syncing to server..."
 lftp -c "
-    set ssl:verify-certificate no
-    set ftp:list-options -a
-    open ftp://$CHIMES_FTP_HOST
-    user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
+    $CHIMES_LFTP_OPEN
     lcd dist
     mirror -R --delete --verbose --parallel=3 --ignore-time $DRY_RUN_FLAG \
         --exclude-glob _astro \
@@ -94,12 +91,12 @@ lftp -c "
         --exclude-glob _astro/** \
         --exclude-glob .well-known/ \
         --exclude-glob .ftpquota \
-        . /
+        . $CHIMES_REMOTE_ROOT
     lcd _astro
     mirror -R --verbose --parallel=3 --ignore-time $DRY_RUN_FLAG \
-        . /_astro
-" 2>&1 | sed -E 's#://[^/@ ]+@#://<redacted>@#g'
-LFTP_STATUS=${PIPESTATUS[0]}
+        . $CHIMES_REMOTE_ROOT/_astro
+"
+LFTP_STATUS=$?
 
 if [ "$LFTP_STATUS" -ne 0 ]; then
     echo "❌ lftp failed (exit $LFTP_STATUS); deploy cache left unchanged"
