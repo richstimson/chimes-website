@@ -17,10 +17,12 @@ Outstanding owner actions, as of 2026-10-08:
 
 - Delete the FTP account `STIMSONS@chimesapp.com` in cPanel → FTP Accounts.
   This permanently disables the leaked password.
-- Delete the `chimes-ftp-password` item from macOS Keychain, and any
-  `CHIMES_FTP_PASSWORD` line in `.env.local`.
-- Delete the old `chimes-ssh-rsa` key in cPanel → SSH Access. Its passphrase is
-  unknown, so it can't be used.
+- Delete the `chimes-ftp-password` item from macOS Keychain, any
+  `CHIMES_FTP_PASSWORD` line in `.env.local`, and the saved
+  `STIMSONS@chimesapp.com` password in Chrome's password manager.
+- Delete the old `chimes-ssh-rsa` key (public and private) in cPanel → SSH
+  Access, and its saved password in Chrome. It has been replaced by
+  `chimes-deploy-ssh`.
 
 ## How deploys work
 
@@ -32,7 +34,7 @@ Deploys use **SFTP with an SSH key**. `lftp` mirrors `dist/` to the server.
 | User | `stimsons` |
 | Key | `~/.ssh/chimes_deploy_ed25519` on the owner's MacBook. No passphrase. |
 | Key name in cPanel | `chimes-deploy-ssh`, public half only (cPanel → SSH Access → Manage SSH Keys) |
-| Passwords | None. The key has no passphrase, and cPanel key management uses the normal cPanel login. The owner's LastPass entry `chimes-deploy-ssh` relates to this key. |
+| Passwords | None needed to deploy. The key file has no passphrase, and cPanel key management uses the normal cPanel login. cPanel's Import Key form insists on a passphrase even for a public-only import; the value entered is in the owner's LastPass entry `chimes-deploy-ssh`. It's never used to log in. |
 | Document root | `/home1/stimsons/public_html/chimesapp` |
 | Settings file | `deploy-target.sh`. Each setting can be overridden from the environment. |
 
