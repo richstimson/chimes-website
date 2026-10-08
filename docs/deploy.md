@@ -31,8 +31,8 @@ Deploys use **SFTP with an SSH key**. `lftp` mirrors `dist/` to the server.
 | Host | `box2276.bluehost.com` (IP 50.87.176.132) |
 | User | `stimsons` |
 | Key | `~/.ssh/chimes_deploy_ed25519` on the owner's MacBook. No passphrase. |
-| Key name in cPanel | `chimes-deploy` (cPanel → SSH Access → Manage SSH Keys) |
-| LastPass | `chimes-deploy-ssh` |
+| Key name in cPanel | `chimes-deploy-ssh`, public half only (cPanel → SSH Access → Manage SSH Keys) |
+| Passwords | None. The key has no passphrase, and cPanel key management uses the normal cPanel login. The owner's LastPass entry `chimes-deploy-ssh` relates to this key. |
 | Document root | `/home1/stimsons/public_html/chimesapp` |
 | Settings file | `deploy-target.sh`. Each setting can be overridden from the environment. |
 
@@ -40,8 +40,9 @@ The account allows **SFTP but not shell access**: `ssh` logs in, then prints
 "Shell access is not enabled on your account". So `rsync` and remote commands
 are not possible. Use SFTP, `lftp`, or `scp`-style transfers only.
 
-To deploy from another machine, generate a key there and authorise it in
-cPanel; see "Deploy access" in `DEPLOYMENT.md`. Don't use cPanel's "Generate a
+If the key is lost, nothing is locked out. Generate a new key and import its
+public half in cPanel (about five minutes). The same applies to deploying from
+another machine; see "Deploy access" in `DEPLOYMENT.md`. Don't use cPanel's "Generate a
 New Key": it requires a passphrase, and the private key is created on the
 server.
 
