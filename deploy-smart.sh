@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# OBSOLETE: superseded by `npm run smart-deploy` (sync-smart.sh), which runs the
+# checks in deploy-guards.sh. This script skips those checks, so it could publish
+# an out-of-date build or one without /privacy. It refuses to run.
+echo "❌ $(basename "$0") is obsolete and disabled. Use: npm run smart-deploy" >&2
+exit 1
+
 # Smart deployment script that only builds if source files have changed
 
 # Check if dist directory exists and if source files are newer than dist
