@@ -1,5 +1,8 @@
 # Chimes Website Deployment Guide
 
+> Start with [`docs/deploy.md`](docs/deploy.md): current setup, known quirks,
+> and why FTP is retired.
+
 This document explains the two main deployment methods for the Chimes website: **smart-deploy** and **full-deploy**.
 
 It also includes a verification command to confirm the live site is serving the expected HTML and asset cache headers after deployment.

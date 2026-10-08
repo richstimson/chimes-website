@@ -1,8 +1,9 @@
 DEPLOYMENT.md
-package.json
 deploy-guards.sh
 deploy-target.sh
-sync-smart.sh
+docs/deploy.md
 full-sync.sh
+package.json
+sync-smart.sh
 upload.sh
 verify-deploy.sh
