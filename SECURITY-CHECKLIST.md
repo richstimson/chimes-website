@@ -10,13 +10,14 @@
 - [ ] Any CMS admin passwords (if applicable)
 
 ### 2. Clean Your Server
-- [ ] Run the cleanup script: `./cleanup-hosting.sh`
+- [ ] Remove malicious files. The March 2026 cleanup script (`cleanup-hosting.sh`)
+      was removed from the repo; it is in git history. Do not rerun it as-is:
+      it deletes `vendor-getting-started/`, which is now a live page.
 - [ ] Verify all malicious files are removed
 - [ ] Check for any remaining suspicious directories
 
 ### 3. Deploy Clean Site
-- [ ] Update FTP credentials in `deploy-clean-site.sh`
-- [ ] Run deployment: `./deploy-clean-site.sh` or `./deploy-via-ssh.sh`
+- [ ] Run deployment: `npm run smart-deploy` (see DEPLOYMENT.md)
 - [ ] Test your site is working: https://chimesapp.com
 
 ## Security Hardening

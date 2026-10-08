@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Efficient FTP sync script that only uploads truly changed files
+# Efficient SFTP sync script that only uploads truly changed files
 #
 # DRY_RUN=1 ./sync-smart.sh shows what the mirror would upload and delete
 # without changing the server or the deploy cache.
@@ -10,7 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/deploy-guards.sh"
 require_deploy_guards || exit 1
 
-source "$SCRIPT_DIR/load-ftp-secrets.sh"
+source "$SCRIPT_DIR/deploy-target.sh" || exit 1
 
 DRY_RUN_FLAG=""
 if [ "${DRY_RUN:-}" = "1" ]; then
@@ -62,14 +62,17 @@ fi
 
 # Compare with previous checksums if they exist
 if [ -f .deploy-cache/previous-checksums.txt ] && [ "$FORCE_SYNC" = false ]; then
-    # Find files that have actually changed
-    CHANGED_FILES=$(comm -13 <(sort .deploy-cache/previous-checksums.txt) <(sort .deploy-cache/current-checksums.txt) | cut -d' ' -f4- | cut -d'=' -f2-)
-    
+    # Files added, changed or removed since the last deploy. Lines look like
+    # "MD5 (dist/path) = hash"; a removed file appears only in the previous
+    # list, so compare both ways or deleting a page never syncs.
+    CHANGED_FILES=$(comm -3 <(sort .deploy-cache/previous-checksums.txt) <(sort .deploy-cache/current-checksums.txt) \
+        | sed -E 's/^[[:space:]]*MD5 \((.*)\) = .*/\1/' | sort -u)
+
     if [ -z "$CHANGED_FILES" ]; then
         echo "⚡ No file content changes detected, skipping sync..."
         exit 0
     else
-        echo "📦 Found $(echo "$CHANGED_FILES" | wc -l | tr -d ' ') changed files:"
+        echo "📦 Found $(echo "$CHANGED_FILES" | wc -l | tr -d ' ') added, changed or removed files:"
         echo "$CHANGED_FILES" | sed 's/^/  - /'
     fi
 else
@@ -83,10 +86,7 @@ fi
 # Use lftp with more conservative settings
 echo "🚀 Syncing to server..."
 lftp -c "
-    set ssl:verify-certificate no
-    set ftp:list-options -a
-    open ftp://$CHIMES_FTP_HOST
-    user $CHIMES_FTP_USER $CHIMES_FTP_PASSWORD
+    $CHIMES_LFTP_OPEN
     lcd dist
     mirror -R --delete --verbose --parallel=3 --ignore-time $DRY_RUN_FLAG \
         --exclude-glob _astro \
@@ -94,12 +94,12 @@ lftp -c "
         --exclude-glob _astro/** \
         --exclude-glob .well-known/ \
         --exclude-glob .ftpquota \
-        . /
+        . $CHIMES_REMOTE_ROOT
     lcd _astro
     mirror -R --verbose --parallel=3 --ignore-time $DRY_RUN_FLAG \
-        . /_astro
-" 2>&1 | sed -E 's#://[^/@ ]+@#://<redacted>@#g'
-LFTP_STATUS=${PIPESTATUS[0]}
+        . $CHIMES_REMOTE_ROOT/_astro
+"
+LFTP_STATUS=$?
 
 if [ "$LFTP_STATUS" -ne 0 ]; then
     echo "❌ lftp failed (exit $LFTP_STATUS); deploy cache left unchanged"
