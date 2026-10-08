@@ -13,16 +13,19 @@ output, which leaked it into a session transcript. The FTP password helpers
 (`load-ftp-secrets.sh`, `save-ftp-password.sh`, `show-ftp-password.sh`) were
 deleted on 2026-10-08.
 
-Outstanding owner actions, as of 2026-10-08:
+Done on 2026-10-08:
 
-- Delete the FTP account `STIMSONS@chimesapp.com` in cPanel → FTP Accounts.
-  This permanently disables the leaked password.
-- Delete the `chimes-ftp-password` item from macOS Keychain, any
-  `CHIMES_FTP_PASSWORD` line in `.env.local`, and the saved
-  `STIMSONS@chimesapp.com` password in Chrome's password manager.
+- The FTP account `STIMSONS@chimesapp.com` was deleted in cPanel, which
+  disables the leaked password. The site files were unaffected.
+- The `chimes-ftp-password` item was deleted from macOS Keychain. There was no
+  `.env.local`.
+
+Still outstanding as of 2026-10-08:
+
 - Delete the old `chimes-ssh-rsa` key (public and private) in cPanel → SSH
-  Access, and its saved password in Chrome. It has been replaced by
-  `chimes-deploy-ssh`.
+  Access. It has been replaced by `chimes-deploy-ssh`.
+- Delete Chrome's saved passwords for `STIMSONS@chimesapp.com` and
+  `chimes-ssh-rsa`.
 
 ## How deploys work
 
