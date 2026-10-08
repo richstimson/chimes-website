@@ -62,14 +62,17 @@ fi
 
 # Compare with previous checksums if they exist
 if [ -f .deploy-cache/previous-checksums.txt ] && [ "$FORCE_SYNC" = false ]; then
-    # Find files that have actually changed
-    CHANGED_FILES=$(comm -13 <(sort .deploy-cache/previous-checksums.txt) <(sort .deploy-cache/current-checksums.txt) | cut -d' ' -f4- | cut -d'=' -f2-)
-    
+    # Files added, changed or removed since the last deploy. Lines look like
+    # "MD5 (dist/path) = hash"; a removed file appears only in the previous
+    # list, so compare both ways or deleting a page never syncs.
+    CHANGED_FILES=$(comm -3 <(sort .deploy-cache/previous-checksums.txt) <(sort .deploy-cache/current-checksums.txt) \
+        | sed -E 's/^[[:space:]]*MD5 \((.*)\) = .*/\1/' | sort -u)
+
     if [ -z "$CHANGED_FILES" ]; then
         echo "⚡ No file content changes detected, skipping sync..."
         exit 0
     else
-        echo "📦 Found $(echo "$CHANGED_FILES" | wc -l | tr -d ' ') changed files:"
+        echo "📦 Found $(echo "$CHANGED_FILES" | wc -l | tr -d ' ') added, changed or removed files:"
         echo "$CHANGED_FILES" | sed 's/^/  - /'
     fi
 else
