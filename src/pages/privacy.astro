@@ -8,7 +8,7 @@ import Footer from '../components/Footer.astro';
 // in the repo: deploys mirror dist/ with --delete, so a page that exists only
 // on the server is removed by the next deploy. That is how the previous
 // policy (/ios-privacy-policy/) was lost, and Play removed the app over it.
-const lastUpdated = '7 October 2026';
+const lastUpdated = '10 October 2026';
 const contactEmail = 'chimesapp@just-iot.com';
 ---
 
@@ -161,9 +161,12 @@ const contactEmail = 'chimesapp@just-iot.com';
         <li><strong>Bluehost and Cloudflare:</strong> hosting and protecting this website.</li>
       </ul>
       <p>
-        On your phone, postcodes and place names you type are turned into a map position by your
-        phone's built-in location service (Apple on iPhone, Google on Android). We may also disclose
-        information if the law requires it.
+        UK postcodes you type, including just the first part (such as DE21), are turned into a map
+        position by <strong>postcodes.io</strong>, a free public UK postcode lookup service. The app
+        sends it the postcode only, not your name or account, though like any website it can see the
+        internet address the request comes from and the type of phone software making it. If postcodes.io cannot answer for a
+        full postcode, and for place names, your phone's built-in location service is used instead
+        (Apple on iPhone, Google on Android). We may also disclose information if the law requires it.
       </p>
       <p>
         Some of these providers process data outside the UK, including in the USA. Where they do, the
