@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build --force",
     "check": "astro check && bunx biome check --write",
     "preview": "astro preview",
     "astro": "astro",
@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
+    "@astrojs/rss": "4.0.15",
+    "@astrojs/sitemap": "3.7.0",
     "@tailwindcss/vite": "^4.1.12",
     "astro": "^5.13.3",
     "typescript": "^5.9.2"

@@ -1,0 +1,53 @@
+---
+import { Image } from 'astro:assets';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, getPublishedPosts } from '../../lib/blog';
+
+const posts = await getPublishedPosts();
+---
+
+<Layout
+  title="Blog - Chimes!"
+  description="News, features and stories from the ice cream vans and mobile vendors on Chimes."
+>
+  <Header />
+  <main class="container mx-auto max-w-5xl px-4 py-12 text-base-content">
+    <h1 class="text-4xl font-bold mb-2">The Chimes! blog</h1>
+    <p class="text-base-content/70 mb-10">
+      News, new features, and stories from the vans on Chimes.
+      <a class="link link-primary" href="/blog/rss.xml">RSS feed</a>
+    </p>
+
+    {posts.length === 0 ? (
+      <p class="text-base-content/70">The first posts are on their way. Check back soon.</p>
+    ) : (
+      <ul class="grid gap-8 sm:grid-cols-2">
+        {posts.map((post) => (
+          <li class="card bg-base-100 shadow-sm border border-base-300 overflow-hidden">
+            <a href={`/blog/${post.id}/`} class="block hover:opacity-90 transition-opacity">
+              <Image
+                src={post.data.cover}
+                alt={post.data.coverAlt}
+                widths={[400, 800]}
+                sizes="(min-width: 640px) 480px, 100vw"
+                class="w-full aspect-[16/9] object-cover"
+              />
+            </a>
+            <div class="card-body">
+              <p class="text-sm text-base-content/60">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              </p>
+              <h2 class="card-title text-xl">
+                <a href={`/blog/${post.id}/`} class="link link-hover">{post.data.title}</a>
+              </h2>
+              <p class="text-base-content/80">{post.data.description}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+  <Footer />
+</Layout>
