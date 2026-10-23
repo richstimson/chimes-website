@@ -37,8 +37,10 @@ git add src/content/blog && git commit
 npm run smart-deploy      # see docs/deploy.md
 ```
 
-The script copies only posts marked `draft: false`, because this repo is public,
-and strips HTML comments, which hold internal notes in locapp-23. It refuses to
+The script copies only posts marked `draft: false`, because this repo is public.
+It copies only `index.md` and image files from each post folder, and strips HTML
+comments, which hold internal notes in locapp-23. It stops, changing nothing, if
+a published post still has an unclosed `<!--`, `TODO` or `OWNER:`. It refuses to
 run unless the locapp-23 checkout is on `main`, clean, and level with
 `origin/main`. `src/content/blog/SYNCED-FROM.txt` records the commit the posts
 came from.

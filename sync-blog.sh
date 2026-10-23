@@ -43,7 +43,7 @@ remote_sha="$(git -C "$SRC_REPO" rev-parse origin/main)"
 
 # Read `draft:` from the frontmatter block only.
 draft_value() {
-  awk 'NR==1 && $0!="---" {exit} NR>1 && $0=="---" {exit} NR>1 && /^draft:/ {sub(/^draft:[ \t]*/, ""); sub(/[ \t]*#.*$/, ""); print; exit}' "$1"
+  awk '{sub(/\r$/, "")} NR==1 && $0!="---" {exit} NR>1 && $0=="---" {exit} NR>1 && /^draft:/ {sub(/^draft:[ \t]*/, ""); sub(/[ \t]*#.*$/, ""); print; exit}' "$1"
 }
 
 STAGE="$(mktemp -d)"
@@ -62,9 +62,22 @@ for post in "$SRC"/*/; do
     skipped=$((skipped + 1))
     continue
   fi
-  cp -R "$post" "$STAGE/$slug"
+  # Copy only the post and its images: any other working file in the folder
+  # (notes, sources, .psd) would otherwise land in this public repo.
+  mkdir -p "$STAGE/$slug"
+  cp "$index" "$STAGE/$slug/index.md"
+  find "$post" -maxdepth 1 -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \
+    -o -iname '*.webp' -o -iname '*.gif' -o -iname '*.avif' -o -iname '*.svg' \) \
+    -exec cp {} "$STAGE/$slug/" \;
   # Strip HTML comments, including multi-line ones.
   perl -0pi -e 's/<!--.*?-->\n?//gs' "$STAGE/$slug/index.md"
+  # An unclosed comment, or a placeholder left in a published post, stops the sync.
+  if grep -n '<!--' "$STAGE/$slug/index.md" >&2; then
+    die "$slug: unclosed <!-- comment (line above); fix it in locapp-23"
+  fi
+  if grep -nE 'TODO|OWNER:' "$STAGE/$slug/index.md" >&2; then
+    die "$slug: placeholder text in a post marked draft: false (line above); fix it in locapp-23"
+  fi
   echo "  copy $slug"
   published=$((published + 1))
 done
