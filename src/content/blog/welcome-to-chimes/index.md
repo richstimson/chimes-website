@@ -15,7 +15,13 @@ has gone. **Chimes** is a free app that makes sure that doesn't happen again.
 ## What Chimes does
 
 Chimes puts ice cream vans and other mobile food vendors on a map, and tells you when one
-arrives near you. There are already more than 1,600 vans and vendors on the map across England.
+arrives near you.
+
+Chimes is a new app. It has been trialled extensively with our partner van in the New Forest, and
+we're now looking for more vans to join the trial ahead of our full launch in spring 2027.
+
+In the meantime, more than 1,600 vans and vendors are already listed on the map across England,
+so you can see who serves your area and how to get in touch.
 
 ![The Chimes map with an ice cream van selected, showing its card: Michele's Ices, live, with Navigate, WhatsApp and Call buttons](./map.png)
 
