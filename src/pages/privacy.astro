@@ -8,7 +8,7 @@ import Footer from '../components/Footer.astro';
 // in the repo: deploys mirror dist/ with --delete, so a page that exists only
 // on the server is removed by the next deploy. That is how the previous
 // policy (/ios-privacy-policy/) was lost, and Play removed the app over it.
-const lastUpdated = '7 October 2026';
+const lastUpdated = '10 October 2026';
 const contactEmail = 'chimesapp@just-iot.com';
 ---
 
@@ -161,15 +161,22 @@ const contactEmail = 'chimesapp@just-iot.com';
         <li><strong>Bluehost and Cloudflare:</strong> hosting and protecting this website.</li>
       </ul>
       <p>
-        On your phone, postcodes and place names you type are turned into a map position by your
-        phone's built-in location service (Apple on iPhone, Google on Android). We may also disclose
-        information if the law requires it.
-      </p>
-      <p>
         Some of these providers process data outside the UK, including in the USA. Where they do, the
         transfer is protected by safeguards recognised under UK data protection law, such as the
         UK International Data Transfer Addendum or the UK–US data bridge.
       </p>
+      <p>
+        <strong>Postcode lookups.</strong> UK postcodes you enter or have saved, including just the
+        first part (such as DE21), are turned into a map position by
+        <strong>postcodes.io</strong>, a free public lookup service maintained by Ideal Postcodes.
+        It is an independent service, not one of the providers above: we have no agreement with it,
+        and it does not publish a privacy notice. The app sends it the postcode only, not your name
+        or account, but like any website it can see the internet address the request comes from and
+        the type of phone software making it. Place names, and full postcodes postcodes.io cannot
+        find, are looked up by your phone's built-in location service instead (Apple on iPhone,
+        Google on Android).
+      </p>
+      <p>We may also disclose information if the law requires it.</p>
     </section>
 
     <section class="space-y-4 mb-10">
