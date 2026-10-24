@@ -45,11 +45,10 @@ as you go Live from inside the app.
 - **If Chimes can't share in the background**, the Location Sharing screen tells you, and how to
   fix it in Settings, rather than leaving you to guess.
 
-## What about the battery?
+## A tip for long rounds
 
-We tested it on a 75-minute ride with an iPhone 13 in a pocket. Battery went down at the same
-rate with the van Live as it did Offline, about 8% an hour either way. One tip: iPhone's Low Power Mode can pause apps' background location, so
-on a long round keep the phone charging in the cab if you can.
+iPhone's Low Power Mode can pause apps' background location, so on a long round keep the phone
+charging in the cab if you can.
 
 ## Not on Chimes yet?
 
