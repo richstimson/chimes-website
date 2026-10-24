@@ -4,12 +4,25 @@ import '../styles/app.css'
 export interface Props {
 	title?: string;
 	description?: string;
+	/** Link-preview image: an absolute URL or a site path. Defaults to the social card. */
+	image?: string;
+	imageAlt?: string;
+	/** Open Graph type: "article" for blog posts. */
+	type?: 'website' | 'article';
 }
 
-const { 
+const {
 	title = "Chimes! - Get notifications when your favourite ice cream van is in your area!",
-	description = "Never miss your favourite ice cream van again. Get real-time notifications when ice cream vans are in your area with Chimes!" 
+	description = "Never miss your favourite ice cream van again. Get real-time notifications when ice cream vans are in your area with Chimes!",
+	image,
+	imageAlt = "Chimes - Ice Cream Van Tracking App",
+	type = 'website',
 } = Astro.props;
+
+// Each page is its own canonical URL (a single site-wide canonical would tell
+// search engines every page is a copy of the home page).
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const imageUrl = image ? new URL(image, Astro.site).href : null;
 ---
 
 <!doctype html>
@@ -34,29 +47,37 @@ const {
 		<meta name="description" content={description} />
 		
 		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://chimesapp.com" />
+		<meta property="og:type" content={type} />
+		<meta property="og:url" content={pageUrl} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:image" content="https://chimesapp.com/images/social-media-card-v2.png" />
-		<meta property="og:image:width" content="3750" />
-		<meta property="og:image:height" content="1968" />
-		<meta property="og:image:type" content="image/png" />
-		<meta property="og:image:alt" content="Chimes - Ice Cream Van Tracking App" />
+		{imageUrl ? (
+			<meta property="og:image" content={imageUrl} />
+		) : (
+			<>
+				<meta property="og:image" content="https://chimesapp.com/images/social-media-card-v2.png" />
+				<meta property="og:image:width" content="3750" />
+				<meta property="og:image:height" content="1968" />
+				<meta property="og:image:type" content="image/png" />
+			</>
+		)}
+		<meta property="og:image:alt" content={imageAlt} />
 		<meta property="og:site_name" content="Chimes!" />
-		
+
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content="https://chimesapp.com" />
+		<meta property="twitter:url" content={pageUrl} />
 		<meta property="twitter:title" content={title} />
 		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content="https://chimesapp.com/images/social-media-card-v2.png" />
-		<meta property="twitter:image:alt" content="Chimes - Ice Cream Van Tracking App" />
-		
+		<meta property="twitter:image" content={imageUrl ?? "https://chimesapp.com/images/social-media-card-v2.png"} />
+		<meta property="twitter:image:alt" content={imageAlt} />
+
 		<!-- Additional SEO -->
 		<meta name="robots" content="index, follow" />
 		<meta name="author" content="Chimes!" />
-		<link rel="canonical" href="https://chimesapp.com" />
+		<link rel="canonical" href={pageUrl} />
+		<link rel="alternate" type="application/rss+xml" title="Chimes! blog" href="/blog/rss.xml" />
+		<link rel="sitemap" href="/sitemap-index.xml" />
 	</head>
 	<body class="bg-base-100 text-base-content">
 		<slot />

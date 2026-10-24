@@ -1,0 +1,100 @@
+---
+import { Image } from 'astro:assets';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+import headerBanner from '../../assets/images/blog/header-banner.png';
+import { formatDate, getPublishedPosts } from '../../lib/blog';
+
+const posts = await getPublishedPosts();
+
+const linkClass =
+  'btn btn-outline btn-sm sm:btn-md gap-2 normal-case hover:scale-105 transition-transform';
+---
+
+<Layout
+  title="Blog - Chimes!"
+  description="News, features and stories from the ice cream vans and mobile vendors on Chimes."
+>
+  <Header />
+  <main class="container mx-auto max-w-5xl px-4 py-8 sm:py-12 text-base-content">
+    <!-- Blog header: the App Store header banner (locapp-23
+         assets/images/stores/app-store/2026-10/header-banner-5244x2950.png, resized). -->
+    <Image
+      src={headerBanner}
+      alt="Chimes – the ice cream app: three iPhone screens showing ice cream vans across England, a van's card on the Isle of Wight, and favourite vans on the map"
+      widths={[640, 1024, 1600]}
+      sizes="(min-width: 1024px) 1024px, 100vw"
+      class="w-full rounded-box shadow-sm mb-6"
+      loading="eager"
+    />
+    <nav aria-label="Get Chimes and follow us" class="flex flex-wrap justify-center items-center gap-3 sm:gap-4 mb-10">
+      <a href="https://apps.apple.com/gb/app/chimes/id6738628000" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+        <img
+          src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1735084800"
+          alt="Download on the App Store"
+          width="150" height="50"
+          class="block h-[50px] w-auto"
+        />
+      </a>
+      <a href="https://play.google.com/store/apps/details?id=com.justiot.chimes" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+        <!-- Google's badge PNG has transparent padding; 74px tall makes the artwork match Apple's 50px. -->
+        <img
+          src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+          alt="Get it on Google Play"
+          width="191" height="74"
+          class="block h-[74px] w-auto -my-3"
+        />
+      </a>
+      <a href="https://www.facebook.com/chimesapp" target="_blank" rel="noopener noreferrer" class={`${linkClass} text-[#1877F2]`}>
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span class="text-base-content">Facebook</span>
+      </a>
+      <a href="https://instagram.com/chimesapp" target="_blank" rel="noopener noreferrer" class={`${linkClass} text-[#E4405F]`}>
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span class="text-base-content">Instagram</span>
+      </a>
+    </nav>
+
+    <h1 class="text-4xl font-bold mb-2">The Chimes! blog</h1>
+    <p class="text-base-content/70 mb-10">
+      News, new features, and stories from the vans on Chimes.
+      <a class="link link-primary" href="/blog/rss.xml">RSS feed</a>
+    </p>
+
+    {posts.length === 0 ? (
+      <p class="text-base-content/70">The first posts are on their way. Check back soon.</p>
+    ) : (
+      <ul class="grid gap-8 sm:grid-cols-2">
+        {posts.map((post) => (
+          <!-- The whole card is the link: the title's ::after covers the card. -->
+          <li class="group relative card bg-base-100 shadow-sm border border-base-300 overflow-hidden transition hover:shadow-lg hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary">
+            <Image
+              src={post.data.cover}
+              alt={post.data.coverAlt}
+              widths={[400, 800]}
+              sizes="(min-width: 640px) 480px, 100vw"
+              class="w-full aspect-[16/9] object-cover"
+            />
+            <div class="card-body">
+              <p class="text-sm text-base-content/60">
+                <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              </p>
+              <h2 class="card-title text-xl">
+                <a href={`/blog/${post.id}/`} class="group-hover:text-primary focus:outline-none after:absolute after:inset-0">{post.data.title}</a>
+              </h2>
+              <p class="text-base-content/80">{post.data.description}</p>
+              <div class="card-actions mt-2">
+                <span class="btn btn-primary btn-sm" aria-hidden="true">
+                  Read the full post
+                  <span class="transition-transform group-hover:translate-x-1">→</span>
+                </span>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+  <Footer />
+</Layout>

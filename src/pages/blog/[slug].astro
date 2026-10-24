@@ -1,0 +1,56 @@
+---
+import { getImage, Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+import { formatDate, getPublishedPosts, type Post } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props as { post: Post };
+const { Content } = await render(post);
+const { title, description, pubDate, updatedDate, cover, coverAlt } = post.data;
+
+// Link previews (Facebook, WhatsApp) want a JPEG/PNG of about 1200px wide.
+const preview = await getImage({ src: cover, width: 1200, format: 'jpg' });
+---
+
+<Layout
+  title={`${title} - Chimes!`}
+  description={description}
+  image={preview.src}
+  imageAlt={coverAlt}
+  type="article"
+>
+  <Header />
+  <main class="container mx-auto max-w-3xl px-4 py-12 text-base-content">
+    <p class="mb-6"><a class="link link-hover text-base-content/70" href="/blog/">← All posts</a></p>
+    <article>
+      <h1 class="text-4xl font-bold mb-3">{title}</h1>
+      <p class="text-base-content/60 mb-8">
+        <time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>
+        {updatedDate && (
+          <>
+            {' · '}Updated <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time>
+          </>
+        )}
+      </p>
+      <Image
+        src={cover}
+        alt={coverAlt}
+        widths={[480, 768, 1200]}
+        sizes="(min-width: 768px) 768px, 100vw"
+        class="w-full rounded-box mb-10"
+        loading="eager"
+      />
+      <div class="blog-prose">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</Layout>
