@@ -155,6 +155,30 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
       </ol>
     </section>
 
+    <!-- See Chimes in action: the Oct 2026 reel, chime version (not the music
+         version: its track was licensed through Facebook only). 720 px H.264,
+         ffmpeg -crf 27 +faststart from ~/Movies/chimes-reel-2026-10/chimes-reel-2026-10-final-chime.mp4.
+         No autoplay, so the chime never plays unasked. Captions are burned in. -->
+    <section id="in-action" class="ch-container pb-12 sm:pb-20">
+      <div class="ch-card ch-card-lilac grid gap-8 md:grid-cols-[1fr_auto] items-center">
+        <div class="max-w-[520px] flex flex-col gap-3">
+          <h2 class="ch-h2">See Chimes in action</h2>
+          <p class="text-lg leading-[1.55] text-ink-muted">Forty seconds: the map, a van on its way, and the chime your customers hear. Turn the sound on.</p>
+        </div>
+        <video
+          class="phone-video justify-self-center w-[260px] sm:w-[300px] h-auto"
+          src="/video/chimes-in-action.mp4"
+          poster="/video/chimes-in-action-poster.jpg"
+          width="720"
+          height="1280"
+          controls
+          playsinline
+          preload="none"
+          aria-label="Chimes in action: ice cream vans on the Chimes map, then a chime notification when a van comes into the customer's area"
+        ></video>
+      </div>
+    </section>
+
     <!-- Vendor band. VRG-001, VRG-002, VRG-008, VDM-001; vendor features are iPhone only. -->
     <section id="vendors" class="ch-container pb-12 sm:pb-20">
       <div class="ch-on-night bg-vendor-band rounded-panel px-6 py-10 sm:px-12 sm:py-14 grid gap-10 lg:grid-cols-2 items-center">
@@ -244,6 +268,8 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
 
 <style>
   .ch-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  /* As Phone.astro's frame. */
+  .phone-video { border-radius: 2rem; border: 7px solid #111827; box-shadow: 0 20px 45px rgb(15 23 42 / 0.25); background: #111827; }
 </style>
 
 <script>
