@@ -1,0 +1,88 @@
+---
+// A drawn phone lock screen carrying the REAL Chimes arrival alert crop
+// (locapp-23 assets/images/app-assets/ios-notification.png: Michele's Ices,
+// "The Best on the Island!"). The frame and clock are illustration; the alert is
+// a capture. The alert body is the vendor's "What you sell" line
+// (rsupdategeo sends vendorMarker.description; VMN-011, ALR-009).
+interface Props {
+  class?: string;
+  // Show only the top of the phone, so the alert reads large in a short hero.
+  crop?: boolean;
+}
+const { class: cls = '', crop = false } = Astro.props;
+---
+
+<div class={`lock ${crop ? 'lock-crop' : ''} ${cls}`} role="img" aria-label="A phone lock screen showing a Chimes alert: Michele's Ices, The Best on the Island!">
+  <div class="lock-notch"></div>
+  <p class="lock-date">Saturday 14 June</p>
+  <p class="lock-time">16:42</p>
+  <img src="/images/app/notification-ios.webp" alt="" width="900" height="152" class="lock-alert" />
+</div>
+
+<style>
+  .lock {
+    container-type: inline-size;
+    position: relative;
+    aspect-ratio: 600 / 1304;
+    border-radius: 2.25rem;
+    border: 7px solid #111827;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 70% at 20% 0%, #fde68a 0%, transparent 55%),
+      radial-gradient(120% 80% at 100% 100%, #f472b6 0%, transparent 60%),
+      linear-gradient(180deg, #38bdf8 0%, #6366f1 100%);
+    box-shadow: 0 25px 60px rgb(15 23 42 / 0.35);
+    color: white;
+    text-align: center;
+  }
+  .lock-notch {
+    width: 32%;
+    height: 3.2%;
+    margin: 3.5% auto 0;
+    border-radius: 999px;
+    background: #111827;
+  }
+  .lock-date {
+    margin-top: 9%;
+    font-size: 5.5cqw;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+  .lock-time {
+    font-size: 24cqw;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .lock-alert {
+    position: absolute;
+    left: 4%;
+    right: 4%;
+    width: 92%;
+    top: 46%;
+    height: auto;
+    border-radius: 1.1rem;
+    box-shadow: 0 10px 25px rgb(15 23 42 / 0.35);
+    animation: drop-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
+  }
+  .lock-crop {
+    aspect-ratio: 600 / 700;
+    border-bottom: 0;
+    border-radius: 2.25rem 2.25rem 0 0;
+    box-shadow: none;
+  }
+  .lock-crop .lock-alert {
+    top: 62%;
+  }
+  @keyframes drop-in {
+    from {
+      transform: translateY(-40%);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lock-alert {
+      animation: none;
+    }
+  }
+</style>

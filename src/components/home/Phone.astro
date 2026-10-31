@@ -1,0 +1,30 @@
+---
+// A real app screenshot in a simple phone frame. Screenshots are 600x1304 WebP
+// (cwebp -q 80 -resize 600 0 of the 1206x2622 sim captures).
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  eager?: boolean;
+}
+const { src, alt, class: cls = '', eager = false } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width="600"
+  height="1304"
+  loading={eager ? 'eager' : 'lazy'}
+  class={`phone-frame ${cls}`}
+/>
+
+<style>
+  .phone-frame {
+    height: auto;
+    border-radius: 2rem;
+    border: 7px solid #111827;
+    box-shadow: 0 20px 45px rgb(15 23 42 / 0.25);
+    background: #111827;
+  }
+</style>

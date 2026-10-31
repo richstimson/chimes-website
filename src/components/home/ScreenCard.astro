@@ -1,0 +1,19 @@
+---
+// A crop of one app screen (700x1055 WebP), shown unframed and larger than a
+// whole-phone shot would allow: for screens that are a small card on a plain
+// background, e.g. Location Sharing.
+interface Props {
+  src: string;
+  alt: string;
+}
+const { src, alt } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width="700"
+  height="1055"
+  loading="lazy"
+  class="w-64 sm:w-72 h-auto mx-auto rounded-3xl shadow-xl ring-1 ring-black/5"
+/>

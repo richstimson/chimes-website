@@ -1,161 +1,212 @@
 ---
+import ContactForm from '../components/ContactForm.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import LockScreen from '../components/home/LockScreen.astro';
+import Phone from '../components/home/Phone.astro';
+import ScreenCard from '../components/home/ScreenCard.astro';
 import Layout from '../layouts/Layout.astro';
 
-// DRAFT of a new home page (owner, 2026-10-31: mostly pictures, little text,
-// link off for detail). Not linked anywhere and noindex; replaces / only once
-// the owner is happy. Hierarchy: locapp-23 docs/marketing/website/site-hierarchy.md.
-// Every line here must match a public story in the feed (feed IDs in comments).
+// DRAFT of a new home page, direction A "Lock screen". Not linked anywhere and
+// noindex; replaces / only on the owner's word. Positioning: locapp-23
+// docs/marketing/website/positioning-brief.md (vendors first, benefits first,
+// features as proof). Every claim must match a done + Public story in the feed
+// (feed IDs in comments). Section ids keep the header's /#… links working once
+// this becomes /.
+
+const steps = [
+  {
+    // VLT-004, VBG-001
+    title: 'Tap Share Location',
+    line: 'Then lock your phone and drive.',
+    img: '/images/app/21-location-sharing-live-card.webp',
+    card: true,
+    alt: "Chimes Location Sharing: You're Live, with a Stop Sharing button",
+  },
+  {
+    // MAP-003, MAP-011
+    title: 'Customers see you coming',
+    line: 'Your van moves on their map, marked Live.',
+    img: '/images/app/02-vendor-card.webp',
+    alt: "Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons",
+  },
+];
+
+const vendorRows = [
+  {
+    // VRG-001, VRG-007, VMN-011, MAP-012
+    badge: 'Free',
+    title: 'Free to be found, all year',
+    line: 'A pin in your area with what you sell, your WhatsApp and socials. Customers contact you directly.',
+    img: '/images/app/20-register-business.webp',
+    alt: 'Register your business: Free listing or Live van tracking',
+  },
+  {
+    // VLT-001, VLT-003, ALR-008, ALR-014
+    badge: 'Your call',
+    title: "You choose when you're seen",
+    line: "Tap Stop Sharing and your van leaves the map; customers aren't alerted about an Offline van. Other vans never see where you are.",
+    img: '/images/app/22-location-sharing-offline-card.webp',
+    card: true,
+    alt: "Chimes Location Sharing: You're Offline, van not visible to your customers",
+  },
+];
 
 const customerTiles = [
   {
-    // ALR-001, ALR-003
+    // ALR-001, ALR-003, ALR-006
     title: 'Pick your area',
-    line: 'A postcode and a radius.',
+    line: 'A postcode and a radius. A chime when a van comes in.',
     img: '/images/app/01-map-geofence.webp',
     alt: 'The Chimes map with a blue circle around the Isle of Wight',
   },
   {
-    // ALR-006, ALR-009, ALR-010
-    title: 'Get a chime',
-    line: 'When a van comes into your area, even with the app closed.',
-    img: '/images/app/11-onboarding-notifications.webp',
-    alt: "A Chimes alert: Michele's Ices, The Best on the Island!",
-  },
-  {
-    // MAP-003, MAP-010, MAP-011, MAP-012
-    title: "See who's out",
-    line: 'Tap a van to see if it is Live, then message or find it.',
-    img: '/images/app/02-vendor-card.webp',
-    alt: "Michele's Ices on the map, Live, with Navigate, WhatsApp and Call buttons",
-  },
-  {
     // FAV-001, FAV-009
-    title: 'Save favourites',
-    line: 'Your vans, and which are out now.',
+    title: 'Keep your favourites',
+    line: 'See which of your vans are out now.',
     img: '/images/app/17-favourites-list.webp',
-    alt: 'The favourites list, with Gelato Dreams Live',
+    alt: 'The Chimes favourites list, with Gelato Dreams Live',
+  },
+  {
+    // MAP-001, MAP-010, MAP-012
+    title: 'Every van and shop nearby',
+    line: 'Even ones not on Chimes yet.',
+    img: '/images/app/16-favourite-vendor-card.webp',
+    alt: "Ice cream vans and shops on the Chimes map, with Mr Frosty's card open",
   },
 ];
 
-const stores = [
-  {
-    href: 'https://apps.apple.com/gb/app/chimes/id6738628000',
-    src: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1735084800',
-    alt: 'Download on the App Store',
-    cls: 'block h-[50px] w-auto',
-    w: 150,
-    h: 50,
-  },
-  {
-    href: 'https://play.google.com/store/apps/details?id=com.justiot.chimes',
-    src: 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png',
-    alt: 'Get it on Google Play',
-    cls: 'block h-[74px] w-auto -my-3',
-    w: 191,
-    h: 74,
-  },
-];
+const appStore = {
+  href: 'https://apps.apple.com/gb/app/chimes/id6738628000',
+  src: 'https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1735084800',
+  alt: 'Download on the App Store',
+};
+const playStore = {
+  href: 'https://play.google.com/store/apps/details?id=com.justiot.chimes',
+  src: 'https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png',
+  alt: 'Get it on Google Play',
+};
 ---
 
 <Layout
-  title="Chimes! Know when the ice cream van is here"
-  description="A chime on your phone when an ice cream van comes into your area. Vans and local businesses: get on the map for free."
+  title="Chimes! Your customers hear you coming"
+  description="Chimes tells your customers when your ice cream van comes into their area. Free to get on the map. For customers: never miss the van."
   noindex
 >
   <Header />
   <main class="text-base-content">
-    <!-- Hero -->
-    <section class="bg-base-200/60">
-      <div class="container mx-auto max-w-6xl px-4 py-12 sm:py-20 grid lg:grid-cols-2 gap-10 items-center">
-        <div class="text-center lg:text-left">
-          <h1 class="text-4xl sm:text-6xl font-bold leading-tight mb-4">
-            Know when the <span class="text-primary">ice cream van</span> is here.
-          </h1>
-          <!-- ALR-006 -->
-          <p class="text-xl text-base-content/70 mb-8">A chime on your phone as a van comes into your area.</p>
+    <!-- Hero: the vendor promise, shown from the customer's phone. ALR-006, ALR-009, VMN-011 -->
+    <section class="bg-[#0b1d3a] text-white overflow-hidden">
+      <div class="container mx-auto max-w-6xl px-5 pt-12 sm:pt-20 grid lg:grid-cols-2 gap-10 items-end">
+        <div class="text-center lg:text-left lg:pb-24">
+          <p class="uppercase tracking-widest text-sm text-sky-300 font-semibold mb-3">For ice cream vans</p>
+          <h1 class="text-4xl sm:text-6xl font-extrabold leading-[1.05] mb-5">Your customers hear you coming.</h1>
+          <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-md mx-auto lg:mx-0">
+            Drive into their area and your van is on their lock screen. You don't send a thing.
+          </p>
           <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
-            <a href="#customers" class="btn btn-primary btn-lg">I want ice cream</a>
-            <a href="#vendors" class="btn btn-secondary btn-lg">I run a van</a>
+            <a href="#vendors" class="btn btn-lg border-0 bg-[#ff5a8a] hover:bg-[#ff3f77] text-white">Put my van on Chimes</a>
+            <a href="#customers" class="btn btn-lg btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Get the app</a>
           </div>
         </div>
-        <div class="flex justify-center gap-4">
-          <img src="/images/app/02-vendor-card.webp" alt="Michele's Ices, Live on the Chimes map" width="600" height="1304" class="phone w-36 sm:w-56 -rotate-3 mt-10" />
-          <img src="/images/app/11-onboarding-notifications.webp" alt="A Chimes alert as a van arrives" width="600" height="1304" class="phone w-36 sm:w-56 rotate-3" />
+        <div class="flex justify-center">
+          <LockScreen crop class="w-80 sm:w-96" />
         </div>
       </div>
     </section>
 
-    <!-- Customers -->
-    <section id="customers" class="container mx-auto max-w-6xl px-4 py-16">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12">Never miss the van</h2>
-      <ul class="grid gap-x-4 gap-y-10 grid-cols-2 lg:grid-cols-4">
+    <!-- How it works. ALR-006, ALR-007, ALR-009, ALR-010 for step 3 -->
+    <section id="how-it-works" class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      <h2 class="text-3xl sm:text-5xl font-bold text-center mb-3">You drive. Chimes does the telling.</h2>
+      <p class="text-center text-lg text-base-content/70 mb-12 max-w-xl mx-auto">No posts, no messages to send. Customers pick their own area and Chimes tells them when you arrive.</p>
+      <ol class="grid gap-14 md:grid-cols-3 md:gap-8">
+        {steps.map((s, i) => (
+          <li class="text-center">
+            <span class="inline-flex w-10 h-10 rounded-full bg-[#0b1d3a] text-white font-bold items-center justify-center mb-3">{i + 1}</span>
+            <h3 class="text-xl font-semibold">{s.title}</h3>
+            <p class="text-base-content/70 mb-6">{s.line}</p>
+            {s.card ? <ScreenCard src={s.img} alt={s.alt} /> : <Phone src={s.img} alt={s.alt} class="w-56 mx-auto" />}
+          </li>
+        ))}
+        <li class="text-center">
+          <span class="inline-flex w-10 h-10 rounded-full bg-[#ff5a8a] text-white font-bold items-center justify-center mb-3">3</span>
+          <h3 class="text-xl font-semibold">They get a chime</h3>
+          <p class="text-base-content/70 mb-6">Your name and what you sell, once per visit, app open or not.</p>
+          <div class="space-y-4 max-w-xs mx-auto md:pt-10">
+            <img src="/images/app/notification-ios.webp" alt="A Chimes alert on iPhone: Michele's Ices, The Best on the Island!" width="900" height="152" loading="lazy" class="w-full rounded-2xl shadow-lg" />
+            <img src="/images/app/notification-android.webp" alt="A Chimes alert on Android" width="900" height="279" loading="lazy" class="w-full rounded-2xl shadow-lg" />
+            <p class="text-sm text-base-content/60">Real alerts, iPhone and Android.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- Vendors -->
+    <section id="vendors" class="bg-[#fff7ec]">
+      <div id="features" class="container mx-auto max-w-5xl px-5 py-16 sm:py-24">
+        <h2 class="text-3xl sm:text-5xl font-bold text-center mb-14">Built for the round</h2>
+        <div class="space-y-20">
+          {vendorRows.map((r, i) => (
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+              <div class={`text-center md:text-left ${i % 2 ? 'md:order-2' : ''}`}>
+                <span class="badge badge-lg border-0 bg-[#0b1d3a] text-white mb-3">{r.badge}</span>
+                <h3 class="text-2xl sm:text-3xl font-bold mb-3">{r.title}</h3>
+                <p class="text-lg text-base-content/70">{r.line}</p>
+              </div>
+              {r.card ? <ScreenCard src={r.img} alt={r.alt} /> : <Phone src={r.img} alt={r.alt} class="w-56 mx-auto" />}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Get started. VRG-001, VRG-002, VRG-008, VDM-001; vendor features are iPhone only -->
+      <div id="pricing" class="container mx-auto max-w-3xl px-5 pb-20">
+        <div class="rounded-3xl bg-[#0b1d3a] text-white p-8 sm:p-12 text-center">
+          <h2 class="text-3xl sm:text-4xl font-bold mb-6">Get your van on Chimes</h2>
+          <ul class="text-left max-w-md mx-auto space-y-3 text-lg mb-8">
+            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Free listing</strong>: your pin on the map, all year.</span></li>
+            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Live van tracking</strong>: start with a free trial on your own van and phone.</span></li>
+            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span>Sign in with a code we email you. No password.</span></li>
+          </ul>
+          <p class="text-slate-300 mb-6">Get Chimes on your iPhone, then Settings → Register your business.</p>
+          <div class="flex flex-wrap justify-center items-center gap-4">
+            <a href={appStore.href} target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+              <img src={appStore.src} alt={appStore.alt} width="150" height="50" class="block h-[50px] w-auto" />
+            </a>
+            <a href="#contact" class="btn btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Ask us a question</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Customers. CUS-001, ONB-028 -->
+    <section id="customers" class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
+      <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Looking for ice cream?</p>
+      <h2 class="text-3xl sm:text-5xl font-bold text-center mb-12">Never miss the van.</h2>
+      <ul class="grid gap-12 sm:grid-cols-3 sm:gap-6">
         {customerTiles.map((t) => (
           <li class="text-center">
-            <img src={t.img} alt={t.alt} width="600" height="1304" loading="lazy" class="phone w-full max-w-48 mx-auto mb-5" />
+            <Phone src={t.img} alt={t.alt} class="w-52 mx-auto mb-5" />
             <h3 class="text-xl font-semibold mb-1">{t.title}</h3>
             <p class="text-base-content/70">{t.line}</p>
           </li>
         ))}
       </ul>
-      <!-- ONB-028, CUS-001 -->
-      <p class="text-center text-base-content/70 mt-12 mb-4">iPhone, iPad and Android. No account needed.</p>
-      <div class="flex flex-wrap justify-center items-center gap-4">
-        {stores.map((s) => (
-          <a href={s.href} target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
-            <img src={s.src} alt={s.alt} width={s.w} height={s.h} class={s.cls} />
+      <div id="download" class="text-center mt-14">
+        <p class="text-lg font-semibold mb-4">Free. No account. iPhone, iPad and Android.</p>
+        <div class="flex flex-wrap justify-center items-center gap-4">
+          <a href={appStore.href} target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+            <img src={appStore.src} alt={appStore.alt} width="150" height="50" class="block h-[50px] w-auto" />
           </a>
-        ))}
-      </div>
-      <p class="text-center mt-6"><a href="/features#customers" class="link link-primary">More for customers</a></p>
-    </section>
-
-    <!-- Vendors -->
-    <section id="vendors" class="bg-base-200/60">
-      <div class="container mx-auto max-w-6xl px-4 py-16 grid lg:grid-cols-2 gap-10 items-center">
-        <div class="flex justify-center order-2 lg:order-1">
-          <img src="/images/app/04-vendor-map.webp" alt="A vendor's own van on the Chimes map" width="600" height="1304" loading="lazy" class="phone w-56" />
-        </div>
-        <div class="order-1 lg:order-2">
-          <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center lg:text-left">Run a van? Get on the map.</h2>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <!-- VRG-001 -->
-            <div class="card bg-base-100 border border-base-300">
-              <div class="card-body p-5">
-                <span class="badge badge-success badge-outline">FREE</span>
-                <h3 class="text-xl font-semibold">Free listing</h3>
-                <p class="text-base-content/70">A pin in your area, all year round.</p>
-              </div>
-            </div>
-            <!-- VRG-002, MAP-003, ALR-006 -->
-            <div class="card bg-base-100 border border-base-300">
-              <div class="card-body p-5">
-                <span class="badge badge-info badge-outline">FREE TRIAL</span>
-                <h3 class="text-xl font-semibold">Live van tracking</h3>
-                <p class="text-base-content/70">Customers see your van move and get a chime as you arrive.</p>
-              </div>
-            </div>
-          </div>
-          <!-- VRG-001, VRG-012 AC1; vendor features are iPhone only -->
-          <p class="text-base-content/70 mt-6 text-center lg:text-left">
-            In Chimes on your iPhone: Settings, then Register your business.
-          </p>
-          <p class="mt-4 text-center lg:text-left"><a href="/features#vendors" class="link link-primary">More for vendors</a></p>
+          <a href={playStore.href} target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+            <img src={playStore.src} alt={playStore.alt} width="191" height="74" class="block h-[74px] w-auto -my-3" />
+          </a>
         </div>
       </div>
+      <p class="text-center mt-10"><a href="/features" class="link link-primary">See every feature</a></p>
     </section>
 
-    <p class="text-center py-10"><a href="/features" class="link">See every feature</a></p>
+    <ContactForm />
   </main>
   <Footer />
 </Layout>
-
-<style>
-  .phone {
-    height: auto;
-    border-radius: 1.75rem;
-    border: 6px solid #1f2937;
-    box-shadow: 0 12px 30px rgb(0 0 0 / 0.18);
-  }
-</style>
