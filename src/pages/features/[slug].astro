@@ -4,7 +4,6 @@ import Header from '../../components/Header.astro';
 import HeroCluster from '../../components/home/HeroCluster.astro';
 import PicturePanel from '../../components/home/PicturePanel.astro';
 import Shot from '../../components/home/Shot.astro';
-import Sticker from '../../components/home/Sticker.astro';
 import StoreBadges from '../../components/home/StoreBadges.astro';
 import data from '../../data/public-features.json';
 import { type FeaturePage, featurePages } from '../../data/feature-pages';
@@ -12,7 +11,10 @@ import Layout from '../../layouts/Layout.astro';
 
 // One key feature (level 2): a benefit headline, three short bullets, two or
 // three pictures, then the feed's benefit line for each sub-feature. Copy and
-// claims live in src/data/feature-pages.ts with their feed IDs.
+// claims live in src/data/feature-pages.ts with their feed IDs. Look:
+// docs/design/CHIMES_DESIGN.md. A vendor page's actions are raspberry and it
+// ends on the vendor band; a customer page's are blue and it ends on the
+// lilac wash.
 
 export function getStaticPaths() {
   return featurePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
@@ -35,107 +37,118 @@ const subFeatures = page.ids
 const vendor = page.audience === 'vendors';
 const others = featurePages.filter((p) => p.slug !== page.slug);
 const panelFrom = page.panel.kind === 'card' || page.panel.peek === 'top' ? 'bottom' : 'top';
+const check = 'M20 6 9 17l-5-5';
 ---
 
 <Layout title={`${page.name}: ${page.headline} - Chimes!`} description={page.description}>
-  <Header />
-  <main class="text-base-content">
-    <section class="bg-cream text-ink overflow-hidden">
-      <div class="container mx-auto max-w-6xl px-5 pt-10 sm:pt-16 grid lg:grid-cols-2 gap-10 items-end">
-        <div class="text-center lg:text-left lg:pb-28">
-          <p class="uppercase tracking-widest text-sm text-berry-700 font-semibold mb-3">
-            <a href="/features" class="hover:text-night">Features</a> · {vendor ? 'For ice cream vans' : 'For customers'}
-          </p>
-          <h1 class="font-display text-5xl sm:text-6xl font-bold leading-[1.05] mb-5">{page.headline}</h1>
-          <p class="text-lg sm:text-xl text-base-content/75 mb-8 max-w-md mx-auto lg:mx-0">{page.line}</p>
-          <a href="#get-started" class="btn btn-lg border-0 bg-berry-500 hover:bg-berry-700 text-white">
-            {vendor ? 'Put my van on Chimes' : 'Get the app'}
-          </a>
-        </div>
-        <HeroCluster>
-          <div slot="back"><Shot shot={page.hero.back} fill eager /></div>
-          <div slot="front"><Shot shot={page.hero.front} fill eager /></div>
-        </HeroCluster>
+  <div class="bg-hero">
+    <Header />
+    <section class="ch-container grid lg:grid-cols-2 gap-12 items-center pt-8 sm:pt-12 pb-14 sm:pb-24">
+      <div class="flex flex-col items-start gap-5">
+        <p class="text-sm font-medium text-ink-muted-pink">
+          <a href="/features" class="underline underline-offset-4 hover:text-ink">Features</a> / {page.name}
+        </p>
+        {vendor
+          ? <span class="ch-eyebrow-pill">For ice cream vans</span>
+          : <span class="ch-eyebrow-blue">For customers</span>}
+        <h1 class="ch-h1 text-ink">{page.headline}</h1>
+        <p class="text-lg leading-[1.55] text-ink-muted-pink max-w-[520px]">{page.line}</p>
+        <a href="#get-started" class:list={['ch-btn', vendor ? 'ch-btn-vendor' : 'ch-btn-customer']}>
+          {vendor ? 'Put my van on Chimes' : 'Get the app'}
+        </a>
       </div>
+      <HeroCluster>
+        <div slot="back"><Shot shot={page.hero.back} fill eager /></div>
+        <div slot="front"><Shot shot={page.hero.front} fill eager /></div>
+      </HeroCluster>
+    </section>
+  </div>
+
+  <main class="text-ink">
+    <section class="ch-container pt-10 pb-12 sm:pb-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+      <ul class="flex flex-col gap-6">
+        {page.bullets.map((b) => (
+          <li class="flex gap-4 items-start" data-feature-ids={b.ids.join(' ')}>
+            <span class:list={['ch-step-badge', !vendor && 'bg-action-blue!']} aria-hidden="true">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d={check} /></svg>
+            </span>
+            <span class="font-display text-2xl sm:text-[28px] font-semibold leading-snug pt-1">{b.text}</span>
+          </li>
+        ))}
+      </ul>
+      <PicturePanel tone={vendor ? 'pink' : 'blue'} from={panelFrom} class="min-h-[360px]">
+        <Shot shot={page.panel} />
+      </PicturePanel>
     </section>
 
-    <section class="bg-doodle">
-      <div class="container mx-auto max-w-5xl px-5 py-14 sm:py-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
-        <ul class="space-y-6">
-          {page.bullets.map((b) => (
-            <li class="flex gap-4 items-start" data-feature-ids={b.ids.join(' ')}>
-              <span class="shrink-0 mt-1 w-8 h-8 rounded-full bg-berry-500 text-white font-bold grid place-items-center">✓</span>
-              <span class="font-display text-2xl sm:text-3xl font-semibold leading-snug">{b.text}</span>
-            </li>
-          ))}
-        </ul>
-        <PicturePanel tone="pink" from={panelFrom}>
-          <Shot shot={page.panel} />
-          <Sticker kind={vendor ? 'cone' : 'note'} class="top-4 right-4 rotate-12" />
-        </PicturePanel>
-      </div>
-    </section>
-
-    <section class="bg-cream">
-      <div class="container mx-auto max-w-5xl px-5 py-14 sm:py-20">
-        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-8 text-center">Also in {page.name}</h2>
+    <section class="ch-container pb-12 sm:pb-20">
+      <div class:list={['ch-card', vendor ? 'ch-card-lilac' : 'ch-card-blue']}>
+        <h2 class="ch-h2 mb-6">Also in {page.name}</h2>
         <ul class="grid gap-x-10 gap-y-4 md:grid-cols-2">
           {subFeatures.map((f) => (
             <li class="flex gap-3" data-feature-id={f.id}>
-              <span class="text-berry-500 font-bold">✓</span>
-              <span class="text-base-content/80">{f.benefit}</span>
+              <svg class:list={['shrink-0 w-5 h-5 mt-0.5', vendor ? 'text-raspberry-dark' : 'text-logo-blue']} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={check} /></svg>
+              <span class="text-ink-muted">{f.benefit}</span>
             </li>
           ))}
         </ul>
-        {vendor && <p class="text-center text-sm text-base-content/60 mt-8">Vendor features are on iPhone. Customers use Chimes on iPhone, iPad and Android.</p>}
+        {vendor && <p class="text-sm text-ink-muted mt-6">Vendor features are on iPhone. Customers use Chimes on iPhone, iPad and Android.</p>}
       </div>
     </section>
 
     <!-- VRG-001, VRG-002, VDM-001 for vendors; CUS-001, ONB-028 for customers -->
-    <section id="get-started" class="container mx-auto max-w-3xl px-5 py-14 sm:py-20">
-      <div class="rounded-3xl bg-night text-white p-8 sm:p-12 text-center">
-        {vendor ? (
-          <>
-            <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">Get your van on Chimes</h2>
-            <p class="text-slate-300 mb-2">Get Chimes on your iPhone, then Settings → Register your business.</p>
-            {page.slug === 'live-van-tracking' ? (
-              <p class="text-slate-300 mb-6">Live tracking starts free in demo mode, on your own van and phone. The Chimes team then switches you to fully live.</p>
-            ) : (
-              <p class="text-slate-300 mb-6">Choose Free listing. You can start sharing your location later.</p>
-            )}
-            <div class="flex flex-wrap justify-center items-center gap-4">
-              <StoreBadges android={false} />
-              <a href="/#contact" class="btn btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Ask us a question</a>
-            </div>
-          </>
-        ) : (
-          <>
-            <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">Know when the van's coming</h2>
-            <p class="text-slate-300 mb-6">Free. No account. iPhone, iPad and Android.</p>
-            <div class="flex flex-wrap justify-center items-center gap-4">
-              <StoreBadges />
-            </div>
-          </>
-        )}
-      </div>
-    </section>
+    {vendor ? (
+      <section id="get-started" class="ch-container pb-12 sm:pb-20">
+        <div class="ch-on-night bg-vendor-band rounded-panel px-6 py-10 sm:px-12 sm:py-14 flex flex-col gap-4">
+          <h2 class="ch-h2 text-white">Get your van on Chimes</h2>
+          <p class="text-[17px] text-on-night max-w-2xl">Get Chimes on your iPhone, then Settings → Register your business.</p>
+          {page.slug === 'live-van-tracking' ? (
+            <p class="text-[17px] text-on-night max-w-2xl">Live tracking starts free in demo mode, on your own van and phone. The Chimes team then switches you to fully live.</p>
+          ) : (
+            <p class="text-[17px] text-on-night max-w-2xl">Choose Free listing. You can start sharing your location later.</p>
+          )}
+          <div class="flex flex-wrap gap-3 pt-2">
+            <a href="https://apps.apple.com/gb/app/chimes/id6738628000" target="_blank" rel="noopener noreferrer" class="ch-btn ch-btn-vendor">Register your business</a>
+            <a href="/#contact" class="ch-btn ch-btn-ghost-light">Ask us a question</a>
+          </div>
+        </div>
+      </section>
+    ) : (
+      <section id="get-started" class="bg-customer ch-section">
+        <div class="ch-container flex flex-col items-start gap-4">
+          <span class="ch-eyebrow-blue">Get the app</span>
+          <h2 class="ch-h2">Know when the van's coming</h2>
+          <p class="text-lg text-ink-muted-blue">Free. No account. iPhone, iPad and Android.</p>
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <StoreBadges />
+          </div>
+        </div>
+      </section>
+    )}
 
-    <section class="bg-doodle border-t border-base-200">
-      <div class="container mx-auto max-w-6xl px-5 py-14">
-        <h2 class="font-display text-3xl font-bold text-center mb-8">More of Chimes</h2>
-        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {others.map((p) => (
-            <li>
-              <a href={`/features/${p.slug}`} class="block h-full rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 hover:ring-berry-500 transition">
-                <p class="text-xs uppercase tracking-widest font-semibold text-berry-700 mb-1">{p.audience === 'vendors' ? 'For vans' : 'For customers'}</p>
-                <p class="font-display text-xl font-bold">{p.name}</p>
-                <p class="text-base-content/70">{p.headline}</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p class="text-center mt-8"><a href="/features" class="link link-primary">See every feature</a></p>
-      </div>
+    <!-- After the vendor band (which carries its own bottom space), no top padding. -->
+    <section class:list={['ch-container pb-12 sm:pb-20', !vendor && 'pt-12 sm:pt-20']}>
+      <h2 class="ch-h2 mb-8">More of Chimes</h2>
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {others.map((p) => (
+          <li>
+            <a
+              href={`/features/${p.slug}`}
+              class:list={[
+                'ch-card flex flex-col gap-1 h-full transition-colors focus-visible:outline-3 focus-visible:outline-action-blue focus-visible:outline-offset-2',
+                p.audience === 'vendors' ? 'ch-card-pink hover:border-raspberry' : 'ch-card-blue hover:border-action-blue',
+              ]}
+            >
+              <span class:list={['text-xs font-bold uppercase tracking-[1px]', p.audience === 'vendors' ? 'text-raspberry-dark' : 'text-logo-blue']}>
+                {p.audience === 'vendors' ? 'For vans' : 'For customers'}
+              </span>
+              <span class="font-display text-xl font-bold">{p.name}</span>
+              <span class="text-ink-muted">{p.headline}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="mt-8"><a href="/features" class="ch-btn ch-btn-secondary-blue">See every feature</a></p>
     </section>
   </main>
   <Footer />

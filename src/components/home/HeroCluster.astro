@@ -1,24 +1,19 @@
 ---
-// Two overlapping, tilted pictures for a navy hero, with three drawn stickers.
-// Put it last in the hero and give the hero overflow-hidden with no bottom
-// padding: the section's bottom edge cuts both pictures. Slot "front" takes
-// the point (keep it in the top two thirds of the screen); "back" is context.
-import Sticker from './Sticker.astro';
-
+// Two overlapping, tilted pictures in the hero's screenshot frame (radius 28,
+// docs/design/CHIMES_DESIGN.md §5). The frame's bottom edge cuts both
+// pictures. Slot "front" takes the point (keep it in the top two thirds of the
+// screen); "back" is context.
 interface Props {
   class?: string;
 }
 const { class: cls = '' } = Astro.props;
 ---
 
-<div class:list={['relative mx-auto w-full max-w-[440px] lg:max-w-[500px] h-[400px] sm:h-[520px] lg:h-[600px]', cls]}>
-  <div class="absolute right-[2%] top-0 w-[54%] rotate-6">
+<div class:list={['relative mx-auto w-full max-w-[460px] lg:max-w-[520px] h-[400px] sm:h-[500px] lg:h-[560px] overflow-hidden rounded-panel bg-white/60 ring-1 ring-white', cls]}>
+  <div class="absolute right-[4%] top-[6%] w-[52%] rotate-6">
     <slot name="back" />
   </div>
-  <div class="absolute left-[3%] top-[11%] w-[62%] -rotate-[4deg]">
+  <div class="absolute left-[11%] top-[14%] w-[58%] -rotate-[4deg]">
     <slot name="front" />
   </div>
-  <Sticker kind="cone" class="top-[3%] left-[6%] -rotate-12" />
-  <Sticker kind="note" class="top-[34%] right-[0%] rotate-12" />
-  <Sticker kind="lolly" class="bottom-[8%] right-[6%] rotate-[18deg]" />
 </div>

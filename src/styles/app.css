@@ -3,27 +3,29 @@
   themes: light --default;
 }
 
-/* Chimes colours, taken from the cone logo: night for dark panels, berry
-   (the strawberry sauce) for every call to action, cone blue (the wordmark)
-   for links and info, wafer (the cone) for warm highlights, cream for warm
-   bands. Contrast (WCAG): white on berry-500 4.6, berry-700 on cream 5.2,
-   berry-300 on night 5.7, wafer on night 9.2. berry-300 and wafer are never
-   small text on a light background (under 3:1). */
+/* Chimes "Pink Gradient" theme. The rules (which colour for whom, the four
+   gradients, type, contrast pairings) are in docs/design/CHIMES_DESIGN.md;
+   the tokens below are its chimes-tailwind.css. In short: raspberry is for
+   vendor actions, action blue for customer actions, never the other way round.
+   daisyUI's primary is action blue, so the older pages' btn-primary and
+   link-primary read as customer actions. */
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #e0245e;
+  --color-primary: #2563eb;
   --color-primary-content: #ffffff;
-  --color-secondary: #055398;
+  --color-secondary: #c81e54;
   --color-secondary-content: #ffffff;
-  --color-accent: #f2b544;
-  --color-accent-content: #0b1d3a;
+  --color-accent: #8b2fa8;
+  --color-accent-content: #ffffff;
   --color-neutral: #0b1d3a;
   --color-neutral-content: #ffffff;
   --color-base-100: #ffffff;
-  --color-base-200: #fff7ec;
-  --color-base-300: #f1e4d1;
+  --color-base-200: #f4f7ff;
+  --color-base-300: #dce5fa;
   --color-base-content: #1b2333;
+  --radius-field: 0.875rem;
+  --radius-box: 1.25rem;
 }
 
 /* Display face for headings: Fredoka (SIL OFL 1.1, public/fonts/Fredoka-OFL.txt),
@@ -36,42 +38,201 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* The name "Chimes" in text, lettered like the cone logo's wordmark: Lobster
-   (SIL OFL 1.1, public/fonts/Lobster-OFL.txt; latin subset from
-   @fontsource/lobster 5.2.8), self-hosted like Fredoka. */
+/* Body face: DM Sans (SIL OFL 1.1, public/fonts/DMSans-OFL.txt; latin subset
+   from @fontsource-variable/dm-sans 5.3.0), self-hosted like Fredoka. The
+   design pack's Google Fonts link is deliberately not used. */
 @font-face {
-  font-family: 'Lobster';
-  src: url('/fonts/lobster-latin-400.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'DM Sans';
+  src: url('/fonts/dm-sans-latin-wght.woff2') format('woff2');
+  font-weight: 100 1000;
   font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @theme {
-  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --color-raspberry: #c81e54;
+  --color-raspberry-dark: #a3173f;
+  --color-raspberry-deeper: #7a1130;
+  --color-candy: #ff8fb0; /* on navy only */
+  --color-plum: #8b2fa8; /* step badge gradient end only */
+  --color-logo-blue: #1d4ed8;
+  --color-action-blue: #2563eb;
+  --color-action-blue-dark: #1e3a8a;
   --color-night: #0b1d3a;
-  --color-berry-300: #ff5a8a;
-  --color-berry-500: #e0245e;
-  --color-berry-700: #c81e54;
-  --color-cone: #055398;
-  --color-wafer: #f2b544;
-  --color-cream: #fff7ec;
   --color-ink: #1b2333;
+  --color-ink-muted: #4a5468;
+  --color-ink-muted-pink: #44394a;
+  --color-ink-muted-blue: #3e4a63;
+  --color-on-night: #d6def0;
+
+  --color-pink-50: #fff4f7;
+  --color-pink-100: #f8d6e0;
+  --color-lilac-50: #fbf4ff;
+  --color-lilac-100: #ebd9f7;
+  --color-sky-tint-50: #f4f7ff;
+  --color-sky-tint-100: #dce5fa;
+  --color-outline-pink: #e2b6d6;
+  --color-outline-blue: #9cbdf5;
+
+  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-btn: 14px;
+  --radius-card: 20px;
+  --radius-panel: 28px;
+
+  --container-site: 1120px;
 }
 
-/* Blue with a white outline, as on the logo. */
-.wordmark {
-  font-family: 'Lobster', cursive;
-  font-weight: 400;
-  color: #3b82f6;
-  -webkit-text-stroke: 0.07em #fff;
-  paint-order: stroke fill;
+/* The four gradients. Do not add others. */
+@utility bg-hero {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0) 72%, #ffffff 100%),
+    linear-gradient(120deg, #ffc9da 0%, #fdddee 38%, #eeddff 72%, #dce8ff 100%);
+}
+@utility bg-vendor-band {
+  background: linear-gradient(135deg, #0b1d3a 0%, #1b2d5a 60%, #2a3f7a 100%);
+}
+@utility bg-customer {
+  background: linear-gradient(120deg, #f1e6ff 0%, #e3eeff 100%);
+}
+@utility bg-badge {
+  background: linear-gradient(135deg, #c81e54 0%, #8b2fa8 100%);
 }
 
-/* Faint cone/lolly/note doodles behind a white section. */
-.bg-doodle {
-  background-image: url('/images/doodles.svg');
-  background-size: 220px 220px;
+/* Components. Prefixed ch- so they never merge with daisyUI's own .btn and
+   .btn-secondary. Design pack name in brackets. */
+@layer components {
+  .ch-h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 1.05;
+  }
+  .ch-h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.1;
+  }
+  @media (min-width: 640px) {
+    .ch-h1 { font-size: 60px; }
+    .ch-h2 { font-size: 40px; }
+  }
+  /* "Chimes" as a word: Fredoka, logo blue (white in the footer). */
+  .ch-word {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-logo-blue);
+  }
+
+  .ch-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 26px;
+    border-radius: var(--radius-btn);
+    border: 1.5px solid transparent;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.15;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .ch-btn:focus-visible {
+    outline: 3px solid var(--color-action-blue);
+    outline-offset: 2px;
+  }
+  .ch-btn-nav {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+  /* (.btn-vendor) */
+  .ch-btn-vendor { background: var(--color-raspberry); color: #fff; }
+  .ch-btn-vendor:hover { background: var(--color-raspberry-dark); }
+  .ch-btn-vendor:active { background: var(--color-raspberry-deeper); }
+  /* (.btn-customer) */
+  .ch-btn-customer { background: var(--color-action-blue); color: #fff; }
+  .ch-btn-customer:hover { background: var(--color-action-blue-dark); }
+  /* (.btn-secondary), on pink or white */
+  .ch-btn-secondary { background: #fff; color: var(--color-ink); border-color: var(--color-outline-pink); }
+  .ch-btn-secondary:hover { border-color: var(--color-raspberry); }
+  /* (.btn-secondary-blue), customer section */
+  .ch-btn-secondary-blue { background: #fff; color: var(--color-action-blue-dark); border-color: var(--color-outline-blue); }
+  .ch-btn-secondary-blue:hover { border-color: var(--color-action-blue); }
+  /* (.btn-ghost-light), on navy */
+  .ch-btn-ghost-light { background: transparent; color: #fff; border-color: #fff; }
+  .ch-btn-ghost-light:hover { background: rgb(255 255 255 / 0.1); }
+  .ch-on-night .ch-btn:focus-visible,
+  .ch-on-night a:focus-visible { outline-color: #fff; }
+
+  .ch-card {
+    border-radius: var(--radius-card);
+    padding: 28px;
+    border: 1px solid transparent;
+    background: #fff;
+  }
+  .ch-card-pink { background: var(--color-pink-50); border-color: var(--color-pink-100); }
+  .ch-card-lilac { background: var(--color-lilac-50); border-color: var(--color-lilac-100); }
+  .ch-card-blue { background: var(--color-sky-tint-50); border-color: var(--color-sky-tint-100); }
+
+  .ch-step-badge {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #c81e54 0%, #8b2fa8 100%);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  /* (.eyebrow-pill): vendor eyebrow on the hero. */
+  .ch-eyebrow-pill {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--color-raspberry-dark);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  /* (.eyebrow-blue): customer eyebrow. */
+  .ch-eyebrow-blue {
+    color: var(--color-logo-blue);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .ch-container {
+    max-width: var(--container-site);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .ch-section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  @media (min-width: 640px) {
+    .ch-section {
+      padding-top: 80px;
+      padding-bottom: 80px;
+    }
+  }
 }
 
 /* Custom animations - refreshed cache */
