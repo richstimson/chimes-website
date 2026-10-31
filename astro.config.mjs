@@ -9,7 +9,8 @@ export default defineConfig({
   // Used for canonical URLs, the sitemap and the blog's RSS feed.
   site: 'https://chimesapp.com',
   output: "static",
-  integrations: [sitemap()],
+  // /homepage/ is the draft of a new home page; keep it out of the sitemap.
+  integrations: [sitemap({ filter: (page) => !page.endsWith('/homepage/') })],
   vite: {
     plugins: [tailwindcss()]
   }
