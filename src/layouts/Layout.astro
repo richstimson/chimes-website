@@ -9,6 +9,8 @@ export interface Props {
 	imageAlt?: string;
 	/** Open Graph type: "article" for blog posts. */
 	type?: 'website' | 'article';
+	/** Keep a draft page out of search results. */
+	noindex?: boolean;
 }
 
 const {
@@ -17,6 +19,7 @@ const {
 	image,
 	imageAlt = "Chimes - Ice Cream Van Tracking App",
 	type = 'website',
+	noindex = false,
 } = Astro.props;
 
 // Each page is its own canonical URL (a single site-wide canonical would tell
@@ -73,7 +76,7 @@ const imageUrl = image ? new URL(image, Astro.site).href : null;
 		<meta property="twitter:image:alt" content={imageAlt} />
 
 		<!-- Additional SEO -->
-		<meta name="robots" content="index, follow" />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
 		<meta name="author" content="Chimes!" />
 		<link rel="canonical" href={pageUrl} />
 		<link rel="alternate" type="application/rss+xml" title="Chimes! blog" href="/blog/rss.xml" />
