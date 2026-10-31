@@ -5,7 +5,8 @@ import Layout from '../layouts/Layout.astro';
 import data from '../data/public-features.json';
 
 // Generated list, copied by ./sync-features.sh. Never edit the JSON here.
-// Every copy marked PLACEHOLDER below is draft text awaiting the owner.
+// Copy is from locapp-23 docs/marketing/website/features-page.md (fact-checked
+// against the feed in fact-check.md there); change it there first.
 
 interface Feature {
   id: string;
@@ -16,78 +17,195 @@ interface Feature {
   platform: string;
 }
 
-const features = data.features as Feature[];
-
-// Group by area, keeping source order.
-const byArea = new Map<string, Feature[]>();
-for (const f of features) {
-  if (!byArea.has(f.area)) byArea.set(f.area, []);
-  byArea.get(f.area)!.push(f);
+interface Group {
+  heading: string;
+  prose: string[];
+  ids: string[];
 }
-const areas = [...byArea.entries()].map(([name, items]) => ({ name, items }));
 
-// Vendors are the paying audience: any area holding a vendor entry goes first.
-const vendorAreas = areas.filter((a) => a.items.some((f) => f.actor === 'vendor'));
-const customerAreas = areas.filter((a) => !a.items.some((f) => f.actor === 'vendor'));
+const features = data.features as Feature[];
+const byId = new Map(features.map((f) => [f.id, f]));
+
+// Each card sits under the copy that cites it. Feed IDs not listed here fall
+// into the section's last group (vendor and system entries go to vendors), so a
+// sync never drops an entry; give a new one a group when it turns up.
+const vendorGroups: Group[] = [
+  {
+    heading: 'Getting on the map',
+    prose: [
+      "Registering takes your email and a code we send you. There's no password to remember. Choose a free listing, add your name, town, postcode and links, and your pin goes on the map. Choose live van tracking instead, and you start a free trial. Once you're in, you stay signed in while you keep using the app, so there's no code to fetch each time you open it.",
+    ],
+    ids: ['VRG-001', 'VRG-002', 'VRG-007', 'VMN-011', 'VRG-008', 'VRG-010'],
+  },
+  {
+    heading: 'Trying live tracking: demo mode',
+    prose: [
+      'Live tracking starts in demo mode, with your own van and your own phone. In demo mode your van\'s position is updated about once an hour, and a banner on your map says your updates are limited and how to ask for your free live trial. The Chimes team then switches you to fully live. Started with a free listing? Tap Start sharing and your van goes on the map, in demo mode first.',
+    ],
+    ids: ['VDM-001', 'VDM-005', 'VDM-003', 'VDM-002'],
+  },
+  {
+    heading: 'Going Live and Offline',
+    prose: [],
+    ids: ['VLT-001', 'VLT-004', 'VLT-003', 'VBG-001', 'VBG-002', 'VBG-006'],
+  },
+  {
+    heading: 'Showing and hiding your listing',
+    prose: ['Closed for the day? Take your listing off the map from Location Sharing.'],
+    ids: ['VLT-007a'],
+  },
+  {
+    heading: 'Your van, your business',
+    prose: [
+      "Signed in as a vendor, you see your own van on the map, not other vendors', and other vendors signed in to Chimes don't see yours.",
+    ],
+    ids: ['ALR-014'],
+  },
+  {
+    heading: 'What your customers see',
+    prose: [
+      "A Live van shows on your customers' map where it is now, with a pulsing ring while it's on the move. When they tap your van, they see that you're live, when you last reported, and how to get to you. A business that has joined Chimes wears the colour Chimes cone, so it stands out from the other listings, and its card shows how to reach you: website, social pages, email and phone. Customers can save you as a favourite, and their list tells them whether your van is out now. They get one alert when you arrive, not a buzz every time you move, and none while you're Offline.",
+    ],
+    ids: [],
+  },
+];
+
+const customerGroups: Group[] = [
+  {
+    heading: 'Alerts when a van arrives',
+    prose: [
+      'Customers choose the area they care about by postcode and radius, and see it drawn on the map. When a van comes into it, the Chimes tune and the van\'s name arrive on their phone, iPhone or Android, whether the app is open or not. They hear about each visit once, and only about vans that are out and sharing their location. They can see at a glance whether alerts are on, and switch them on or off in Settings.',
+    ],
+    ids: ['ALR-001', 'ALR-003', 'ALR-006', 'ALR-007', 'ALR-008', 'ALR-009', 'ALR-010', 'SMN-002', 'SMN-003', 'SMN-004'],
+  },
+  {
+    heading: 'No account needed',
+    prose: [
+      "Customers open Chimes and it works, with no account to create. If Chimes can't look up a postcode, it says why rather than calling a good postcode wrong.",
+    ],
+    ids: ['CUS-001', 'CUS-013a'],
+  },
+  {
+    heading: "A map of who's around",
+    prose: [
+      "The map shows ice cream vans and shops nearby, including ones that aren't on Chimes yet. Tap a van or a shop to see its name and how to contact it. A faded van says whether it's Offline or just not in the area. A filter narrows the map to Chimes vendors, live vans or favourites.",
+    ],
+    ids: ['MAP-001', 'MAP-002', 'MAP-003', 'MAP-004', 'MAP-010', 'MAP-011', 'MAP-012', 'VMN-012', 'MAP-013', 'MAP-015'],
+  },
+  {
+    heading: 'Favourites',
+    prose: [
+      'A tap on the heart saves a vendor, and favourites are still there next time. Favourite vans carry a small heart on the map. The favourites list shows which are out now and, for Offline vans, when they were last seen, and a tap takes the map straight to one.',
+    ],
+    ids: ['FAV-001', 'FAV-002', 'FAV-004', 'FAV-007', 'FAV-009', 'FAV-011', 'FAV-013', 'FAV-015'],
+  },
+  {
+    heading: 'Help and sharing',
+    prose: [
+      'Customers can message the Chimes team from the app and follow Chimes on Facebook and Instagram. On iPhone, they can share Chimes with a friend by QR code, link or the App Store.',
+    ],
+    ids: ['ONB-015', 'ONB-006', 'ONB-014', 'ONB-028'],
+  },
+];
+
+const claimed = new Set([...vendorGroups, ...customerGroups].flatMap((g) => g.ids));
+const unclaimed = features.filter((f) => !claimed.has(f.id));
+const more = (heading: string, items: Feature[]): Group[] =>
+  items.length ? [{ heading, prose: [], ids: items.map((f) => f.id) }] : [];
+
+const resolve = (groups: Group[]) =>
+  groups.map((g) => ({
+    ...g,
+    items: g.ids.map((id) => byId.get(id)).filter((f): f is Feature => f !== undefined),
+  }));
 
 const platformNote = (p: string) =>
-  p === 'ios' ? 'iPhone' : p === 'both' ? 'iPhone and Android' : p === 'android' ? 'Android' : '';
+  p === 'ios'
+    ? 'iPhone and iPad'
+    : p === 'both'
+      ? 'iPhone, iPad and Android'
+      : p === 'android'
+        ? 'Android'
+        : '';
 
 const sections = [
   {
     key: 'vendors',
     heading: 'For ice cream vans and mobile vendors',
-    intro: 'PLACEHOLDER: vendor section intro. Say who this is for and what a vendor gets.',
-    areas: vendorAreas,
+    intro: [
+      'You run the van. Chimes helps people find it. There are two ways onto the map: a free listing, which is a pin with your details, or live van tracking, where customers watch your van move and get an alert as you come into their area.',
+      'Everything for vendors is on iPhone. Chimes on Android is for customers.',
+    ],
+    groups: resolve([
+      ...vendorGroups,
+      ...more('More for vendors', unclaimed.filter((f) => f.actor !== 'customer')),
+    ]),
   },
   {
     key: 'customers',
     heading: 'For customers',
-    intro: 'PLACEHOLDER: customer section intro. Say what customers get.',
-    areas: customerAreas,
+    intro: [
+      "Here's what Chimes does for the people who buy from you. You know the feeling: they hear the chimes, find their purse, get to the door, and the van has gone. Chimes tells them when a van arrives.",
+    ],
+    groups: resolve([
+      ...customerGroups,
+      ...more('More for customers', unclaimed.filter((f) => f.actor === 'customer')),
+    ]),
   },
 ];
 ---
 
 <Layout
-  title="PLACEHOLDER page title - Chimes!"
-  description="PLACEHOLDER meta description for the Chimes! features page."
+  title="What Chimes does - Chimes!"
+  description="Chimes puts your ice cream van on the map and tells customers when you come into their area. For van owners on iPhone; for customers on iPhone, iPad and Android."
 >
   <Header />
   <main class="container mx-auto max-w-5xl px-4 py-8 sm:py-12 text-base-content">
-    <h1 class="text-4xl font-bold mb-3">PLACEHOLDER hero headline</h1>
+    <h1 class="text-4xl font-bold mb-3">Your van on the map. Your customers told when you arrive.</h1>
     <p class="text-lg text-base-content/70 mb-12">
-      PLACEHOLDER hero intro: one or two sentences on what Chimes! does.
+      Chimes puts ice cream vans and local businesses on a map, and tells people when a van comes into
+      their area, even when the app is closed. If you run a van, you can register your business on your
+      iPhone with just your email and a code. Your customers use Chimes on iPhone, iPad or Android, with
+      no account to set up.
     </p>
 
     {sections.map((s) => (
       <section id={s.key} class="mb-16">
         <h2 class="text-3xl font-bold mb-2">{s.heading}</h2>
-        <p class="text-base-content/70 mb-8">{s.intro}</p>
-        {s.areas.map((area) => (
+        {s.intro.map((p) => <p class="text-base-content/70 mb-4">{p}</p>)}
+        <div class="mb-8" />
+        {s.groups.map((g) => (
           <div class="mb-10">
-            <h3 class="text-xl font-semibold mb-4">{area.name}</h3>
-            <ul class="grid gap-4 md:grid-cols-2">
-              {area.items.map((f) => (
-                <li class="card bg-base-100 shadow-sm border border-base-200">
-                  <div class="card-body p-5">
-                    <h4 class="font-semibold">{f.title}</h4>
-                    <p class="text-base-content/80">{f.benefit}</p>
-                    {platformNote(f.platform) && (
-                      <p class="text-sm text-base-content/60">{platformNote(f.platform)}</p>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <h3 class="text-xl font-semibold mb-3">{g.heading}</h3>
+            {g.prose.map((p) => <p class="text-base-content/80 mb-4">{p}</p>)}
+            {g.items.length > 0 && (
+              <ul class="grid gap-4 md:grid-cols-2">
+                {g.items.map((f) => (
+                  <li class="card bg-base-100 shadow-sm border border-base-200" data-feature-id={f.id}>
+                    <div class="card-body p-5">
+                      <h4 class="font-semibold">{f.title}</h4>
+                      <p class="text-base-content/80">{f.benefit}</p>
+                      {platformNote(f.platform) && (
+                        <p class="text-sm text-base-content/60">{platformNote(f.platform)}</p>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
       </section>
     ))}
 
     <section id="get-chimes" class="text-center py-10">
-      <h2 class="text-3xl font-bold mb-3">PLACEHOLDER closing call to action</h2>
-      <p class="text-base-content/70 mb-6">PLACEHOLDER closing line inviting people to download Chimes!.</p>
+      <h2 class="text-2xl font-bold mb-3">Run an ice cream van or a local business?</h2>
+      <p class="text-base-content/70 mb-8">
+        Open Chimes on your iPhone, go to Settings and tap Register your business. Start with your email
+        and the code we send you. Pick a free listing, or start a free trial of live van tracking.
+      </p>
+      <h2 class="text-2xl font-bold mb-3">Want to know when the van's in your area?</h2>
+      <p class="text-base-content/70 mb-6">Get Chimes on iPhone, iPad or Android.</p>
       <div class="flex flex-wrap justify-center items-center gap-4">
         <a href="https://apps.apple.com/gb/app/chimes/id6738628000" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
           <img

@@ -1,1 +1,1 @@
-Synced from locapp-23 b7bf76ca1e1396f1fd527e983924d3873fbe9049 (docs/requirements/public-features.json)
+Synced from locapp-23 8e948b26a719b06833eb6b1beecd2d13e682cffb (docs/requirements/public-features.json)

@@ -332,6 +332,17 @@
       "releasedOn": null
     },
     {
+      "id": "ONB-028",
+      "code": "ONB",
+      "area": "Onboarding, help and app info",
+      "title": "Chimes runs on iPhone, iPad and Android",
+      "benefit": "Chimes runs on iPhone, iPad and Android phones.",
+      "actor": "customer",
+      "platform": "both",
+      "release": "2.0.1",
+      "releasedOn": null
+    },
+    {
       "id": "SMN-002",
       "code": "SMN",
       "area": "Smart notifications (enable switch, test notification)",
@@ -363,6 +374,39 @@
       "platform": "both",
       "release": "2.0.1",
       "releasedOn": null
+    },
+    {
+      "id": "VBG-001",
+      "code": "VBG",
+      "area": "Vendor background location (iOS)",
+      "title": "A Live van keeps publishing while the phone is locked",
+      "benefit": "Drive your round with your phone locked in the cab: customers still see where your van is.",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.2",
+      "releasedOn": "2026-10-17"
+    },
+    {
+      "id": "VBG-002",
+      "code": "VBG",
+      "area": "Vendor background location (iOS)",
+      "title": "Background publishing stops when the vendor stops sharing",
+      "benefit": "Tap Stop Sharing and your phone stops reporting your position at once, even when Chimes is in the background.",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.2",
+      "releasedOn": "2026-10-17"
+    },
+    {
+      "id": "VBG-006",
+      "code": "VBG",
+      "area": "Vendor background location (iOS)",
+      "title": "Vendor is told when background updates are off",
+      "benefit": "If your phone cannot keep sharing in the background, Chimes tells you so before you drive off.",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.2",
+      "releasedOn": "2026-10-17"
     },
     {
       "id": "VDM-001",
@@ -409,6 +453,39 @@
       "releasedOn": null
     },
     {
+      "id": "VLT-001",
+      "code": "VLT",
+      "area": "Vendor live / offline sharing, Go Offline daily, publishing cadence",
+      "title": "Vendor sees whether they are Live or Offline",
+      "benefit": "Always know whether customers can see your van: Live or Offline, on the map and in Location Sharing.",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.2",
+      "releasedOn": "2026-10-17"
+    },
+    {
+      "id": "VLT-003",
+      "code": "VLT",
+      "area": "Vendor live / offline sharing, Go Offline daily, publishing cadence",
+      "title": "Vendor stops sharing with one tap",
+      "benefit": "Finished your round? Tap Stop Sharing and customers no longer see where your van is.",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.2",
+      "releasedOn": "2026-10-17"
+    },
+    {
+      "id": "VLT-004",
+      "code": "VLT",
+      "area": "Vendor live / offline sharing, Go Offline daily, publishing cadence",
+      "title": "Vendor shares their location with one tap",
+      "benefit": "Starting your round? Tap Share Location and customers can see your van.",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.2",
+      "releasedOn": "2026-10-17"
+    },
+    {
       "id": "VLT-007a",
       "code": "VLT",
       "area": "Vendor live / offline sharing, Go Offline daily, publishing cadence",
@@ -416,6 +493,28 @@
       "benefit": "Closed for the day? Hide your listing from the map with one tap.",
       "actor": "vendor",
       "platform": "ios",
+      "release": "2.2.1",
+      "releasedOn": "2026-10-12"
+    },
+    {
+      "id": "VMN-011",
+      "code": "VMN",
+      "area": "Vendor menus",
+      "title": "Vendor says what they sell in a line of text",
+      "benefit": "Tell customers what you sell in a line, like \"Soft-serve, sundaes and slush\".",
+      "actor": "vendor",
+      "platform": "ios",
+      "release": "2.2.1",
+      "releasedOn": "2026-10-12"
+    },
+    {
+      "id": "VMN-012",
+      "code": "VMN",
+      "area": "Vendor menus",
+      "title": "Customer sees what a vendor sells on its card",
+      "benefit": "Tap a van or vendor on the map to see what they sell.",
+      "actor": "customer",
+      "platform": "both",
       "release": "2.2.1",
       "releasedOn": "2026-10-12"
     },
