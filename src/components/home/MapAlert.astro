@@ -1,0 +1,58 @@
+---
+// The Chimes map (clusters, single vans, a favourite's card) with the REAL
+// arrival alert floating over the phone's top edge. The alert sits outside the
+// screen on purpose: in the app's foreground Chimes shows a dialog, not a
+// banner, so drawing the banner inside the screen would show a state that
+// never happens. Alert crop as in LockScreen.astro (ALR-009, VMN-011); map
+// MAP-001, MAP-010, FAV-001.
+import Phone from './Phone.astro';
+
+interface Props {
+  class?: string;
+  eager?: boolean;
+}
+const { class: cls = '', eager = false } = Astro.props;
+---
+
+<div class:list={['relative', cls]}>
+  <Phone
+    src="/images/app/16-favourite-vendor-card.webp"
+    alt="The Chimes map around the Isle of Wight: numbered clusters of vans and shops, single vans, and Mr Frosty's card in Favourites"
+    class="w-full"
+    eager={eager}
+  />
+  <img
+    src="/images/app/notification-ios.webp"
+    alt="A Chimes alert: Michele's Ices, The Best on the Island!"
+    width="900"
+    height="152"
+    class="map-alert"
+  />
+</div>
+
+<style>
+  .map-alert {
+    position: absolute;
+    left: -11%;
+    width: 122%;
+    top: 7%;
+    height: auto;
+    border-radius: 1.1rem;
+    /* The crop is a dark translucent banner: the white edge keeps it off a navy hero. */
+    outline: 2px solid rgb(255 255 255 / 0.75);
+    box-shadow: 0 14px 30px rgb(15 23 42 / 0.45);
+    transform: rotate(2deg);
+    animation: drop-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.3s both;
+  }
+  @keyframes drop-in {
+    from {
+      transform: translateY(-60%) rotate(2deg);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .map-alert {
+      animation: none;
+    }
+  }
+</style>

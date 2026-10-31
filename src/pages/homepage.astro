@@ -3,7 +3,7 @@ import ContactForm from '../components/ContactForm.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import HeroCluster from '../components/home/HeroCluster.astro';
-import LockScreen from '../components/home/LockScreen.astro';
+import MapAlert from '../components/home/MapAlert.astro';
 import Phone from '../components/home/Phone.astro';
 import PicturePanel from '../components/home/PicturePanel.astro';
 import ScreenCard from '../components/home/ScreenCard.astro';
@@ -71,18 +71,19 @@ const customerTiles = [
     alt: 'The Chimes favourites list, with Gelato Dreams Live',
     tone: 'pink',
     peek: 'bottom',
-    show: 0.5,
+    show: 0.6,
     href: '/features/favourites',
   },
   {
     // MAP-001, MAP-010, MAP-012
     title: 'Vans and shops nearby',
     line: 'Even ones not on Chimes yet.',
-    img: '/images/app/16-favourite-vendor-card.webp',
-    alt: "Ice cream vans and shops on the Chimes map, with Mr Frosty's card open",
+    // 16 (the Isle of Wight close-up) is the hero; this is the whole country.
+    img: '/images/app/15-first-launch-map.webp',
+    alt: 'The Chimes map of England with ice cream vans and shops grouped by area',
     tone: 'navy',
-    peek: 'bottom',
-    show: 0.55,
+    peek: 'top',
+    show: 0.6,
     href: '/features/map',
   },
 ] as const;
@@ -106,24 +107,26 @@ const playStore = {
 >
   <Header />
   <main class="text-base-content">
-    <!-- Hero: the vendor promise, shown from the customer's phone. ALR-006, ALR-009, VMN-011 -->
+    <!-- Hero: the vendor promise, shown from the customer's phone. ALR-006, ALR-009, VMN-011.
+         Not a lock screen (owner, 2026-10-31): the map carries clusters, single
+         vans and a favourite's card, with the alert floating over it. -->
     <section class="bg-[#0b1d3a] text-white overflow-hidden">
       <div class="container mx-auto max-w-6xl px-5 pt-12 sm:pt-20 grid lg:grid-cols-2 gap-10 items-end">
         <div class="text-center lg:text-left lg:pb-28">
           <p class="uppercase tracking-widest text-sm text-sky-300 font-semibold mb-3">For ice cream vans</p>
           <h1 class="font-display text-5xl sm:text-7xl font-bold leading-[1.02] mb-5">Your customers hear you coming.</h1>
           <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-md mx-auto lg:mx-0">
-            Drive into their area and your van is on their lock screen. You don't send a thing.
+            Drive into their area and they get a chime with your name. You don't send a thing.
           </p>
           <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
             <a href="#vendors" class="btn btn-lg border-0 bg-[#ff5a8a] hover:bg-[#ff3f77] text-white">Put my van on Chimes</a>
             <a href="#customers" class="btn btn-lg btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Get the app</a>
           </div>
         </div>
-        <!-- The alert in front of the van's Live map (MAP-003, MAP-011); the section's bottom edge cuts both phones. -->
+        <!-- The map and alert in front of the van's Live card (MAP-003, MAP-011); the section's bottom edge cuts both phones. -->
         <HeroCluster>
           <Phone slot="back" src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, marked Live" class="w-full" eager />
-          <LockScreen slot="front" class="w-full" />
+          <MapAlert slot="front" class="w-full" eager />
         </HeroCluster>
       </div>
     </section>
@@ -131,7 +134,7 @@ const playStore = {
     <!-- How it works. Step 1 VLT-004, VBG-001; step 2 MAP-003, MAP-011; step 3 ALR-006, ALR-007, ALR-009, ALR-010 -->
     <section id="how-it-works" class="bg-doodle">
       <div class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
-        <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-3">You drive. Chimes does the telling.</h2>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-3">Your van, on their phone.</h2>
         <p class="text-center text-lg text-base-content/70 mb-12 max-w-xl mx-auto">No posts, no messages to send. Customers pick their own area and Chimes tells them when you arrive.</p>
         <ol class="grid gap-12 md:grid-cols-3 md:gap-6">
           <li class="text-center flex flex-col">
@@ -212,7 +215,7 @@ const playStore = {
     <section id="customers" class="bg-doodle">
      <div class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
       <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Looking for ice cream?</p>
-      <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-12">Know when the van's coming.</h2>
+      <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-12">The ice cream van on your phone.</h2>
       <ul class="grid gap-12 sm:grid-cols-3 sm:gap-6">
         {customerTiles.map((t) => (
           <li class="text-center">
