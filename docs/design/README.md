@@ -15,7 +15,7 @@ the repo: the first is the plain-CSS copy of the same tokens, the second a stati
 | `blue-50` / `blue-100` tints | `sky-tint-50` / `sky-tint-100` | As in the pack's `chimes-tailwind.css`: Tailwind's own `blue-50` would be shadowed |
 | Google Fonts link | Fredoka and DM Sans self-hosted from `public/fonts/` | No visitor request goes to Google (privacy) |
 | Customer section: `.btn-customer` "Get the app" | App Store and Google Play badges + `.ch-btn-secondary-blue` "See every feature" | The badges are the customer's action, and there are two stores |
-| Vendor band "Register your business" | Links to the App Store, with "Settings → Register your business" beside it | Registration happens in the iPhone app; there is no web sign-up |
+| Vendor band "Register your business" | Links to `/register`, with the app route ("Settings → Register your business") beside it | `/register` emails the details to the Chimes team, who set the vendor up; it creates no account (owner, 2026-10-31). Self-serve sign-up stays in the iPhone app |
 | Ticks copy ("you disappear from the map") | Feed-backed copy from the feature pages | An Offline van can still show, faded (MAP-013); live tracking starts in demo mode (VDM-001) |
 
 Screenshots: real app captures in `public/images/app/`, in phone frames that peek from tinted panels.

@@ -19,6 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Honeypot: the hidden "nickname" field is left empty by people and filled
+// in by bots. Pretend it worked and send nothing (no welcome email to a
+// bot-supplied address).
+if (!empty($_POST['nickname'])) {
+    error_log("Vendor interest: honeypot filled, dropped");
+    echo json_encode(['success' => true, 'message' => 'Thank you for your interest!']);
+    exit;
+}
+
 // Get the form data
 $email = filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL);
 
@@ -161,7 +170,7 @@ if ($mailResult) {
         <div style='background: #dbeafe; padding: 20px; border-radius: 8px; margin: 25px 0; text-align: center;'>
             <h2 style='color: #1d4ed8; margin-top: 0;'>Ready to Get Started for Free?</h2>
             <p>Complete your vendor profile to join our growing network:</p>
-            <a href='https://chimesapp.com/vendor-getting-started' style='display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 0;'>Get Started Here →</a>
+            <a href='https://chimesapp.com/register' style='display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 0;'>Get Started Here →</a>
         </div>
         
         <div style='background: #ecfdf5; padding: 20px; border-radius: 8px; margin: 25px 0;'>
@@ -173,7 +182,7 @@ if ($mailResult) {
         
         <h3 style='color: #2563eb;'>What Happens Next?</h3>
         <ol style='padding-left: 20px;'>
-            <li>Complete the vendor registration form <a href='https://chimesapp.com/vendor-getting-started' style='color: #2563eb;'>here</a></li>
+            <li>Complete the vendor registration form <a href='https://chimesapp.com/register' style='color: #2563eb;'>here</a></li>
             <li>We'll review your application and get back to you within 24 hours</li>
             <li>We'll help you set up your profile and show you how to use the app</li>
             <li>Start getting discovered by ice cream lovers in your area!</li>

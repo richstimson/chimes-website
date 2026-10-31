@@ -1,0 +1,233 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import Layout from '../layouts/Layout.astro';
+
+// "Register your business" on the web: the app's Register your business screen
+// (locapp-23 app/screens/RegisterBusiness.tsx) as a form. It creates no account:
+// it emails the details to the Chimes team through send-vendor-email.php, and
+// the team sets the vendor up (owner, D6, 2026-10-31). A page, not a pop-up, so
+// it can be linked from ads, QR codes and emails (D7). Fields per D8.
+//
+// Works without JavaScript: the form posts to the PHP, which redirects to
+// /register/thanks. With JavaScript it posts JSON and shows the result inline.
+
+// Same two choices and bullets as the app's OptionCards (VRG-001, VDM-001).
+const options = [
+  {
+    value: 'free',
+    title: 'Free listing',
+    tag: 'Free',
+    bullets: ['A pin in your area, all year round', 'What you sell, WhatsApp and socials', 'No location tracking, ever'],
+  },
+  {
+    value: 'live',
+    title: 'Live van tracking',
+    tag: 'Free trial',
+    bullets: ['Customers see your van move', 'They get a chime as you arrive', 'You choose when sharing is on'],
+  },
+] as const;
+
+const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
+const inputClass = 'input w-full min-h-[52px] text-base';
+---
+
+<Layout
+  title="Register your business - Chimes"
+  description="Put your ice cream van or shop on the Chimes map. Free to get started. Fill in the form and the Chimes team will set you up."
+>
+  <div class="bg-hero">
+    <Header />
+    <section class="ch-container pt-8 sm:pt-12 pb-10 sm:pb-14 max-w-[760px]">
+      <span class="ch-eyebrow-pill">For ice cream vans and shops</span>
+      <h1 class="ch-h1 text-ink mt-5">Register your business</h1>
+      <p class="text-lg leading-[1.55] text-ink-muted-pink mt-4 max-w-[560px]">
+        Local customers find you, see what you sell and message you directly. Tell us about your
+        business and we'll get back to you within 24 hours.
+      </p>
+    </section>
+  </div>
+
+  <main class="text-ink">
+    <section class="ch-container pb-12 sm:pb-20 max-w-[760px]">
+      <form id="registerForm" action="/send-vendor-email.php" method="post" class="flex flex-col gap-6" novalidate>
+        <fieldset class="flex flex-col gap-3">
+          <legend class="text-xl font-bold mb-3">How do you want to appear?</legend>
+          <div class="grid gap-4 sm:grid-cols-2">
+            {options.map((o, i) => (
+              <label class="ch-card ch-card-pink ch-option cursor-pointer flex flex-col gap-2">
+                <span class="flex items-center justify-between gap-3">
+                  <span class="flex items-center gap-3">
+                    <input type="radio" name="listingType" value={o.value} checked={i === 0} class="radio radio-sm" />
+                    <span class="text-xl font-bold">{o.title}</span>
+                  </span>
+                  <span class="ch-eyebrow-pill shrink-0 whitespace-nowrap">{o.tag}</span>
+                </span>
+                <ul class="flex flex-col gap-1.5 pl-1 text-ink-muted">
+                  {o.bullets.map((b) => (
+                    <li class="flex gap-2.5">
+                      <svg class="shrink-0 w-4 h-4 mt-1 text-raspberry-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              </label>
+            ))}
+          </div>
+          <p class="text-sm text-ink-muted">Live tracking starts free in demo mode. The Chimes team then switches you to fully live.</p>
+        </fieldset>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <label class="flex flex-col gap-1.5">
+            <span class="font-bold">Your email *</span>
+            <input name="email" type="email" autocomplete="email" placeholder="name@example.com" class={inputClass} required />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="font-bold">Business name *</span>
+            <input name="businessName" type="text" autocomplete="organization" placeholder="e.g. Michele's Ices" class={inputClass} required />
+          </label>
+          <label class="flex flex-col gap-1.5 sm:col-span-2">
+            <span class="font-bold">What you sell</span>
+            <input name="sells" type="text" maxlength="80" placeholder="e.g. Soft scoop, slush and lollies" class={inputClass} />
+            <span class="text-sm text-ink-muted">Customers see this line under your name, on the map and in their alert.</span>
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="font-bold">Town or area *</span>
+            <input name="location" type="text" placeholder="e.g. Ryde, Isle of Wight" class={inputClass} required />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="font-bold">Phone or WhatsApp *</span>
+            <input name="phone" type="tel" autocomplete="tel" placeholder="07123 456789" class={inputClass} required />
+          </label>
+          <label class="flex flex-col gap-1.5 sm:col-span-2">
+            <span class="font-bold">Website, Facebook or Instagram</span>
+            <input name="link" type="text" inputmode="url" placeholder="facebook.com/yourbusiness" class={inputClass} />
+          </label>
+          <label id="vanNameField" class="flex flex-col gap-1.5 sm:col-span-2">
+            <span class="font-bold">Van name (Live van tracking, optional)</span>
+            <input name="vanName" type="text" placeholder="e.g. van2" class={inputClass} />
+            <span class="text-sm text-ink-muted">Only if you run more than one van.</span>
+          </label>
+          <!-- Honeypot: hidden from people, filled in by bots. The PHP drops any submission that fills it. -->
+          <label class="ch-hp" aria-hidden="true">
+            Leave this empty
+            <input name="nickname" type="text" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <div class="flex flex-col items-start gap-3">
+          <button type="submit" id="registerSubmit" class="ch-btn ch-btn-vendor">Register my business</button>
+          <p class="text-sm text-ink-muted">
+            We use these details only to set you up and reply to you. See our <a href="/privacy" class="underline underline-offset-4 hover:text-ink">privacy policy</a>.
+          </p>
+          <div id="registerMessage" role="status" aria-live="polite" class="hidden"></div>
+        </div>
+      </form>
+
+      <div class="ch-card ch-card-lilac mt-12 flex flex-col gap-3">
+        <h2 class="text-xl font-bold">Prefer to do it in the app?</h2>
+        <p class="text-ink-muted">
+          Get Chimes on your iPhone, then Settings → Register your business. You sign in with a code
+          we email you. No password.
+        </p>
+        <p class="text-ink-muted">
+          Chimes tracks your van through your iPhone. If you'd like to use an Android phone or a
+          dedicated GPS tracker, <a href="/#contact" class="underline underline-offset-4 hover:text-ink">get in touch</a>.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-1">
+          <a href={appStoreHref} target="_blank" rel="noopener noreferrer" class="ch-btn ch-btn-secondary">Get Chimes on iPhone</a>
+          <a href="/#contact" class="ch-btn ch-btn-secondary">Ask us a question</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  /* The chosen option gets the raspberry border. */
+  .ch-option:has(input:checked) { border-color: var(--color-raspberry); box-shadow: 0 0 0 1px var(--color-raspberry); }
+  .ch-option:has(input:focus-visible) { outline: 3px solid var(--color-action-blue); outline-offset: 2px; }
+  .ch-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+</style>
+
+<script>
+  const form = document.getElementById('registerForm') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('registerSubmit') as HTMLButtonElement | null;
+  const messageDiv = document.getElementById('registerMessage') as HTMLDivElement | null;
+  const vanField = document.getElementById('vanNameField');
+
+  // The van name only applies to Live van tracking, as in the app.
+  function syncVanField() {
+    if (!form || !vanField) return;
+    const live = (form.elements.namedItem('listingType') as RadioNodeList).value === 'live';
+    vanField.hidden = !live;
+  }
+
+  function show(kind: 'success' | 'error' | 'warning', text: string) {
+    if (!messageDiv) return;
+    messageDiv.className = `alert alert-${kind}`;
+    messageDiv.textContent = text;
+  }
+
+  if (form && submitBtn) {
+    form.addEventListener('change', syncVanField);
+    syncVanField();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+
+      const missing = [
+        ['email', 'Your email'],
+        ['businessName', 'Business name'],
+        ['location', 'Town or area'],
+        ['phone', 'Phone or WhatsApp'],
+      ].filter(([name]) => !(data[name] ?? '').trim());
+      if (missing.length) {
+        show('error', `Please fill in: ${missing.map(([, label]) => label).join(', ')}.`);
+        (form.elements.namedItem(missing[0][0]) as HTMLInputElement).focus();
+        return;
+      }
+      if (!(form.elements.namedItem('email') as HTMLInputElement).checkValidity()) {
+        show('error', 'Please check your email address.');
+        (form.elements.namedItem('email') as HTMLInputElement).focus();
+        return;
+      }
+      if (data.listingType !== 'live') delete data.vanName;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      // Local dev servers have no PHP (as in ContactForm.astro).
+      const isProduction = location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' && !location.port;
+      try {
+        if (!isProduction) {
+          console.log('DEV MODE - register form data:', data);
+          await new Promise((r) => setTimeout(r, 600));
+          show('warning', 'Development mode: form received, nothing sent.');
+          form.reset();
+        } else {
+          const response = await fetch('/send-vendor-email.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const result = await response.json();
+          if (result.success) {
+            show('success', "Thanks, we've got your details. We'll get back to you within 24 hours.");
+            form.reset();
+          } else {
+            show('error', result.message || 'Something went wrong. Please try again, or email chimesapp@just-iot.com.');
+          }
+        }
+      } catch {
+        show('error', 'Something went wrong. Please check your connection and try again, or email chimesapp@just-iot.com.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Register my business';
+        syncVanField();
+      }
+    });
+  }
+</script>
