@@ -1,0 +1,30 @@
+---
+// Renders one Shot from src/data/feature-pages.ts: a framed phone, an unframed
+// screen card, or the drawn lock screen with the real alert.
+import type { Shot } from '../../data/feature-pages';
+import LockScreen from './LockScreen.astro';
+import Phone from './Phone.astro';
+import ScreenCard from './ScreenCard.astro';
+
+interface Props {
+  shot: Shot;
+  // In a hero cluster: fill the slot, uncropped (the section edge cuts it).
+  fill?: boolean;
+  eager?: boolean;
+}
+const { shot, fill = false, eager = false } = Astro.props;
+---
+
+{shot.kind === 'lock' && <LockScreen class="w-full" />}
+{shot.kind === 'card' &&
+  (fill ? (
+    <img src={shot.src} alt={shot.alt} width="700" height="1055" class="w-full h-auto rounded-3xl shadow-2xl" loading={eager ? 'eager' : 'lazy'} />
+  ) : (
+    <ScreenCard peek src={shot.src!} alt={shot.alt!} />
+  ))}
+{shot.kind === 'phone' &&
+  (fill ? (
+    <Phone src={shot.src!} alt={shot.alt!} class="w-full" eager={eager} />
+  ) : (
+    <Phone src={shot.src!} alt={shot.alt!} peek={shot.peek} show={shot.show} class="w-56 sm:w-60" />
+  ))}

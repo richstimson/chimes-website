@@ -1,0 +1,142 @@
+---
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import HeroCluster from '../../components/home/HeroCluster.astro';
+import PicturePanel from '../../components/home/PicturePanel.astro';
+import Shot from '../../components/home/Shot.astro';
+import Sticker from '../../components/home/Sticker.astro';
+import StoreBadges from '../../components/home/StoreBadges.astro';
+import data from '../../data/public-features.json';
+import { type FeaturePage, featurePages } from '../../data/feature-pages';
+import Layout from '../../layouts/Layout.astro';
+
+// One key feature (level 2): a benefit headline, three short bullets, two or
+// three pictures, then the feed's benefit line for each sub-feature. Copy and
+// claims live in src/data/feature-pages.ts with their feed IDs.
+
+export function getStaticPaths() {
+  return featurePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+interface Props {
+  page: FeaturePage;
+}
+const { page } = Astro.props;
+
+const byId = new Map(data.features.map((f) => [f.id, f]));
+// A sub-feature that has left the feed (no longer Public, or renamed) drops out
+// rather than breaking the build; check the page after each sync. Stories a
+// bullet already cites are left out of the list, so nothing is said twice.
+const cited = new Set(page.bullets.flatMap((b) => b.ids));
+const subFeatures = page.ids
+  .filter((id) => !cited.has(id))
+  .map((id) => byId.get(id))
+  .filter((f) => f !== undefined);
+const vendor = page.audience === 'vendors';
+const others = featurePages.filter((p) => p.slug !== page.slug);
+const panelFrom = page.panel.kind === 'card' || page.panel.peek === 'top' ? 'bottom' : 'top';
+---
+
+<Layout title={`${page.name}: ${page.headline} - Chimes!`} description={page.description}>
+  <Header />
+  <main class="text-base-content">
+    <section class="bg-[#0b1d3a] text-white overflow-hidden">
+      <div class="container mx-auto max-w-6xl px-5 pt-10 sm:pt-16 grid lg:grid-cols-2 gap-10 items-end">
+        <div class="text-center lg:text-left lg:pb-28">
+          <p class="uppercase tracking-widest text-sm text-sky-300 font-semibold mb-3">
+            <a href="/features" class="hover:text-white">Features</a> · {vendor ? 'For ice cream vans' : 'For customers'}
+          </p>
+          <h1 class="font-display text-5xl sm:text-6xl font-bold leading-[1.05] mb-5">{page.headline}</h1>
+          <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-md mx-auto lg:mx-0">{page.line}</p>
+          <a href="#get-started" class="btn btn-lg border-0 bg-[#ff5a8a] hover:bg-[#ff3f77] text-white">
+            {vendor ? 'Put my van on Chimes' : 'Get the app'}
+          </a>
+        </div>
+        <HeroCluster>
+          <div slot="back"><Shot shot={page.hero.back} fill eager /></div>
+          <div slot="front"><Shot shot={page.hero.front} fill eager /></div>
+        </HeroCluster>
+      </div>
+    </section>
+
+    <section class="bg-doodle">
+      <div class="container mx-auto max-w-5xl px-5 py-14 sm:py-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+        <ul class="space-y-6">
+          {page.bullets.map((b) => (
+            <li class="flex gap-4 items-start" data-feature-ids={b.ids.join(' ')}>
+              <span class="shrink-0 mt-1 w-8 h-8 rounded-full bg-[#ff5a8a] text-white font-bold grid place-items-center">✓</span>
+              <span class="font-display text-2xl sm:text-3xl font-semibold leading-snug">{b.text}</span>
+            </li>
+          ))}
+        </ul>
+        <PicturePanel tone="pink" from={panelFrom}>
+          <Shot shot={page.panel} />
+          <Sticker kind={vendor ? 'cone' : 'note'} class="top-4 right-4 rotate-12" />
+        </PicturePanel>
+      </div>
+    </section>
+
+    <section class="bg-[#fff7ec]">
+      <div class="container mx-auto max-w-5xl px-5 py-14 sm:py-20">
+        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-8 text-center">Also in {page.name}</h2>
+        <ul class="grid gap-x-10 gap-y-4 md:grid-cols-2">
+          {subFeatures.map((f) => (
+            <li class="flex gap-3" data-feature-id={f.id}>
+              <span class="text-[#ff5a8a] font-bold">✓</span>
+              <span class="text-base-content/80">{f.benefit}</span>
+            </li>
+          ))}
+        </ul>
+        {vendor && <p class="text-center text-sm text-base-content/60 mt-8">Vendor features are on iPhone. Customers use Chimes on iPhone, iPad and Android.</p>}
+      </div>
+    </section>
+
+    <!-- VRG-001, VRG-002, VDM-001 for vendors; CUS-001, ONB-028 for customers -->
+    <section id="get-started" class="container mx-auto max-w-3xl px-5 py-14 sm:py-20">
+      <div class="rounded-3xl bg-[#0b1d3a] text-white p-8 sm:p-12 text-center">
+        {vendor ? (
+          <>
+            <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">Get your van on Chimes</h2>
+            <p class="text-slate-300 mb-2">Get Chimes on your iPhone, then Settings → Register your business.</p>
+            {page.slug === 'live-van-tracking' ? (
+              <p class="text-slate-300 mb-6">Live tracking starts free in demo mode, on your own van and phone. The Chimes team then switches you to fully live.</p>
+            ) : (
+              <p class="text-slate-300 mb-6">Choose Free listing. You can start sharing your location later.</p>
+            )}
+            <div class="flex flex-wrap justify-center items-center gap-4">
+              <StoreBadges android={false} />
+              <a href="/#contact" class="btn btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Ask us a question</a>
+            </div>
+          </>
+        ) : (
+          <>
+            <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">Know when the van's coming</h2>
+            <p class="text-slate-300 mb-6">Free. No account. iPhone, iPad and Android.</p>
+            <div class="flex flex-wrap justify-center items-center gap-4">
+              <StoreBadges />
+            </div>
+          </>
+        )}
+      </div>
+    </section>
+
+    <section class="bg-doodle border-t border-base-200">
+      <div class="container mx-auto max-w-6xl px-5 py-14">
+        <h2 class="font-display text-3xl font-bold text-center mb-8">More of Chimes</h2>
+        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {others.map((p) => (
+            <li>
+              <a href={`/features/${p.slug}`} class="block h-full rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 hover:ring-[#ff5a8a] transition">
+                <p class="text-xs uppercase tracking-widest font-semibold text-[#ff5a8a] mb-1">{p.audience === 'vendors' ? 'For vans' : 'For customers'}</p>
+                <p class="font-display text-xl font-bold">{p.name}</p>
+                <p class="text-base-content/70">{p.headline}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="text-center mt-8"><a href="/features" class="link link-primary">See every feature</a></p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

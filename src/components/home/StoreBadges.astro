@@ -1,0 +1,29 @@
+---
+// App Store (and, for customers, Google Play) badges. Vendor features are
+// iPhone only, so vendor calls to action pass android={false}.
+interface Props {
+  android?: boolean;
+}
+const { android = true } = Astro.props;
+---
+
+<a href="https://apps.apple.com/gb/app/chimes/id6738628000" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+  <img
+    src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1735084800"
+    alt="Download on the App Store"
+    width="150"
+    height="50"
+    class="block h-[50px] w-auto"
+  />
+</a>
+{android && (
+  <a href="https://play.google.com/store/apps/details?id=com.justiot.chimes" target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+    <img
+      src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+      alt="Get it on Google Play"
+      width="191"
+      height="74"
+      class="block h-[74px] w-auto -my-3"
+    />
+  </a>
+)}
