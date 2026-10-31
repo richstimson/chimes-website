@@ -1,12 +1,14 @@
 ---
 // A crop of one app screen (700x1055 WebP), shown unframed and larger than a
 // whole-phone shot would allow: for screens that are a small card on a plain
-// background, e.g. Location Sharing.
+// background, e.g. Location Sharing. peek cuts it off at the bottom edge of a
+// PicturePanel, keeping the top (the card's point).
 interface Props {
   src: string;
   alt: string;
+  peek?: boolean;
 }
-const { src, alt } = Astro.props;
+const { src, alt, peek = false } = Astro.props;
 ---
 
 <img
@@ -15,5 +17,10 @@ const { src, alt } = Astro.props;
   width="700"
   height="1055"
   loading="lazy"
-  class="w-64 sm:w-72 h-auto mx-auto rounded-3xl shadow-xl ring-1 ring-black/5"
+  class:list={[
+    'w-64 sm:w-72 mx-auto',
+    peek
+      ? 'aspect-[700/600] object-cover object-top rounded-t-3xl shadow-[0_0_40px_rgb(15_23_42/0.25)]'
+      : 'h-auto rounded-3xl shadow-xl ring-1 ring-black/5',
+  ]}
 />

@@ -4,7 +4,9 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import LockScreen from '../components/home/LockScreen.astro';
 import Phone from '../components/home/Phone.astro';
+import PicturePanel from '../components/home/PicturePanel.astro';
 import ScreenCard from '../components/home/ScreenCard.astro';
+import Sticker from '../components/home/Sticker.astro';
 import Layout from '../layouts/Layout.astro';
 
 // DRAFT of a new home page, direction A "Lock screen". Not linked anywhere and
@@ -13,24 +15,12 @@ import Layout from '../layouts/Layout.astro';
 // features as proof). Every claim must match a done + Public story in the feed
 // (feed IDs in comments). Section ids keep the header's /#… links working once
 // this becomes /.
-
-const steps = [
-  {
-    // VLT-004, VBG-001
-    title: 'Tap Share Location',
-    line: 'Then lock your phone and drive.',
-    img: '/images/app/21-location-sharing-live-card.webp',
-    card: true,
-    alt: "Chimes Location Sharing: You're Live, with a Stop Sharing button",
-  },
-  {
-    // MAP-003, MAP-011
-    title: 'Customers see you coming',
-    line: 'Your van moves on their map, marked Live.',
-    img: '/images/app/02-vendor-card.webp',
-    alt: "Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons",
-  },
-];
+//
+// Look (2026-10-31, borrowed from founditfood.com.au as ideas, nothing copied):
+// phones peek out of solid navy/pink panels instead of running full height, a
+// tilted phone cluster with drawn stickers in the hero, a faint doodle tile
+// behind white sections, Fredoka for headings, at most one playful line per
+// section.
 
 const vendorRows = [
   {
@@ -40,6 +30,7 @@ const vendorRows = [
     line: 'A pin in your area with what you sell, your WhatsApp and socials. Customers contact you directly.',
     img: '/images/app/20-register-business.webp',
     alt: 'Register your business: Free listing or Live van tracking',
+    tone: 'navy',
   },
   {
     // VLT-001, VLT-003, ALR-008, ALR-014
@@ -49,9 +40,11 @@ const vendorRows = [
     img: '/images/app/22-location-sharing-offline-card.webp',
     card: true,
     alt: "Chimes Location Sharing: You're Offline, van not visible to your customers",
+    tone: 'pink',
   },
-];
+] as const;
 
+// peek: which end of the screen carries the point (bottom sheets show the bottom).
 const customerTiles = [
   {
     // ALR-001, ALR-003, ALR-006
@@ -59,6 +52,9 @@ const customerTiles = [
     line: 'A postcode and a radius. A chime when a van comes in.',
     img: '/images/app/01-map-geofence.webp',
     alt: 'The Chimes map with a blue circle around the Isle of Wight',
+    tone: 'navy',
+    peek: 'top',
+    show: 0.6,
   },
   {
     // FAV-001, FAV-009
@@ -66,6 +62,9 @@ const customerTiles = [
     line: 'See which of your vans are out now.',
     img: '/images/app/17-favourites-list.webp',
     alt: 'The Chimes favourites list, with Gelato Dreams Live',
+    tone: 'pink',
+    peek: 'bottom',
+    show: 0.5,
   },
   {
     // MAP-001, MAP-010, MAP-012
@@ -73,8 +72,11 @@ const customerTiles = [
     line: 'Even ones not on Chimes yet.',
     img: '/images/app/16-favourite-vendor-card.webp',
     alt: "Ice cream vans and shops on the Chimes map, with Mr Frosty's card open",
+    tone: 'navy',
+    peek: 'bottom',
+    show: 0.55,
   },
-];
+] as const;
 
 const appStore = {
   href: 'https://apps.apple.com/gb/app/chimes/id6738628000',
@@ -98,9 +100,9 @@ const playStore = {
     <!-- Hero: the vendor promise, shown from the customer's phone. ALR-006, ALR-009, VMN-011 -->
     <section class="bg-[#0b1d3a] text-white overflow-hidden">
       <div class="container mx-auto max-w-6xl px-5 pt-12 sm:pt-20 grid lg:grid-cols-2 gap-10 items-end">
-        <div class="text-center lg:text-left lg:pb-24">
+        <div class="text-center lg:text-left lg:pb-28">
           <p class="uppercase tracking-widest text-sm text-sky-300 font-semibold mb-3">For ice cream vans</p>
-          <h1 class="text-4xl sm:text-6xl font-extrabold leading-[1.05] mb-5">Your customers hear you coming.</h1>
+          <h1 class="font-display text-5xl sm:text-7xl font-bold leading-[1.02] mb-5">Your customers hear you coming.</h1>
           <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-md mx-auto lg:mx-0">
             Drive into their area and your van is on their lock screen. You don't send a thing.
           </p>
@@ -109,51 +111,75 @@ const playStore = {
             <a href="#customers" class="btn btn-lg btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Get the app</a>
           </div>
         </div>
-        <div class="flex justify-center">
-          <LockScreen crop class="w-80 sm:w-96" />
+        <!-- The alert in front of the van's Live map (MAP-003, MAP-011); the section's bottom edge cuts both phones. -->
+        <div class="relative mx-auto w-full max-w-[440px] lg:max-w-[500px] h-[400px] sm:h-[520px] lg:h-[600px]">
+          <div class="absolute right-[2%] top-0 w-[54%] rotate-6">
+            <Phone src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, marked Live" class="w-full" eager />
+          </div>
+          <div class="absolute left-[3%] top-[11%] w-[62%] -rotate-[4deg]">
+            <LockScreen class="w-full" />
+          </div>
+          <Sticker kind="cone" class="top-[3%] left-[6%] -rotate-12" />
+          <Sticker kind="note" class="top-[34%] right-[0%] rotate-12" />
+          <Sticker kind="lolly" class="bottom-[8%] right-[6%] rotate-[18deg]" />
         </div>
       </div>
     </section>
 
-    <!-- How it works. ALR-006, ALR-007, ALR-009, ALR-010 for step 3 -->
-    <section id="how-it-works" class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
-      <h2 class="text-3xl sm:text-5xl font-bold text-center mb-3">You drive. Chimes does the telling.</h2>
-      <p class="text-center text-lg text-base-content/70 mb-12 max-w-xl mx-auto">No posts, no messages to send. Customers pick their own area and Chimes tells them when you arrive.</p>
-      <ol class="grid gap-14 md:grid-cols-3 md:gap-8">
-        {steps.map((s, i) => (
-          <li class="text-center">
-            <span class="inline-flex w-10 h-10 rounded-full bg-[#0b1d3a] text-white font-bold items-center justify-center mb-3">{i + 1}</span>
-            <h3 class="text-xl font-semibold">{s.title}</h3>
-            <p class="text-base-content/70 mb-6">{s.line}</p>
-            {s.card ? <ScreenCard src={s.img} alt={s.alt} /> : <Phone src={s.img} alt={s.alt} class="w-56 mx-auto" />}
+    <!-- How it works. Step 1 VLT-004, VBG-001; step 2 MAP-003, MAP-011; step 3 ALR-006, ALR-007, ALR-009, ALR-010 -->
+    <section id="how-it-works" class="bg-doodle">
+      <div class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
+        <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-3">You drive. Chimes does the telling.</h2>
+        <p class="text-center text-lg text-base-content/70 mb-12 max-w-xl mx-auto">No posts, no messages to send. Customers pick their own area and Chimes tells them when you arrive.</p>
+        <ol class="grid gap-12 md:grid-cols-3 md:gap-6">
+          <li class="text-center flex flex-col">
+            <span class="inline-flex self-center w-10 h-10 rounded-full bg-[#0b1d3a] text-white font-bold items-center justify-center mb-3">1</span>
+            <h3 class="font-display text-2xl font-semibold">Tap Share Location</h3>
+            <p class="text-base-content/70 mb-6">Then lock your phone and drive.</p>
+            <PicturePanel tone="pink" from="bottom" class="mt-auto md:h-[330px]">
+              <ScreenCard peek src="/images/app/21-location-sharing-live-card.webp" alt="Chimes Location Sharing: You're Live, with a Stop Sharing button" />
+            </PicturePanel>
           </li>
-        ))}
-        <li class="text-center">
-          <span class="inline-flex w-10 h-10 rounded-full bg-[#ff5a8a] text-white font-bold items-center justify-center mb-3">3</span>
-          <h3 class="text-xl font-semibold">They get a chime</h3>
-          <p class="text-base-content/70 mb-6">Your name and what you sell, once per visit, app open or not.</p>
-          <div class="space-y-4 max-w-xs mx-auto md:pt-10">
-            <img src="/images/app/notification-ios.webp" alt="A Chimes alert on iPhone: Michele's Ices, The Best on the Island!" width="900" height="152" loading="lazy" class="w-full rounded-2xl shadow-lg" />
-            <img src="/images/app/notification-android.webp" alt="A Chimes alert on Android" width="900" height="279" loading="lazy" class="w-full rounded-2xl shadow-lg" />
-            <p class="text-sm text-base-content/60">Real alerts, iPhone and Android.</p>
-          </div>
-        </li>
-      </ol>
+          <li class="text-center flex flex-col">
+            <span class="inline-flex self-center w-10 h-10 rounded-full bg-[#0b1d3a] text-white font-bold items-center justify-center mb-3">2</span>
+            <h3 class="font-display text-2xl font-semibold">Customers see you coming</h3>
+            <p class="text-base-content/70 mb-6">Your van moves on their map, marked Live.</p>
+            <PicturePanel tone="navy" from="top" class="mt-auto md:h-[330px]">
+              <Phone peek="bottom" show={0.54} src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons" class="w-60 md:w-64" />
+            </PicturePanel>
+          </li>
+          <li class="text-center flex flex-col">
+            <span class="inline-flex self-center w-10 h-10 rounded-full bg-[#ff5a8a] text-white font-bold items-center justify-center mb-3">3</span>
+            <h3 class="font-display text-2xl font-semibold">They get a chime</h3>
+            <p class="text-base-content/70 mb-6">Your name and what you sell, once per visit, app open or not.</p>
+            <PicturePanel tone="pink" class="mt-auto flex-col gap-4 md:h-[330px]">
+              <img src="/images/app/notification-ios.webp" alt="A Chimes alert on iPhone: Michele's Ices, The Best on the Island!" width="900" height="152" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-lg -rotate-2" />
+              <img src="/images/app/notification-android.webp" alt="A Chimes alert on Android" width="900" height="279" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-lg rotate-1" />
+              <p class="font-display text-xl text-white pt-2">The van's here. Your phone knew first.</p>
+              <Sticker kind="note" class="-top-1 -right-1 rotate-12 scale-75" />
+            </PicturePanel>
+          </li>
+        </ol>
+      </div>
     </section>
 
     <!-- Vendors -->
     <section id="vendors" class="bg-[#fff7ec]">
       <div id="features" class="container mx-auto max-w-5xl px-5 py-16 sm:py-24">
-        <h2 class="text-3xl sm:text-5xl font-bold text-center mb-14">Built for the round</h2>
-        <div class="space-y-20">
+        <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Your van, your rules</p>
+        <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-14">Built for the round</h2>
+        <div class="space-y-16 sm:space-y-20">
           {vendorRows.map((r, i) => (
-            <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div class={`text-center md:text-left ${i % 2 ? 'md:order-2' : ''}`}>
                 <span class="badge badge-lg border-0 bg-[#0b1d3a] text-white mb-3">{r.badge}</span>
-                <h3 class="text-2xl sm:text-3xl font-bold mb-3">{r.title}</h3>
+                <h3 class="font-display text-3xl sm:text-4xl font-bold mb-3">{r.title}</h3>
                 <p class="text-lg text-base-content/70">{r.line}</p>
               </div>
-              {r.card ? <ScreenCard src={r.img} alt={r.alt} /> : <Phone src={r.img} alt={r.alt} class="w-56 mx-auto" />}
+              <PicturePanel tone={r.tone} from="bottom">
+                {'card' in r ? <ScreenCard peek src={r.img} alt={r.alt} /> : <Phone peek="top" show={0.56} src={r.img} alt={r.alt} class="w-60" />}
+                {i === 0 && <Sticker kind="cone" class="top-4 right-4 rotate-12" />}
+              </PicturePanel>
             </div>
           ))}
         </div>
@@ -162,7 +188,7 @@ const playStore = {
       <!-- Get started. VRG-001, VRG-002, VRG-008, VDM-001; vendor features are iPhone only -->
       <div id="pricing" class="container mx-auto max-w-3xl px-5 pb-20">
         <div class="rounded-3xl bg-[#0b1d3a] text-white p-8 sm:p-12 text-center">
-          <h2 class="text-3xl sm:text-4xl font-bold mb-6">Get your van on Chimes</h2>
+          <h2 class="font-display text-4xl sm:text-5xl font-bold mb-6">Get your van on Chimes</h2>
           <ul class="text-left max-w-md mx-auto space-y-3 text-lg mb-8">
             <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Free listing</strong>: your pin on the map, all year.</span></li>
             <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Live van tracking</strong>: start with a free trial on your own van and phone.</span></li>
@@ -180,14 +206,17 @@ const playStore = {
     </section>
 
     <!-- Customers. CUS-001, ONB-028 -->
-    <section id="customers" class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
+    <section id="customers" class="bg-doodle">
+     <div class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
       <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Looking for ice cream?</p>
-      <h2 class="text-3xl sm:text-5xl font-bold text-center mb-12">Never miss the van.</h2>
+      <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-12">Never miss the van.</h2>
       <ul class="grid gap-12 sm:grid-cols-3 sm:gap-6">
         {customerTiles.map((t) => (
           <li class="text-center">
-            <Phone src={t.img} alt={t.alt} class="w-52 mx-auto mb-5" />
-            <h3 class="text-xl font-semibold mb-1">{t.title}</h3>
+            <PicturePanel tone={t.tone} from={t.peek === 'top' ? 'bottom' : 'top'} class="mb-5">
+              <Phone peek={t.peek} show={t.show} src={t.img} alt={t.alt} class="w-56 sm:w-48 lg:w-56" />
+            </PicturePanel>
+            <h3 class="font-display text-2xl font-semibold mb-1">{t.title}</h3>
             <p class="text-base-content/70">{t.line}</p>
           </li>
         ))}
@@ -204,6 +233,7 @@ const playStore = {
         </div>
       </div>
       <p class="text-center mt-10"><a href="/features" class="link link-primary">See every feature</a></p>
+     </div>
     </section>
 
     <ContactForm />

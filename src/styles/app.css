@@ -3,6 +3,26 @@
   themes: light --default;
 }
 
+/* Display face for headings: Fredoka (SIL OFL 1.1, public/fonts/Fredoka-OFL.txt),
+   self-hosted so no visitor request goes to Google. Variable weight, latin subset. */
+@font-face {
+  font-family: 'Fredoka';
+  src: url('/fonts/fredoka-latin-wght.woff2') format('woff2');
+  font-weight: 300 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@theme {
+  --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+}
+
+/* Faint cone/lolly/note doodles behind a white section. */
+.bg-doodle {
+  background-image: url('/images/doodles.svg');
+  background-size: 220px 220px;
+}
+
 /* Custom animations - refreshed cache */
 @keyframes fade-in-up {
   from {

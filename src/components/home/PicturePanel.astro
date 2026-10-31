@@ -1,0 +1,23 @@
+---
+// A solid colour panel that frames one picture. from="bottom" sits the picture
+// on the panel's bottom edge (pair with Phone peek="top" / ScreenCard peek), so
+// the phone is cut off there; from="top" hangs it from the top edge (Phone
+// peek="bottom"); omit it for a picture padded on all sides. Stickers go in the
+// slot too, positioned absolutely.
+interface Props {
+  tone?: 'navy' | 'pink' | 'cream';
+  from?: 'bottom' | 'top';
+  class?: string;
+}
+const { tone = 'navy', from, class: cls = '' } = Astro.props;
+const tones = {
+  navy: 'bg-[#0b1d3a]',
+  pink: 'bg-[#ff5a8a]',
+  cream: 'bg-[#fff7ec]',
+};
+const pad = from === 'bottom' ? 'pt-10 px-6 items-end' : from === 'top' ? 'pb-10 px-6 items-start' : 'p-8 items-center';
+---
+
+<div class:list={['relative overflow-hidden rounded-[2rem] flex justify-center', tones[tone], pad, cls]}>
+  <slot />
+</div>

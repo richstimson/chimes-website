@@ -1,13 +1,21 @@
 ---
 // A real app screenshot in a simple phone frame. Screenshots are 600x1304 WebP
 // (cwebp -q 80 -resize 600 0 of the 1206x2622 sim captures).
+//
+// peek="top" shows the top of the screen and cuts the phone off at the bottom,
+// for a phone rising from the bottom edge of a PicturePanel; peek="bottom"
+// shows the bottom (a bottom sheet, say) and hangs the phone from the top edge.
+// show is the fraction of the screen height left visible.
 interface Props {
   src: string;
   alt: string;
   class?: string;
   eager?: boolean;
+  peek?: 'top' | 'bottom';
+  show?: number;
 }
-const { src, alt, class: cls = '', eager = false } = Astro.props;
+const { src, alt, class: cls = '', eager = false, peek, show = 0.62 } = Astro.props;
+const style = peek ? `aspect-ratio: 600 / ${Math.round(1304 * show)}` : undefined;
 ---
 
 <img
@@ -16,7 +24,8 @@ const { src, alt, class: cls = '', eager = false } = Astro.props;
   width="600"
   height="1304"
   loading={eager ? 'eager' : 'lazy'}
-  class={`phone-frame ${cls}`}
+  class:list={['phone-frame', peek && `peek-${peek}`, cls]}
+  style={style}
 />
 
 <style>
@@ -26,5 +35,20 @@ const { src, alt, class: cls = '', eager = false } = Astro.props;
     border: 7px solid #111827;
     box-shadow: 0 20px 45px rgb(15 23 42 / 0.25);
     background: #111827;
+  }
+  .peek-top,
+  .peek-bottom {
+    object-fit: cover;
+    box-shadow: 0 0 40px rgb(15 23 42 / 0.25);
+  }
+  .peek-top {
+    object-position: top;
+    border-bottom: 0;
+    border-radius: 2rem 2rem 0 0;
+  }
+  .peek-bottom {
+    object-position: bottom;
+    border-top: 0;
+    border-radius: 0 0 2rem 2rem;
   }
 </style>
