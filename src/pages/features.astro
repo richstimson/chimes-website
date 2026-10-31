@@ -69,11 +69,11 @@ const sections = (['vendors', 'customers'] as const).map((audience) => {
         {s.groups.map((g) => (
           <div class="mb-10">
             <h3 class="text-xl font-semibold mb-3">
-              {g.href ? <a href={g.href} class="hover:text-[#ff5a8a]">{g.heading} →</a> : g.heading}
+              {g.href ? <a href={g.href} class="hover:text-berry-700">{g.heading} →</a> : g.heading}
             </h3>
             <ul class="grid gap-x-8 gap-y-4 md:grid-cols-2">
               {g.items.map((f) => (
-                <li class="border-l-4 border-[#ff5a8a]/60 pl-4" data-feature-id={f.id}>
+                <li class="border-l-4 border-berry-500/60 pl-4" data-feature-id={f.id}>
                   <p class="font-semibold">{f.title}</p>
                   <p class="text-base-content/75">{f.benefit}</p>
                   {platformNote(f.platform) && <p class="text-sm text-base-content/55">{platformNote(f.platform)}</p>}

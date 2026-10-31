@@ -3,6 +3,29 @@
   themes: light --default;
 }
 
+/* Chimes colours, taken from the cone logo: night for dark panels, berry
+   (the strawberry sauce) for every call to action, cone blue (the wordmark)
+   for links and info, wafer (the cone) for warm highlights, cream for warm
+   bands. Contrast (WCAG): white on berry-500 4.6, berry-700 on cream 5.2,
+   berry-300 on night 5.7, wafer on night 9.2. berry-300 and wafer are never
+   small text on a light background (under 3:1). */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #e0245e;
+  --color-primary-content: #ffffff;
+  --color-secondary: #055398;
+  --color-secondary-content: #ffffff;
+  --color-accent: #f2b544;
+  --color-accent-content: #0b1d3a;
+  --color-neutral: #0b1d3a;
+  --color-neutral-content: #ffffff;
+  --color-base-100: #ffffff;
+  --color-base-200: #fff7ec;
+  --color-base-300: #f1e4d1;
+  --color-base-content: #1b2333;
+}
+
 /* Display face for headings: Fredoka (SIL OFL 1.1, public/fonts/Fredoka-OFL.txt),
    self-hosted so no visitor request goes to Google. Variable weight, latin subset. */
 @font-face {
@@ -26,6 +49,14 @@
 
 @theme {
   --font-display: 'Fredoka', ui-rounded, system-ui, sans-serif;
+  --color-night: #0b1d3a;
+  --color-berry-300: #ff5a8a;
+  --color-berry-500: #e0245e;
+  --color-berry-700: #c81e54;
+  --color-cone: #055398;
+  --color-wafer: #f2b544;
+  --color-cream: #fff7ec;
+  --color-ink: #1b2333;
 }
 
 /* Blue with a white outline, as on the logo. */
