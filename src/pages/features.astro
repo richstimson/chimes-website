@@ -56,38 +56,48 @@ const sections = (['vendors', 'customers'] as const).map((audience) => {
   title="Every feature - Chimes!"
   description="Every Chimes feature in one list: for ice cream vans and mobile vendors on iPhone, and for customers on iPhone, iPad and Android."
 >
-  <Header />
-  <main class="container mx-auto max-w-5xl px-5 py-10 sm:py-14 text-base-content">
-    <h1 class="font-display text-4xl sm:text-5xl font-bold mb-3">Every feature</h1>
-    <p class="text-base-content/70 mb-10">
-      <a href="#vendors" class="link">For ice cream vans</a> · <a href="#customers" class="link">For customers</a>
-    </p>
+  <!-- Look: docs/design/CHIMES_DESIGN.md. Vendor groups are marked raspberry, customer groups blue. -->
+  <div class="bg-hero">
+    <Header />
+    <div class="ch-container pt-8 sm:pt-12 pb-12 sm:pb-16 flex flex-col items-start gap-4">
+      <h1 class="ch-h1 text-ink">Every feature</h1>
+      <div class="flex flex-wrap gap-3">
+        <a href="#vendors" class="ch-btn ch-btn-secondary">For ice cream vans</a>
+        <a href="#customers" class="ch-btn ch-btn-secondary-blue">For customers</a>
+      </div>
+    </div>
+  </div>
 
-    {sections.map((s) => (
-      <section id={s.audience} class="mb-14">
-        <h2 class="font-display text-3xl font-bold mb-6">{s.heading}</h2>
-        {s.groups.map((g) => (
-          <div class="mb-10">
-            <h3 class="text-xl font-semibold mb-3">
-              {g.href ? <a href={g.href} class="hover:text-berry-700">{g.heading} →</a> : g.heading}
-            </h3>
-            <ul class="grid gap-x-8 gap-y-4 md:grid-cols-2">
-              {g.items.map((f) => (
-                <li class="border-l-4 border-berry-500/60 pl-4" data-feature-id={f.id}>
-                  <p class="font-semibold">{f.title}</p>
-                  <p class="text-base-content/75">{f.benefit}</p>
-                  {platformNote(f.platform) && <p class="text-sm text-base-content/55">{platformNote(f.platform)}</p>}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-    ))}
+  <main class="ch-container pb-12 sm:pb-20 text-ink">
+    {sections.map((s) => {
+      const isVendor = s.audience === 'vendors';
+      return (
+        <section id={s.audience} class="pt-10">
+          {isVendor ? <span class="ch-eyebrow-pill ring-1 ring-pink-100">{s.heading}</span> : <span class="ch-eyebrow-blue">{s.heading}</span>}
+          <h2 class="ch-h2 mt-3 mb-6">{isVendor ? 'For your van' : 'For finding ice cream'}</h2>
+          {s.groups.map((g) => (
+            <div class:list={['ch-card mb-5', isVendor ? 'ch-card-pink' : 'ch-card-blue']}>
+              <h3 class="text-xl font-bold mb-4">
+                {g.href ? <a href={g.href} class={isVendor ? 'hover:text-raspberry-dark' : 'hover:text-logo-blue'}>{g.heading} →</a> : g.heading}
+              </h3>
+              <ul class="grid gap-x-8 gap-y-4 md:grid-cols-2">
+                {g.items.map((f) => (
+                  <li class:list={['border-l-4 pl-4', isVendor ? 'border-raspberry' : 'border-action-blue']} data-feature-id={f.id}>
+                    <p class="font-bold">{f.title}</p>
+                    <p class="text-ink-muted">{f.benefit}</p>
+                    {platformNote(f.platform) && <p class="text-sm text-ink-muted">{platformNote(f.platform)}</p>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      );
+    })}
 
-    <section id="get-chimes" class="text-center py-8">
-      <p class="font-semibold mb-4">Get Chimes. Vendor features are on iPhone.</p>
-      <div class="flex flex-wrap justify-center items-center gap-4">
+    <section id="get-chimes" class="pt-10">
+      <p class="font-bold mb-4">Get Chimes. Vendor features are on iPhone.</p>
+      <div class="flex flex-wrap items-center gap-4">
         <StoreBadges />
       </div>
     </section>

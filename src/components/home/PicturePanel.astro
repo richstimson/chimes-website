@@ -1,23 +1,25 @@
 ---
-// A solid colour panel that frames one picture. from="bottom" sits the picture
-// on the panel's bottom edge (pair with Phone peek="top" / ScreenCard peek), so
-// the phone is cut off there; from="top" hangs it from the top edge (Phone
-// peek="bottom"); omit it for a picture padded on all sides. Stickers go in the
-// slot too, positioned absolutely.
+// A tinted panel that frames one picture, usually inside a card. from="bottom"
+// sits the picture on the panel's bottom edge (pair with Phone peek="top" /
+// ScreenCard peek), so the phone is cut off there; from="top" hangs it from
+// the top edge (Phone peek="bottom"); omit it for a picture padded on all
+// sides. Tones are the design pack's tints only (docs/design/CHIMES_DESIGN.md
+// §2): "white" for a panel inside a tinted card, the others on white.
 interface Props {
-  tone?: 'navy' | 'pink' | 'cream';
+  tone?: 'white' | 'pink' | 'lilac' | 'blue';
   from?: 'bottom' | 'top';
   class?: string;
 }
-const { tone = 'navy', from, class: cls = '' } = Astro.props;
+const { tone = 'white', from, class: cls = '' } = Astro.props;
 const tones = {
-  navy: 'bg-night',
-  pink: 'bg-berry-300',
-  cream: 'bg-cream',
+  white: 'bg-white/80',
+  pink: 'bg-pink-50 ring-1 ring-pink-100',
+  lilac: 'bg-lilac-50 ring-1 ring-lilac-100',
+  blue: 'bg-sky-tint-50 ring-1 ring-sky-tint-100',
 };
-const pad = from === 'bottom' ? 'pt-10 px-6 items-end' : from === 'top' ? 'pb-10 px-6 items-start' : 'p-8 items-center';
+const pad = from === 'bottom' ? 'pt-8 px-5 items-end' : from === 'top' ? 'pb-8 px-5 items-start' : 'p-6 items-center';
 ---
 
-<div class:list={['relative overflow-hidden rounded-[2rem] flex justify-center', tones[tone], pad, cls]}>
+<div class:list={['relative overflow-hidden rounded-[16px] flex justify-center', tones[tone], pad, cls]}>
   <slot />
 </div>
