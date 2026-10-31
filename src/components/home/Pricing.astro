@@ -1,0 +1,119 @@
+---
+// Pricing on the home page (#pricing, the header's "Pricing" link).
+// While Chimes is in launch everything is free (owner, 2026-10-31), so only
+// the launch plan shows. The old home page's three plans (VendorPricing.astro)
+// are kept here with show: false so they survive deleting the old page; turn
+// one on by setting show: true. Their Stripe links are live payment links.
+type Plan = {
+  name: string;
+  price: string;
+  per?: string;
+  note: string;
+  lead: string;
+  ticks: string[];
+  cta: { label: string; href: string; external?: boolean };
+  show: boolean;
+};
+
+const plans: Plan[] = [
+  {
+    name: 'Launch offer',
+    price: '£0',
+    note: 'Free until we launch in spring 2027. No payment details.',
+    lead: 'Everything Chimes does, free while we launch.',
+    ticks: [
+      'Free listing: your pin on the map, with what you sell',
+      'Live van tracking: customers follow your van, marked Live',
+      'A chime on customers\' phones when you drive into their area',
+      'You choose when customers can see you',
+    ],
+    cta: { label: 'Register your business', href: '/register' },
+    show: true,
+  },
+  // From the old home page (VendorPricing.astro, last changed 2026-10-07). Hidden.
+  {
+    name: 'Essentials',
+    price: '£0',
+    per: '/month',
+    note: 'No payment details required',
+    lead: 'Get your business on the app',
+    ticks: [
+      'Your business name and custom message displayed on the van',
+      'Basic customer discovery',
+      'Vendor Privacy',
+      'Free trial of Track & Notify!',
+    ],
+    cta: { label: 'Get Started Free', href: '/register' },
+    show: false,
+  },
+  {
+    name: 'Track & Notify',
+    price: '£20',
+    per: '/month',
+    note: '£240 billed annually',
+    lead: "Track your van and notify all your customers when you're in the area",
+    ticks: [
+      'Everything in Essentials plan',
+      'Real-time van tracking',
+      'Notify customers in your area',
+      'Discount for multiple vans',
+      'Priority support',
+    ],
+    cta: { label: 'Start Tracking', href: 'https://buy.stripe.com/6oU3cu9mv3tD1gY9pl7IY01', external: true },
+    show: false,
+  },
+  {
+    name: 'Fully Customizable',
+    price: '£45',
+    per: '/month',
+    note: '£540 billed annually',
+    lead: 'Complete customization for your brand and maximum customer engagement',
+    ticks: [
+      'Everything in previous plans',
+      'Customizable icon - your logo on the map',
+      'Customizable notification sound - your jingle on your customers phones',
+      'Display your menus',
+      'Your routes, stops and schedule',
+    ],
+    cta: { label: 'Go Premium', href: 'https://buy.stripe.com/fZu28q0PZfcl1gY8lh7IY02', external: true },
+    show: false,
+  },
+];
+
+const shown = plans.filter((p) => p.show);
+---
+
+<section id="pricing" class="ch-container pb-12 sm:pb-20">
+  <div class="max-w-[640px] mb-8 flex flex-col gap-2.5">
+    <h2 class="ch-h2">Free while we launch.</h2>
+    <p class="text-lg leading-[1.55] text-ink-muted">
+      Chimes is new and launches fully in spring 2027. Until then, live tracking and customer alerts are
+      completely free. Join us and give it a try.
+    </p>
+  </div>
+  <ul class={`grid gap-5 ${shown.length > 1 ? 'md:grid-cols-3' : 'max-w-[520px]'}`}>
+    {shown.map((p) => (
+      <li class="ch-card ch-card-pink flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+          <h3 class="text-xl font-bold">{p.name}</h3>
+          <p><span class="font-display text-5xl font-bold text-raspberry-dark">{p.price}</span>{p.per && <span class="text-ink-muted"> {p.per}</span>}</p>
+          <p class="text-sm text-ink-muted">{p.note}</p>
+        </div>
+        <p class="font-bold">{p.lead}</p>
+        <ul class="flex flex-col gap-2.5">
+          {p.ticks.map((t) => (
+            <li class="flex gap-3">
+              <svg class="shrink-0 w-5 h-5 mt-0.5 text-raspberry" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+              <span class="text-ink-muted">{t}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={p.cta.href}
+          class="ch-btn ch-btn-secondary mt-auto self-start"
+          {...(p.cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >{p.cta.label}</a>
+      </li>
+    ))}
+  </ul>
+</section>
