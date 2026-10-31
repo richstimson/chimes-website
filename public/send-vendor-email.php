@@ -48,11 +48,18 @@ function respond($success, $message, $status = 200) {
     exit;
 }
 
-// Honeypot: the hidden "nickname" field is left empty by people and filled
-// in by bots. Pretend it worked and send nothing.
-if (!empty($input['nickname'])) {
-    error_log("Vendor registration: honeypot filled, dropped");
+// Honeypot: the hidden "hp_check" field is left empty by people and filled
+// in by bots. Pretend it worked and send nothing. The name is one browsers
+// don't autofill, so a real vendor is never dropped.
+if (!empty($input['hp_check'])) {
+    error_log("Vendor registration: honeypot filled, dropped: " . json_encode($input));
     respond(true, 'Registration submitted successfully!');
+}
+
+// A field as a string: an array-valued field (name[]=x) becomes ''.
+function field($input, $key) {
+    $v = $input[$key] ?? '';
+    return is_string($v) ? $v : '';
 }
 
 // Extract and sanitize form data
@@ -73,10 +80,17 @@ $numVans = htmlspecialchars($input['numVans'] ?? '', ENT_QUOTES, 'UTF-8');
 $operatingDays = htmlspecialchars($input['operatingDays'] ?? '', ENT_QUOTES, 'UTF-8');
 // Fields from /register (the old /vendor-getting-started form sends none of them)
 $listingTypes = ['free' => 'Free listing', 'live' => 'Live van tracking'];
-$listingType = $listingTypes[$input['listingType'] ?? ''] ?? '';
-$sells = htmlspecialchars($input['sells'] ?? '', ENT_QUOTES, 'UTF-8');
-$link = htmlspecialchars($input['link'] ?? '', ENT_QUOTES, 'UTF-8');
-$vanName = htmlspecialchars($input['vanName'] ?? '', ENT_QUOTES, 'UTF-8');
+$listingType = $listingTypes[field($input, 'listingType')] ?? '';
+$sells = htmlspecialchars(field($input, 'sells'), ENT_QUOTES, 'UTF-8');
+$link = htmlspecialchars(field($input, 'link'), ENT_QUOTES, 'UTF-8');
+$vanName = htmlspecialchars(field($input, 'vanName'), ENT_QUOTES, 'UTF-8');
+
+// One cell of the semicolon-separated spreadsheet row. Built from the raw
+// value and escaped last, so "Ben & Jerry's" isn't split at an entity's ";".
+function csvCell($input, $key) {
+    $v = str_replace(array(";", "\r\n", "\r", "\n"), array(",", " ", " ", " "), field($input, $key));
+    return htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+}
 
 // Log the attempt for debugging
 error_log("Vendor registration attempt from: " . $email . " for business: " . $businessName);
@@ -191,10 +205,10 @@ $body = "
         str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $socialOther2 ?: '') . ";" . 
         str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $numVans ?: '') . ";" . 
         str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $operatingDays ?: '') . ";" .
-        str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $listingType) . ";" .
-        str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $sells) . ";" .
-        str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $link) . ";" .
-        str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $vanName) . "</p>
+        $listingType . ";" .
+        csvCell($input, 'sells') . ";" .
+        csvCell($input, 'link') . ";" .
+        csvCell($input, 'vanName') . "</p>
 
         <h4 style='margin-top: 20px;'>Header Row (for reference):</h4>
         <p style='font-family: monospace; background: #fff; padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;'>Business Name;Contact Name;Email;Phone;WhatsApp;Website;Location;Post Codes;Description;Facebook;Instagram;Social Other 1;Social Other 2;Number of Vans;Operating Days;Listing;Sells;Link;Van Name</p>

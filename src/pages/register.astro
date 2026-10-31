@@ -50,7 +50,7 @@ const inputClass = 'input w-full min-h-[52px] text-base';
 
   <main class="text-ink">
     <section class="ch-container pb-12 sm:pb-20 max-w-[760px]">
-      <form id="registerForm" action="/send-vendor-email.php" method="post" class="flex flex-col gap-6" novalidate>
+      <form id="registerForm" action="/send-vendor-email.php" method="post" class="flex flex-col gap-6">
         <fieldset class="flex flex-col gap-3">
           <legend class="text-xl font-bold mb-3">How do you want to appear?</legend>
           <div class="grid gap-4 sm:grid-cols-2">
@@ -109,10 +109,9 @@ const inputClass = 'input w-full min-h-[52px] text-base';
             <span class="text-sm text-ink-muted">Only if you run more than one van.</span>
           </label>
           <!-- Honeypot: hidden from people, filled in by bots. The PHP drops any submission that fills it. -->
-          <label class="ch-hp" aria-hidden="true">
-            Leave this empty
-            <input name="nickname" type="text" tabindex="-1" autocomplete="off" />
-          </label>
+          <div class="ch-hp" aria-hidden="true" inert>
+            <label>Leave this empty <input name="hp_check" type="text" tabindex="-1" autocomplete="off" /></label>
+          </div>
         </div>
 
         <div class="flex flex-col items-start gap-3">
@@ -120,7 +119,7 @@ const inputClass = 'input w-full min-h-[52px] text-base';
           <p class="text-sm text-ink-muted">
             We use these details only to set you up and reply to you. See our <a href="/privacy" class="underline underline-offset-4 hover:text-ink">privacy policy</a>.
           </p>
-          <div id="registerMessage" role="status" aria-live="polite" class="hidden"></div>
+          <div id="registerMessage" role="status" aria-live="polite"></div>
         </div>
       </form>
 

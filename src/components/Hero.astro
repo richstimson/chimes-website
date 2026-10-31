@@ -111,6 +111,7 @@
           const formData = new FormData(form);
           const response = await fetch('/send-vendor-interest.php', {
             method: 'POST',
+            headers: { Accept: 'application/json' },
             body: formData
           });
 

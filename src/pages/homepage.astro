@@ -89,14 +89,14 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
         <!-- Register your interest: email only, to send-vendor-interest.php, which
              mails the team and sends the vendor a welcome email. Outline button:
              one filled raspberry button per screen-height. -->
-        <form id="interestForm" action="/send-vendor-interest.php" method="post" class="w-full max-w-[520px] flex flex-col gap-2 pt-2" novalidate>
+        <form id="interestForm" action="/send-vendor-interest.php" method="post" class="w-full max-w-[520px] flex flex-col gap-2 pt-2">
           <label for="interestEmail" class="text-[15px] font-bold text-ink">Not ready yet? Leave your email and we'll tell you more.</label>
           <div class="flex flex-col sm:flex-row gap-3">
             <input id="interestEmail" name="email" type="email" autocomplete="email" placeholder="name@example.com" class="input flex-1 min-h-[52px] text-base" required />
             <button type="submit" id="interestSubmit" class="ch-btn ch-btn-secondary">Register your interest</button>
           </div>
-          <label class="ch-hp" aria-hidden="true">Leave this empty <input name="nickname" type="text" tabindex="-1" autocomplete="off" /></label>
-          <p id="interestMessage" role="status" aria-live="polite" class="text-[15px] hidden"></p>
+          <div class="ch-hp" aria-hidden="true" inert><label>Leave this empty <input name="hp_check" type="text" tabindex="-1" autocomplete="off" /></label></div>
+          <p id="interestMessage" role="status" aria-live="polite" class="text-[15px]"></p>
         </form>
       </div>
       <!-- The map and alert in front of the van's Live card (MAP-003, MAP-011). Not a lock screen (owner, 2026-10-31). -->
@@ -231,7 +231,11 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
           await new Promise((r) => setTimeout(r, 600));
           showInterest(true, 'Development mode: received, nothing sent.');
         } else {
-          const response = await fetch('/send-vendor-interest.php', { method: 'POST', body: new FormData(interestForm) });
+          const response = await fetch('/send-vendor-interest.php', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(interestForm),
+          });
           const result = await response.json();
           if (result.success) {
             showInterest(true, "Thanks! We've emailed you more about Chimes. If it isn't there, check your spam folder.");

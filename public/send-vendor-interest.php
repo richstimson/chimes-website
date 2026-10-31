@@ -19,13 +19,32 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Honeypot: the hidden "nickname" field is left empty by people and filled
+// The homepage script asks for JSON. A plain form post (no JavaScript) gets
+// a page instead: a redirect on success, a short message on failure.
+$wantsJson = strpos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
+function respond($success, $message, $status = 200) {
+    global $wantsJson;
+    if (!$wantsJson) {
+        if ($success) {
+            header('Location: /register/thanks/', true, 303);
+        } else {
+            http_response_code($status);
+            header('Content-Type: text/html; charset=UTF-8');
+            echo '<p>' . htmlspecialchars(strip_tags($message), ENT_QUOTES, 'UTF-8') . '</p><p><a href="/homepage/">Back</a></p>';
+        }
+        exit;
+    }
+    http_response_code($status);
+    echo json_encode(['success' => $success, 'message' => $message]);
+    exit;
+}
+
+// Honeypot: the hidden "hp_check" field is left empty by people and filled
 // in by bots. Pretend it worked and send nothing (no welcome email to a
 // bot-supplied address).
-if (!empty($_POST['nickname'])) {
-    error_log("Vendor interest: honeypot filled, dropped");
-    echo json_encode(['success' => true, 'message' => 'Thank you for your interest!']);
-    exit;
+if (!empty($_POST['hp_check'])) {
+    error_log("Vendor interest: honeypot filled, dropped: " . json_encode($_POST));
+    respond(true, 'Thank you for your interest!');
 }
 
 // Get the form data
@@ -37,16 +56,12 @@ error_log("Vendor interest registration attempt from: " . $email);
 // Validate required fields
 if (!$email) {
     error_log("Vendor interest registration error: Missing email address");
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Please provide your business email address']);
-    exit;
+    respond(false, 'Please provide your business email address', 400);
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     error_log("Vendor interest registration error: Invalid email format: " . $email);
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Please provide a valid email address']);
-    exit;
+    respond(false, 'Please provide a valid email address', 400);
 }
 
 // Email configuration
@@ -210,15 +225,14 @@ if ($mailResult) {
     
     if ($welcomeResult) {
         error_log("Vendor interest: Welcome email sent successfully to vendor: " . $email);
-    echo json_encode(['success' => true, 'message' => 'Thank you for your interest!<br><br>We\'ve sent you a welcome email with more information about joining our network.<br><br><small style="color: #666; font-size: 12px;">If you don\'t receive it, please check your spam folder, search for an email with the subject \'Welcome to Chimes!\', or contact us at chimesapp@just-iot.com.</small><br><br><p><a href="/#contact" style="color: #2563eb; text-decoration: underline;">Contact us</a></p>']);
+        respond(true, 'Thank you for your interest!<br><br>We\'ve sent you a welcome email with more information about joining our network.<br><br><small style="color: #666; font-size: 12px;">If you don\'t receive it, please check your spam folder, search for an email with the subject \'Welcome to Chimes!\', or contact us at chimesapp@just-iot.com.</small><br><br><p><a href="/#contact" style="color: #2563eb; text-decoration: underline;">Contact us</a></p>');
     } else {
         error_log("Vendor interest: Welcome email failed to send to vendor: " . $email);
-        echo json_encode(['success' => true, 'message' => 'Thank you for your interest! We\'ll be in touch within 24 hours with more information about joining our network.']);
+        respond(true, 'Thank you for your interest! We\'ll be in touch within 24 hours with more information about joining our network.');
     }
 } else {
     error_log("Vendor interest: Notification email failed to send to: " . $to);
-    error_log("Vendor interest: Last error: " . error_get_last()['message'] ?? 'Unknown error');
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Unable to register your interest right now. Please try again or contact us directly at chimesapp@just-iot.com']);
+    error_log("Vendor interest: Last error: " . (error_get_last()['message'] ?? 'Unknown error'));
+    respond(false, 'Unable to register your interest right now. Please try again or contact us directly at chimesapp@just-iot.com', 500);
 }
 ?>
