@@ -2,6 +2,7 @@
 import ContactForm from '../components/ContactForm.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import HeroCluster from '../components/home/HeroCluster.astro';
 import LockScreen from '../components/home/LockScreen.astro';
 import Phone from '../components/home/Phone.astro';
 import PicturePanel from '../components/home/PicturePanel.astro';
@@ -36,7 +37,8 @@ const vendorRows = [
     // VLT-001, VLT-003, ALR-008, ALR-014
     badge: 'Your call',
     title: "You choose when you're seen",
-    line: "Tap Stop Sharing and your van leaves the map; customers aren't alerted about an Offline van. Other vans never see where you are.",
+    // Not "leaves the map": an Offline van can still show, faded, with an OFFLINE card (MAP-013).
+    line: "Tap Stop Sharing and customers stop seeing where you are, and get no alerts about you. Other vans never see where you are.",
     img: '/images/app/22-location-sharing-offline-card.webp',
     card: true,
     alt: "Chimes Location Sharing: You're Offline, van not visible to your customers",
@@ -112,17 +114,10 @@ const playStore = {
           </div>
         </div>
         <!-- The alert in front of the van's Live map (MAP-003, MAP-011); the section's bottom edge cuts both phones. -->
-        <div class="relative mx-auto w-full max-w-[440px] lg:max-w-[500px] h-[400px] sm:h-[520px] lg:h-[600px]">
-          <div class="absolute right-[2%] top-0 w-[54%] rotate-6">
-            <Phone src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, marked Live" class="w-full" eager />
-          </div>
-          <div class="absolute left-[3%] top-[11%] w-[62%] -rotate-[4deg]">
-            <LockScreen class="w-full" />
-          </div>
-          <Sticker kind="cone" class="top-[3%] left-[6%] -rotate-12" />
-          <Sticker kind="note" class="top-[34%] right-[0%] rotate-12" />
-          <Sticker kind="lolly" class="bottom-[8%] right-[6%] rotate-[18deg]" />
-        </div>
+        <HeroCluster>
+          <Phone slot="back" src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, marked Live" class="w-full" eager />
+          <LockScreen slot="front" class="w-full" />
+        </HeroCluster>
       </div>
     </section>
 
