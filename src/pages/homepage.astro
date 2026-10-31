@@ -32,6 +32,8 @@ const vendorRows = [
     img: '/images/app/20-register-business.webp',
     alt: 'Register your business: Free listing or Live van tracking',
     tone: 'navy',
+    href: '/features/free-listing',
+    more: 'About the free listing',
   },
   {
     // VLT-001, VLT-003, ALR-008, ALR-014
@@ -43,6 +45,8 @@ const vendorRows = [
     card: true,
     alt: "Chimes Location Sharing: You're Offline, van not visible to your customers",
     tone: 'pink',
+    href: '/features/live-van-tracking',
+    more: 'About live van tracking',
   },
 ] as const;
 
@@ -57,6 +61,7 @@ const customerTiles = [
     tone: 'navy',
     peek: 'top',
     show: 0.6,
+    href: '/features/alerts',
   },
   {
     // FAV-001, FAV-009
@@ -67,6 +72,7 @@ const customerTiles = [
     tone: 'pink',
     peek: 'bottom',
     show: 0.5,
+    href: '/features/favourites',
   },
   {
     // MAP-001, MAP-010, MAP-012
@@ -77,6 +83,7 @@ const customerTiles = [
     tone: 'navy',
     peek: 'bottom',
     show: 0.55,
+    href: '/features/map',
   },
 ] as const;
 
@@ -169,7 +176,8 @@ const playStore = {
               <div class={`text-center md:text-left ${i % 2 ? 'md:order-2' : ''}`}>
                 <span class="badge badge-lg border-0 bg-[#0b1d3a] text-white mb-3">{r.badge}</span>
                 <h3 class="font-display text-3xl sm:text-4xl font-bold mb-3">{r.title}</h3>
-                <p class="text-lg text-base-content/70">{r.line}</p>
+                <p class="text-lg text-base-content/70 mb-4">{r.line}</p>
+                <a href={r.href} class="font-semibold text-[#0b1d3a] underline decoration-[#ff5a8a] decoration-2 underline-offset-4 hover:text-[#ff5a8a]">{r.more} →</a>
               </div>
               <PicturePanel tone={r.tone} from="bottom">
                 {'card' in r ? <ScreenCard peek src={r.img} alt={r.alt} /> : <Phone peek="top" show={0.56} src={r.img} alt={r.alt} class="w-60" />}
@@ -211,7 +219,7 @@ const playStore = {
             <PicturePanel tone={t.tone} from={t.peek === 'top' ? 'bottom' : 'top'} class="mb-5">
               <Phone peek={t.peek} show={t.show} src={t.img} alt={t.alt} class="w-56 sm:w-48 lg:w-56" />
             </PicturePanel>
-            <h3 class="font-display text-2xl font-semibold mb-1">{t.title}</h3>
+            <h3 class="font-display text-2xl font-semibold mb-1"><a href={t.href} class="hover:text-[#ff5a8a]">{t.title} →</a></h3>
             <p class="text-base-content/70">{t.line}</p>
           </li>
         ))}
