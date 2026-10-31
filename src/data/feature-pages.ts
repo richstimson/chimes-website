@@ -34,7 +34,7 @@ export const featurePages: FeaturePage[] = [
     audience: 'vendors',
     name: 'Free listing',
     // VRG-001, VRG-007
-    headline: 'Free to be found, all year',
+    headline: 'Free to be found',
     line: 'Put your van or shop on the Chimes map in minutes. It costs nothing.',
     description:
       'Put your ice cream van or shop on the Chimes map for free: what you sell, your town and your links. Sign up on iPhone with your email and a code.',
@@ -62,7 +62,8 @@ export const featurePages: FeaturePage[] = [
     name: 'Live van tracking',
     // MAP-003
     headline: 'Customers watch your van come down the road',
-    line: 'Share your location and your van moves on their map. Customers in the area get a chime as you arrive.',
+    // VDM-001, VDM-005: every live-tracking vendor starts in demo mode (about hourly).
+    line: "Start free in demo mode, then go fully live: your van moves on customers' maps and they get a chime as you arrive.",
     description:
       'Live van tracking for ice cream vans: share your location from your iPhone and customers see your van move on the Chimes map and get an alert when you arrive.',
     bullets: [
@@ -110,10 +111,10 @@ export const featurePages: FeaturePage[] = [
     audience: 'customers',
     name: 'The map',
     // MAP-001
-    headline: 'Every ice cream van and shop near you',
-    line: "Live vans move on the map. Shops and vans not on Chimes yet are there too.",
+    headline: 'Ice cream vans and shops near you',
+    line: "Live vans show where they are now. Shops and vans not on Chimes yet are there too.",
     description:
-      'The Chimes map shows ice cream vans and shops near you, with live vans moving in real time. Tap one for what they sell and how to reach them.',
+      'The Chimes map shows ice cream vans and shops near you, with live vans where they are now. Tap one for what they sell and how to reach them.',
     bullets: [
       { text: 'Live vans show where they are now, with their own picture.', ids: ['MAP-003', 'MAP-004'] },
       { text: 'Tap a van or shop for what they sell and how to reach them.', ids: ['MAP-010', 'MAP-011', 'MAP-012', 'VMN-012'] },

@@ -32,15 +32,17 @@ const homeOf = (f: Feature) => {
   return pages.find((p) => p.audience === audienceOf(f)) ?? pages[0];
 };
 
-const platformNote = (p: string) =>
-  p === 'ios' ? 'iPhone and iPad' : p === 'android' ? 'Android' : '';
+// The feed says only "ios"; vendor features are on iPhone.
+const platformNote = (p: string) => (p === 'ios' ? 'iPhone' : p === 'android' ? 'Android' : '');
 
 const sections = (['vendors', 'customers'] as const).map((audience) => {
   const mine = features.filter((f) => audienceOf(f) === audience);
   const groups = featurePages
     .filter((p) => p.audience === audience)
     .map((p) => ({ heading: p.name, href: `/features/${p.slug}`, items: mine.filter((f) => homeOf(f) === p) }));
-  const rest = mine.filter((f) => !homeOf(f));
+  // Not "no page at all": a story whose only page is the other audience's
+  // would otherwise be listed nowhere.
+  const rest = mine.filter((f) => !groups.some((g) => g.items.includes(f)));
   if (rest.length) groups.push({ heading: 'More', href: '', items: rest });
   return {
     audience,
