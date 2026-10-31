@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import StoreBadges from '../components/home/StoreBadges.astro';
 import Layout from '../layouts/Layout.astro';
 
 // "Register your business" on the web: the app's Register your business screen
@@ -28,7 +29,6 @@ const options = [
   },
 ] as const;
 
-const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
 const inputClass = 'input w-full min-h-[52px] text-base';
 ---
 
@@ -133,8 +133,8 @@ const inputClass = 'input w-full min-h-[52px] text-base';
           Chimes tracks your van through your iPhone. If you'd like to use an Android phone or a
           dedicated GPS tracker, <a href="/#contact" class="underline underline-offset-4 hover:text-ink">get in touch</a>.
         </p>
-        <div class="flex flex-wrap gap-3 pt-1">
-          <a href={appStoreHref} target="_blank" rel="noopener noreferrer" class="ch-btn ch-btn-secondary">Get Chimes on iPhone</a>
+        <div class="flex flex-wrap items-center gap-3 pt-1">
+          <StoreBadges android={false} />
           <a href="/#contact" class="ch-btn ch-btn-secondary">Ask us a question</a>
         </div>
       </div>
