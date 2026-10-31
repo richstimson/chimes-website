@@ -40,14 +40,14 @@ const panelFrom = page.panel.kind === 'card' || page.panel.peek === 'top' ? 'bot
 <Layout title={`${page.name}: ${page.headline} - Chimes!`} description={page.description}>
   <Header />
   <main class="text-base-content">
-    <section class="bg-night text-white overflow-hidden">
+    <section class="bg-cream text-ink overflow-hidden">
       <div class="container mx-auto max-w-6xl px-5 pt-10 sm:pt-16 grid lg:grid-cols-2 gap-10 items-end">
         <div class="text-center lg:text-left lg:pb-28">
-          <p class="uppercase tracking-widest text-sm text-wafer font-semibold mb-3">
-            <a href="/features" class="hover:text-white">Features</a> · {vendor ? 'For ice cream vans' : 'For customers'}
+          <p class="uppercase tracking-widest text-sm text-berry-700 font-semibold mb-3">
+            <a href="/features" class="hover:text-night">Features</a> · {vendor ? 'For ice cream vans' : 'For customers'}
           </p>
           <h1 class="font-display text-5xl sm:text-6xl font-bold leading-[1.05] mb-5">{page.headline}</h1>
-          <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-md mx-auto lg:mx-0">{page.line}</p>
+          <p class="text-lg sm:text-xl text-base-content/75 mb-8 max-w-md mx-auto lg:mx-0">{page.line}</p>
           <a href="#get-started" class="btn btn-lg border-0 bg-berry-500 hover:bg-berry-700 text-white">
             {vendor ? 'Put my van on Chimes' : 'Get the app'}
           </a>
