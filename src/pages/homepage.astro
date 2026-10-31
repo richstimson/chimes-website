@@ -27,8 +27,8 @@ const vendorRows = [
   {
     // VRG-001, VRG-007, VMN-011, MAP-012
     badge: 'Free',
-    title: 'Free to be found, all year',
-    line: 'A pin in your area with what you sell, your WhatsApp and socials. Customers contact you directly.',
+    title: 'Free to be found',
+    line: 'A pin in your area with what you sell, your town and your links. Customers contact you directly.',
     img: '/images/app/20-register-business.webp',
     alt: 'Register your business: Free listing or Live van tracking',
     tone: 'navy',
@@ -70,7 +70,7 @@ const customerTiles = [
   },
   {
     // MAP-001, MAP-010, MAP-012
-    title: 'Every van and shop nearby',
+    title: 'Vans and shops nearby',
     line: 'Even ones not on Chimes yet.',
     img: '/images/app/16-favourite-vendor-card.webp',
     alt: "Ice cream vans and shops on the Chimes map, with Mr Frosty's card open",
@@ -94,7 +94,7 @@ const playStore = {
 
 <Layout
   title="Chimes! Your customers hear you coming"
-  description="Chimes tells your customers when your ice cream van comes into their area. Free to get on the map. For customers: never miss the van."
+  description="Chimes tells your customers when your ice cream van comes into their area. Free to get on the map. For customers: know when the van is in your area."
   noindex
 >
   <Header />
@@ -185,8 +185,8 @@ const playStore = {
         <div class="rounded-3xl bg-[#0b1d3a] text-white p-8 sm:p-12 text-center">
           <h2 class="font-display text-4xl sm:text-5xl font-bold mb-6">Get your van on Chimes</h2>
           <ul class="text-left max-w-md mx-auto space-y-3 text-lg mb-8">
-            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Free listing</strong>: your pin on the map, all year.</span></li>
-            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Live van tracking</strong>: start with a free trial on your own van and phone.</span></li>
+            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Free listing</strong>: your pin on the map, with what you sell.</span></li>
+            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Live van tracking</strong>: start free in demo mode, updated about once an hour, on your own van and phone. The Chimes team then switches you to fully live.</span></li>
             <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span>Sign in with a code we email you. No password.</span></li>
           </ul>
           <p class="text-slate-300 mb-6">Get Chimes on your iPhone, then Settings → Register your business.</p>
@@ -204,7 +204,7 @@ const playStore = {
     <section id="customers" class="bg-doodle">
      <div class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
       <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Looking for ice cream?</p>
-      <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-12">Never miss the van.</h2>
+      <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-12">Know when the van's coming.</h2>
       <ul class="grid gap-12 sm:grid-cols-3 sm:gap-6">
         {customerTiles.map((t) => (
           <li class="text-center">
