@@ -136,86 +136,53 @@ if ($mailResult) {
     error_log("Vendor interest: Notification email sent successfully to: " . $to);
     
     // Now send welcome email to the vendor
-    $welcomeSubject = 'Welcome to Chimes! 🍦 Let\'s get your ice cream business on the map!';
+    // Kept short on purpose (owner, 2026-10-31): an intro, then steer the
+    // vendor to the app or /register. Images are JPEG, not WebP, for Outlook.
+    $welcomeSubject = 'Welcome to Chimes! 🍦 Get your van on the map';
     $welcomeBody = "
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Welcome to Chimes!</title>
 </head>
-<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto;'>
-    <div style='background: linear-gradient(135deg, #2563eb, #7c3aed); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;'>
-        <h1 style='margin: 0; font-size: 28px;'>🍦 Welcome to Chimes!</h1>
-        <p style='margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;'>Let's get your ice cream business on the map!</p>
-    </div>
-    
-    <div style='padding: 30px; background: white; border: 1px solid #e5e7eb; border-top: none;'>
-        <p style='font-size: 16px; margin-bottom: 20px;'>Dear Ice Cream Vendor,</p>
-        
-        <p>Thank you for registering your interest in Chimes! We're excited to help you connect with more customers and grow your ice cream business.</p>
-        
-        <div style='background: #f8fafc; padding: 20px; border-radius: 8px; margin: 25px 0;'>
-            <h2 style='color: #2563eb; margin-top: 0;'>What is Chimes?</h2>
-            <p>Chimes is a revolutionary app that helps ice cream lovers find their favourite vans in real-time. When customers are craving ice cream, they open Chimes to see which vans are operating nearby and get notifications when their favourites are in the area.</p>
-        </div>
-        
-        <h2 style='color: #2563eb;'>How Chimes Benefits Your Business</h2>
-        <div style='background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 15px 0;'>
-            <ul style='padding-left: 20px;'>
-                <li style='margin-bottom: 8px;'><strong>🔔 Advance Notifications</strong> - Customers are notified on their phone with an ice cream chime tone when you enter their area.</li>
-                <li style='margin-bottom: 8px;'><strong>📶 Extended Reach</strong> - Many potential customers are out of range of your van chimes or may not have time to dash out when you arrive unexpectedly.</li>
-                <li style='margin-bottom: 8px;'><strong>🛒 Pre-Orders Ready</strong> - When customers know in advance that you're on the way, they'll have a family-sized order ready by the time you arrive at their location.</li>
-                <li style='margin-bottom: 8px;'><strong>🗺️ Interactive Tracking</strong> - Customers can follow you on the interactive map and if they're in need of ice cream, they will come and find you.</li>
-                <li style='margin-bottom: 0;'><strong>📈 Increased Sales & Loyalty</strong> - More advance notice and extended reach means more customers, bigger orders, more revenue!</li>
-            </ul>
-        </div>
-        
-        <h2 style='color: #2563eb;'>How does it work?</h2>
-        <div style='background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 15px 0;'>
-            <p style='margin-bottom: 15px;'>Chimes is like Uber for ice cream vans - simple and effective location sharing that connects you with customers.</p>
-            <ul style='padding-left: 20px;'>
-                <li style='margin-bottom: 8px;'><strong>📱 Your Phone Does Everything</strong> - Your smartphone sends regular location updates automatically when you're operating, no additional equipment or GPS trackers required.</li>
-                <li style='margin-bottom: 8px;'><strong>🎯 Smart Notifications</strong> - Your location updates trigger notifications to your customers when you enter their notification zone, alerting them that you're nearby.</li>
-                <li style='margin-bottom: 8px;'><strong>🗺️ Live Map Display</strong> - Your position appears on the interactive map on customers' phones, so they can see exactly where you are and track your movement.</li>
-                <li style='margin-bottom: 8px;'><strong>🔒 Vendor Privacy</strong> - Only show your location when you want to - you are in complete control of when customers can see where you are.</li>
-                <li style='margin-bottom: 0;'><strong>⚡ Simple Setup</strong> - Just download the Chimes app, let us know that you are ready to get started, and we will enable location tracking - no complicated installation or technical knowledge needed.</li>
-            </ul>
-        </div>
-        
-        <div style='background: #dbeafe; padding: 20px; border-radius: 8px; margin: 25px 0; text-align: center;'>
-            <h2 style='color: #1d4ed8; margin-top: 0;'>Ready to Get Started for Free?</h2>
-            <p>Complete your vendor profile to join our growing network:</p>
-            <a href='https://chimesapp.com/register' style='display: inline-block; background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 10px 0;'>Get Started Here →</a>
-        </div>
-        
-        <div style='background: #ecfdf5; padding: 20px; border-radius: 8px; margin: 25px 0;'>
-            <h3 style='color: #059669; margin-top: 0;'>Questions? Let's Chat!</h3>
-            <p>Our team is here to help! If you'd like to discuss how Chimes can work for your business:</p>
-            <p><strong>📱 WhatsApp the Chimes Team:</strong> <a href='https://wa.me/447812352262' style='color: #059669;'>07812 352262</a>, email us at <a href='mailto:chimesapp@just-iot.com' style='color: #059669;'>chimesapp@just-iot.com</a> or contact us via the message button on our <a href='https://facebook.com/chimesapp' style='color: #059669;'>Facebook page</a>.</p>
-            <p style='font-size: 14px; color: #6b7280; margin-top: 15px;'><strong>Note:</strong> Please don't reply to this email.</p>
-        </div>
-        
-        <h3 style='color: #2563eb;'>What Happens Next?</h3>
-        <ol style='padding-left: 20px;'>
-            <li>Complete the vendor registration form <a href='https://chimesapp.com/register' style='color: #2563eb;'>here</a></li>
-            <li>We'll review your application and get back to you within 24 hours</li>
-            <li>We'll help you set up your profile and show you how to use the app</li>
-            <li>Start getting discovered by ice cream lovers in your area!</li>
-        </ol>
-        
-        <p style='margin-top: 20px;'><strong>Remember that it's completely free to get started, and will remain free until you are completely happy with the app and ready to start growing your customer base.</strong></p>
-        
-        <div style='border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 30px; text-align: center; color: #6b7280; font-size: 14px;'>
-            <p><strong>Welcome to the Chimes family!</strong> We're looking forward to helping you reach more customers and grow your business.</p>
-            <p style='margin-top: 20px;'>Sweet regards,<br><strong>The Chimes Team 🍦</strong></p>
-        </div>
-    </div>
-    
-    <div style='background: #f9fafb; padding: 20px; text-align: center; border-radius: 0 0 10px 10px; border: 1px solid #e5e7eb; border-top: none; font-size: 12px; color: #6b7280;'>
-        <p style='margin: 0;'><strong>Chimes - Connecting Ice Cream Lovers with Their Favourite Vans</strong></p>
-        <p style='margin: 5px 0;'>Web: <a href='https://chimesapp.com' style='color: #2563eb;'>chimesapp.com</a> | WhatsApp: 07812 352262 | Email: chimesapp@just-iot.com</p>
-        <p style='margin: 10px 0 0 0; font-style: italic;'>P.S. Don't forget to tell your fellow ice cream vendors about Chimes!</p>
-    </div>
+<body style='margin: 0; padding: 0; background: #ffffff;'>
+<table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0' style='background: #ffffff;'>
+<tr><td align='center' style='padding: 24px 16px;'>
+<table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0' style='max-width: 560px; font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.5; color: #1f2937;'>
+    <tr><td>
+        <h1 style='margin: 0 0 12px 0; font-size: 24px; line-height: 1.25; color: #a3173f;'>Thanks for your interest in Chimes 🍦</h1>
+        <p style='margin: 0 0 20px 0;'>Chimes puts your van on a map that local customers can see, and sends them a chime on their phone when you're nearby. Getting started is free.</p>
+
+        <p style='margin: 0 0 8px 0; font-weight: bold;'>1. Download Chimes on your iPhone</p>
+        <p style='margin: 0 0 20px 0;'><a href='https://apps.apple.com/gb/app/chimes/id6738628000' style='display: inline-block; background: #c81e54; color: #ffffff; padding: 12px 22px; border-radius: 999px; font-weight: bold; text-decoration: none;'>Get Chimes on the App Store</a></p>
+
+        <p style='margin: 0 0 8px 0; font-weight: bold;'>2. Register your business</p>
+        <p style='margin: 0 0 20px 0;'>In Chimes, tap the orange settings button, then <strong>Register your business</strong>. Or <a href='https://chimesapp.com/register' style='color: #a3173f;'>register on our website</a> and we'll set you up.</p>
+    </td></tr>
+    <tr><td>
+        <table role='presentation' width='100%' cellpadding='0' cellspacing='0' border='0'>
+        <tr>
+            <td width='50%' valign='top' align='center' style='padding: 0 6px 0 0; font-size: 13px; color: #6b7280;'>
+                <img src='https://chimesapp.com/images/email/customer-view.jpg' width='240' alt='Chimes map showing a vendor card with Live status, WhatsApp and Call buttons' style='display: block; width: 100%; max-width: 240px; height: auto; border: 1px solid #e5e7eb; border-radius: 12px;'>
+                <p style='margin: 6px 0 0 0;'>What customers see</p>
+            </td>
+            <td width='50%' valign='top' align='center' style='padding: 0 0 0 6px; font-size: 13px; color: #6b7280;'>
+                <img src='https://chimesapp.com/images/email/register-in-app.jpg' width='240' alt='The Register your business screen in the Chimes app' style='display: block; width: 100%; max-width: 240px; height: auto; border: 1px solid #e5e7eb; border-radius: 12px;'>
+                <p style='margin: 6px 0 0 0;'>Register your business in the app</p>
+            </td>
+        </tr>
+        </table>
+    </td></tr>
+    <tr><td style='padding-top: 24px;'>
+        <p style='margin: 0 0 16px 0;'>Questions? WhatsApp us on <a href='https://wa.me/447812352262' style='color: #a3173f;'>07812 352262</a> or email <a href='mailto:chimesapp@just-iot.com' style='color: #a3173f;'>chimesapp@just-iot.com</a>.</p>
+        <p style='margin: 0 0 24px 0;'>The Chimes Team</p>
+        <p style='margin: 0; font-size: 12px; color: #6b7280;'>You're getting this because you entered this address at <a href='https://chimesapp.com' style='color: #6b7280;'>chimesapp.com</a>. Please don't reply to this email.</p>
+    </td></tr>
+</table>
+</td></tr>
+</table>
 </body>
 </html>
 ";
