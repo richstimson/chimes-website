@@ -217,25 +217,27 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
             <span class="ch-step-badge">1</span>
             <h3 class="text-xl font-bold"><a href="/features/alerts" class="hover:text-logo-blue">Pick your area</a></h3>
             <p class="text-ink-muted-blue">A postcode and a radius.</p>
-            <PicturePanel tone="blue" from="bottom" class="mt-auto h-[260px]">
-              <Phone peek="top" show={0.5} src="/images/app/01-map-geofence.webp" alt="The Chimes map with a blue circle around the Isle of Wight" class="w-52" />
+            <PicturePanel tone="blue" from="bottom" class="mt-auto h-[300px]">
+              <!-- Postcode box and a 1 km circle, no vendor card (owner, 2026-10-31). -->
+              <Phone peek="top" show={0.68} src="/images/app/23-map-area-1km.webp" alt="The Chimes map with the postcode box set to PO30 and 1 km, and a blue 1 km circle" class="w-44" />
             </PicturePanel>
           </li>
           <li class="ch-card flex flex-col gap-3">
             <span class="ch-step-badge">2</span>
             <h3 class="text-xl font-bold"><a href="/features/alerts" class="hover:text-logo-blue">A van comes near, your phone chimes</a></h3>
             <p class="text-ink-muted-blue">With the van's name and what they sell, app open or not.</p>
-            <PicturePanel tone="blue" class="mt-auto h-[260px] flex-col gap-3">
+            <PicturePanel tone="blue" class="mt-auto h-[300px] flex-col gap-3">
+              <!-- iOS alert only: the Android one was dropped (owner, 2026-10-31). -->
               <img src="/images/app/notification-ios.webp" alt="A Chimes alert on iPhone: Michele's Ices, The Best on the Island!" width="900" height="152" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-md -rotate-2" />
-              <img src="/images/app/notification-android.webp" alt="A Chimes alert on Android" width="900" height="279" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-md rotate-1" />
             </PicturePanel>
           </li>
           <li class="ch-card flex flex-col gap-3">
             <span class="ch-step-badge">3</span>
-            <h3 class="text-xl font-bold"><a href="/features/map" class="hover:text-logo-blue">Go and find it</a></h3>
-            <p class="text-ink-muted-blue">Watch it on the map, then Navigate, WhatsApp or Call.</p>
-            <PicturePanel tone="blue" from="top" class="mt-auto h-[260px]">
-              <Phone peek="bottom" show={0.5} src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons" class="w-52" />
+            <h3 class="text-xl font-bold"><a href="/features/map" class="hover:text-logo-blue">Go get your ice cream!</a></h3>
+            <p class="text-ink-muted-blue">Tap the van for directions, plus its Facebook, Instagram, website and email.</p>
+            <PicturePanel tone="blue" from="top" class="mt-auto h-[300px]">
+              <!-- Captured from the pre-cleared review van with links and a title added for the shot, then restored. -->
+              <Phone peek="bottom" show={0.58} src="/images/app/24-vendor-card-socials.webp" alt="A van's card on the Chimes map, Live, with Facebook, Instagram, website and email buttons, and Navigate" class="w-52" />
             </PicturePanel>
           </li>
         </ol>
