@@ -6,6 +6,7 @@ import HeroCluster from '../components/home/HeroCluster.astro';
 import MapAlert from '../components/home/MapAlert.astro';
 import Phone from '../components/home/Phone.astro';
 import PicturePanel from '../components/home/PicturePanel.astro';
+import Pricing from '../components/home/Pricing.astro';
 import ScreenCard from '../components/home/ScreenCard.astro';
 import StoreBadges from '../components/home/StoreBadges.astro';
 import Layout from '../layouts/Layout.astro';
@@ -28,20 +29,13 @@ const vendorTicks = [
   // VDM-001, VDM-005, MAP-003 (every live-tracking vendor starts in demo mode)
   { term: 'Live van tracking', text: 'start free in demo mode, then the Chimes team switches you to fully live. Customers follow your van, marked Live.', href: '/features/live-van-tracking' },
   // VLT-003, ALR-008, ALR-014. Not "leaves the map": an Offline van can still show, faded (MAP-013).
-  { term: 'Your call', text: 'tap Stop Sharing and customers stop seeing where you are. Other vans never see you.', href: '/features/live-van-tracking' },
+  // Auto-hide wording: owner, 2026-10-31.
+  { term: 'Your call', text: 'tap Stop Sharing or use our auto-hide features and customers stop seeing where you are.', href: '/features/live-van-tracking' },
 ];
 
+// The app's features for customers (#features, the header's "Features" link).
 // peek: which end of the screen carries the point (bottom sheets show the bottom).
-const customerCards = [
-  {
-    // ALR-001, ALR-003, ALR-006
-    title: 'Pick your area',
-    line: 'A postcode and a radius. A chime when a van comes in.',
-    img: '/images/app/01-map-geofence.webp',
-    alt: 'The Chimes map with a blue circle around the Isle of Wight',
-    peek: 'top',
-    href: '/features/alerts',
-  },
+const featureCards = [
   {
     // FAV-001, FAV-009
     title: 'Keep your favourites',
@@ -52,13 +46,30 @@ const customerCards = [
     href: '/features/favourites',
   },
   {
-    // MAP-001, MAP-010, MAP-012
+    // MAP-010, MAP-011, MAP-012
+    title: 'A card for every van',
+    line: 'Tap a pin to see who it is and what they sell.',
+    img: '/images/app/16-favourite-vendor-card.webp',
+    alt: "Mr Frosty's card on the Chimes map: mobile caterer, Isle of Wight",
+    peek: 'bottom',
+    href: '/features/map',
+  },
+  {
+    // MAP-001, MAP-010
     title: 'Vans and shops nearby',
-    line: 'Even ones not on Chimes yet.',
-    // 16 (the Isle of Wight close-up) is the hero; this is the whole country.
+    line: 'Grouped by area. Even ones not on Chimes yet.',
     img: '/images/app/15-first-launch-map.webp',
     alt: 'The Chimes map of England with ice cream vans and shops grouped by area',
     peek: 'top',
+    href: '/features/map',
+  },
+  {
+    // MAP-015
+    title: 'Filter the map',
+    line: 'Just the Live vans, or just your favourites.',
+    img: '/images/app/13-vendor-filter.webp',
+    alt: 'The Chimes map filter: All, Chimes, Tracked, Live, Favourites',
+    peek: 'bottom',
     href: '/features/map',
   },
 ] as const;
@@ -73,7 +84,7 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
 >
   <!-- Header and hero share the sundae gradient. ALR-006, ALR-009, VMN-011. -->
   <div class="bg-hero">
-    <Header />
+    <Header home="/homepage/" />
     <section class="ch-container grid lg:grid-cols-2 gap-12 items-center pt-8 sm:pt-12 pb-14 sm:pb-24">
       <div class="flex flex-col items-start gap-5">
         <span class="ch-eyebrow-pill">For ice cream vans</span>
@@ -146,8 +157,8 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
 
     <!-- Vendor band. VRG-001, VRG-002, VRG-008, VDM-001; vendor features are iPhone only. -->
     <section id="vendors" class="ch-container pb-12 sm:pb-20">
-      <div id="features" class="ch-on-night bg-vendor-band rounded-panel px-6 py-10 sm:px-12 sm:py-14 grid gap-10 lg:grid-cols-2 items-center">
-        <div id="pricing" class="flex flex-col gap-4">
+      <div class="ch-on-night bg-vendor-band rounded-panel px-6 py-10 sm:px-12 sm:py-14 grid gap-10 lg:grid-cols-2 items-center">
+        <div class="flex flex-col gap-4">
           <h2 class="ch-h2 text-white">Get your van on Chimes</h2>
           <p class="text-[17px] text-on-night">Tell us about your business and we'll set you up within 24 hours.</p>
           <p class="text-[17px] text-on-night">Or do it yourself: get Chimes on your <a href={appStoreHref} target="_blank" rel="noopener noreferrer" class="underline decoration-candy decoration-2 underline-offset-4 hover:decoration-white">iPhone</a>, then Settings → Register your business. You sign in with a code we email you.</p>
@@ -167,16 +178,49 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
       </div>
     </section>
 
-    <!-- Customers. CUS-001, ONB-028 -->
+    <Pricing />
+
+    <!-- Customers. CUS-001, ONB-028. Steps: 1 ALR-001, ALR-003; 2 ALR-006, ALR-009; 3 MAP-003, MAP-011 -->
     <section id="customers" class="bg-customer ch-section">
       <div class="ch-container">
         <div class="max-w-[640px] mb-8 flex flex-col gap-2.5">
           <span class="ch-eyebrow-blue">Looking for ice cream?</span>
-          <h2 class="ch-h2">Know when the van's coming.</h2>
+          <h2 class="ch-h2">Get a chime when the van's nearby.</h2>
           <p class="text-lg leading-[1.55] text-ink-muted-blue">Free. No account. iPhone, iPad and Android.</p>
         </div>
-        <ul class="grid gap-5 md:grid-cols-3 mb-8">
-          {customerCards.map((c) => (
+        <ol class="grid gap-5 md:grid-cols-3 mb-12">
+          <li class="ch-card flex flex-col gap-3">
+            <span class="ch-step-badge">1</span>
+            <h3 class="text-xl font-bold"><a href="/features/alerts" class="hover:text-logo-blue">Pick your area</a></h3>
+            <p class="text-ink-muted-blue">A postcode and a radius.</p>
+            <PicturePanel tone="blue" from="bottom" class="mt-auto h-[260px]">
+              <Phone peek="top" show={0.5} src="/images/app/01-map-geofence.webp" alt="The Chimes map with a blue circle around the Isle of Wight" class="w-52" />
+            </PicturePanel>
+          </li>
+          <li class="ch-card flex flex-col gap-3">
+            <span class="ch-step-badge">2</span>
+            <h3 class="text-xl font-bold"><a href="/features/alerts" class="hover:text-logo-blue">A van comes near, your phone chimes</a></h3>
+            <p class="text-ink-muted-blue">With the van's name and what they sell, app open or not.</p>
+            <PicturePanel tone="blue" class="mt-auto h-[260px] flex-col gap-3">
+              <img src="/images/app/notification-ios.webp" alt="A Chimes alert on iPhone: Michele's Ices, The Best on the Island!" width="900" height="152" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-md -rotate-2" />
+              <img src="/images/app/notification-android.webp" alt="A Chimes alert on Android" width="900" height="279" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-md rotate-1" />
+            </PicturePanel>
+          </li>
+          <li class="ch-card flex flex-col gap-3">
+            <span class="ch-step-badge">3</span>
+            <h3 class="text-xl font-bold"><a href="/features/map" class="hover:text-logo-blue">Go and find it</a></h3>
+            <p class="text-ink-muted-blue">Watch it on the map, then Navigate, WhatsApp or Call.</p>
+            <PicturePanel tone="blue" from="top" class="mt-auto h-[260px]">
+              <Phone peek="bottom" show={0.5} src="/images/app/02-vendor-card.webp" alt="Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons" class="w-52" />
+            </PicturePanel>
+          </li>
+        </ol>
+
+        <div id="features" class="max-w-[640px] mb-8 flex flex-col gap-2.5 scroll-mt-6">
+          <h2 class="ch-h2">More in the app</h2>
+        </div>
+        <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          {featureCards.map((c) => (
             <li class="ch-card flex flex-col gap-3">
               <h3 class="text-xl font-bold"><a href={c.href} class="hover:text-logo-blue">{c.title}</a></h3>
               <p class="text-ink-muted-blue">{c.line}</p>
@@ -195,7 +239,7 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
 
     <ContactForm />
   </main>
-  <Footer />
+  <Footer home="/homepage/" />
 </Layout>
 
 <style>

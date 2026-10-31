@@ -1,15 +1,16 @@
 ---
 // Site footer (docs/design/CHIMES_DESIGN.md §6): night #0B1D3A, text #D6DEF0,
-// wordmark white.
+// wordmark white. `home`: as in Header.astro (the draft /homepage passes its path).
+const { home = '/' } = Astro.props as { home?: string };
 const product = [
-  { href: '/#features', label: 'Features' },
-  { href: '/#how-it-works', label: 'How it works' },
-  { href: '/#download', label: 'Download' },
-  { href: '/#pricing', label: 'Pricing' },
+  { href: `${home}#features`, label: 'Features' },
+  { href: `${home}#how-it-works`, label: 'How it works' },
+  { href: `${home}#download`, label: 'Download' },
+  { href: `${home}#pricing`, label: 'Pricing' },
   { href: '/blog/', label: 'Blog' },
 ];
 const support = [
-  { href: '/#contact', label: 'Contact us' },
+  { href: `${home}#contact`, label: 'Contact us' },
   { href: '/privacy', label: 'Privacy policy' },
 ];
 const linkClass = 'text-on-night hover:text-white underline-offset-4 hover:underline rounded focus-visible:outline-3 focus-visible:outline-white focus-visible:outline-offset-2';
