@@ -1,0 +1,20 @@
+---
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import Layout from '../../layouts/Layout.astro';
+
+// Where send-vendor-email.php sends a register form that was posted without
+// JavaScript. With JavaScript the result shows inline on /register.
+---
+
+<Layout title="Thanks - Chimes" description="We've got your details." noindex>
+  <div class="bg-hero">
+    <Header />
+    <section class="ch-container pt-8 sm:pt-12 pb-14 sm:pb-24 max-w-[760px] flex flex-col items-start gap-5">
+      <h1 class="ch-h1 text-ink">Thanks, we've got your details</h1>
+      <p class="text-lg leading-[1.55] text-ink-muted-pink">We'll get back to you within 24 hours.</p>
+      <a href="/" class="ch-btn ch-btn-secondary">Back to Chimes</a>
+    </section>
+  </div>
+  <Footer />
+</Layout>
