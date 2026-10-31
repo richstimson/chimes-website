@@ -35,14 +35,14 @@ so you can see who serves your area and how to get in touch.
   and how to contact them.
 - **Keep your favourites.** Save the vans you love so they're easy to find again.
 
-There's no account to set up. Chimes is free on **iPhone** and **Android**.
+There's no account to set up. Chimes is free on **iPhone**, **iPad** and **Android**.
 
 ## For vans and mobile vendors
 
 If you run an ice cream van or a mobile food business, there are two ways to be on Chimes:
 
-- **A free listing.** A pin on the map in your area, all year round, with your menu, WhatsApp
-  and socials. There's no location tracking.
+- **A free listing.** A pin on the map in your area, all year round, with your phone number,
+  WhatsApp and socials. There's no location tracking.
 - **Live van tracking (free trial).** Share your location while you're working. Customers watch
   you move on the map, and get a chime on their phone as you arrive. You choose when sharing
   is on.
