@@ -110,17 +110,17 @@ const playStore = {
     <!-- Hero: the vendor promise, shown from the customer's phone. ALR-006, ALR-009, VMN-011.
          Not a lock screen (owner, 2026-10-31): the map carries clusters, single
          vans and a favourite's card, with the alert floating over it. -->
-    <section class="bg-[#0b1d3a] text-white overflow-hidden">
+    <section class="bg-night text-white overflow-hidden">
       <div class="container mx-auto max-w-6xl px-5 pt-12 sm:pt-20 grid lg:grid-cols-2 gap-10 items-end">
         <div class="text-center lg:text-left lg:pb-28">
           <!-- The name, then the brand line (owner, 2026-10-31); the vendor promise follows. -->
           <h1 class="font-display text-5xl sm:text-7xl font-bold leading-[1.02] mb-5"><span class="wordmark text-[1.15em]">Chimes:</span> the ice cream van on your phone.</h1>
-          <p class="font-display text-2xl sm:text-3xl font-semibold text-[#ff5a8a] mb-3">Your customers hear you coming.</p>
+          <p class="font-display text-2xl sm:text-3xl font-semibold text-berry-300 mb-3">Your customers hear you coming.</p>
           <p class="text-lg sm:text-xl text-slate-300 mb-8 max-w-md mx-auto lg:mx-0">
             Drive into their area and they get a chime with your name. You don't send a thing.
           </p>
           <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
-            <a href="#vendors" class="btn btn-lg border-0 bg-[#ff5a8a] hover:bg-[#ff3f77] text-white">Put my van on Chimes</a>
+            <a href="#vendors" class="btn btn-lg border-0 bg-berry-500 hover:bg-berry-700 text-white">Put my van on Chimes</a>
             <a href="#customers" class="btn btn-lg btn-outline text-white border-white/40 hover:bg-white/10 hover:border-white">Get the app</a>
           </div>
         </div>
@@ -139,7 +139,7 @@ const playStore = {
         <p class="text-center text-lg text-base-content/70 mb-12 max-w-xl mx-auto">No posts, no messages to send. Customers pick their own area and Chimes tells them when you arrive.</p>
         <ol class="grid gap-12 md:grid-cols-3 md:gap-6">
           <li class="text-center flex flex-col">
-            <span class="inline-flex self-center w-10 h-10 rounded-full bg-[#0b1d3a] text-white font-bold items-center justify-center mb-3">1</span>
+            <span class="inline-flex self-center w-10 h-10 rounded-full bg-night text-white font-bold items-center justify-center mb-3">1</span>
             <h3 class="font-display text-2xl font-semibold">Tap Share Location</h3>
             <p class="text-base-content/70 mb-6">Then lock your phone and drive.</p>
             <PicturePanel tone="pink" from="bottom" class="mt-auto md:h-[330px]">
@@ -147,7 +147,7 @@ const playStore = {
             </PicturePanel>
           </li>
           <li class="text-center flex flex-col">
-            <span class="inline-flex self-center w-10 h-10 rounded-full bg-[#0b1d3a] text-white font-bold items-center justify-center mb-3">2</span>
+            <span class="inline-flex self-center w-10 h-10 rounded-full bg-night text-white font-bold items-center justify-center mb-3">2</span>
             <h3 class="font-display text-2xl font-semibold">Customers see you coming</h3>
             <p class="text-base-content/70 mb-6">Your van moves on their map, marked Live.</p>
             <PicturePanel tone="navy" from="top" class="mt-auto md:h-[330px]">
@@ -155,13 +155,13 @@ const playStore = {
             </PicturePanel>
           </li>
           <li class="text-center flex flex-col">
-            <span class="inline-flex self-center w-10 h-10 rounded-full bg-[#ff5a8a] text-white font-bold items-center justify-center mb-3">3</span>
+            <span class="inline-flex self-center w-10 h-10 rounded-full bg-berry-500 text-white font-bold items-center justify-center mb-3">3</span>
             <h3 class="font-display text-2xl font-semibold">They get a chime</h3>
             <p class="text-base-content/70 mb-6">Your name and what you sell, once per visit, app open or not.</p>
             <PicturePanel tone="pink" class="mt-auto flex-col gap-4 md:h-[330px]">
               <img src="/images/app/notification-ios.webp" alt="A Chimes alert on iPhone: Michele's Ices, The Best on the Island!" width="900" height="152" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-lg -rotate-2" />
               <img src="/images/app/notification-android.webp" alt="A Chimes alert on Android" width="900" height="279" loading="lazy" class="w-full max-w-xs rounded-2xl shadow-lg rotate-1" />
-              <p class="font-display text-xl text-white pt-2">The van's here. Your phone knew first.</p>
+              <p class="font-display text-xl text-night pt-2">The van's here. Your phone knew first.</p>
               <Sticker kind="note" class="-top-1 -right-1 rotate-12 scale-75" />
             </PicturePanel>
           </li>
@@ -170,18 +170,18 @@ const playStore = {
     </section>
 
     <!-- Vendors -->
-    <section id="vendors" class="bg-[#fff7ec]">
+    <section id="vendors" class="bg-cream">
       <div id="features" class="container mx-auto max-w-5xl px-5 py-16 sm:py-24">
-        <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Your van, your rules</p>
+        <p class="uppercase tracking-widest text-sm text-berry-700 font-semibold text-center mb-3">Your van, your rules</p>
         <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-14">Built for the round</h2>
         <div class="space-y-16 sm:space-y-20">
           {vendorRows.map((r, i) => (
             <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
               <div class={`text-center md:text-left ${i % 2 ? 'md:order-2' : ''}`}>
-                <span class="badge badge-lg border-0 bg-[#0b1d3a] text-white mb-3">{r.badge}</span>
+                <span class="badge badge-lg border-0 bg-night text-white mb-3">{r.badge}</span>
                 <h3 class="font-display text-3xl sm:text-4xl font-bold mb-3">{r.title}</h3>
                 <p class="text-lg text-base-content/70 mb-4">{r.line}</p>
-                <a href={r.href} class="font-semibold text-[#0b1d3a] underline decoration-[#ff5a8a] decoration-2 underline-offset-4 hover:text-[#ff5a8a]">{r.more} →</a>
+                <a href={r.href} class="font-semibold text-night underline decoration-berry-500 decoration-2 underline-offset-4 hover:text-berry-700">{r.more} →</a>
               </div>
               <PicturePanel tone={r.tone} from="bottom">
                 {'card' in r ? <ScreenCard peek src={r.img} alt={r.alt} /> : <Phone peek="top" show={0.56} src={r.img} alt={r.alt} class="w-60" />}
@@ -194,12 +194,12 @@ const playStore = {
 
       <!-- Get started. VRG-001, VRG-002, VRG-008, VDM-001; vendor features are iPhone only -->
       <div id="pricing" class="container mx-auto max-w-3xl px-5 pb-20">
-        <div class="rounded-3xl bg-[#0b1d3a] text-white p-8 sm:p-12 text-center">
+        <div class="rounded-3xl bg-night text-white p-8 sm:p-12 text-center">
           <h2 class="font-display text-4xl sm:text-5xl font-bold mb-6">Get your van on Chimes</h2>
           <ul class="text-left max-w-md mx-auto space-y-3 text-lg mb-8">
-            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Free listing</strong>: your pin on the map, with what you sell.</span></li>
-            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span><strong>Live van tracking</strong>: start free in demo mode, updated about once an hour, on your own van and phone. The Chimes team then switches you to fully live.</span></li>
-            <li class="flex gap-3"><span class="text-[#ff5a8a] font-bold">✓</span><span>Sign in with a code we email you. No password.</span></li>
+            <li class="flex gap-3"><span class="text-berry-300 font-bold">✓</span><span><strong>Free listing</strong>: your pin on the map, with what you sell.</span></li>
+            <li class="flex gap-3"><span class="text-berry-300 font-bold">✓</span><span><strong>Live van tracking</strong>: start free in demo mode, updated about once an hour, on your own van and phone. The Chimes team then switches you to fully live.</span></li>
+            <li class="flex gap-3"><span class="text-berry-300 font-bold">✓</span><span>Sign in with a code we email you. No password.</span></li>
           </ul>
           <p class="text-slate-300 mb-6">Get Chimes on your iPhone, then Settings → Register your business.</p>
           <div class="flex flex-wrap justify-center items-center gap-4">
@@ -215,7 +215,7 @@ const playStore = {
     <!-- Customers. CUS-001, ONB-028 -->
     <section id="customers" class="bg-doodle">
      <div class="container mx-auto max-w-6xl px-5 py-16 sm:py-24">
-      <p class="uppercase tracking-widest text-sm text-[#ff5a8a] font-semibold text-center mb-3">Looking for ice cream?</p>
+      <p class="uppercase tracking-widest text-sm text-berry-700 font-semibold text-center mb-3">Looking for ice cream?</p>
       <h2 class="font-display text-4xl sm:text-5xl font-bold text-center mb-12">Know when the van's coming.</h2>
       <ul class="grid gap-12 sm:grid-cols-3 sm:gap-6">
         {customerTiles.map((t) => (
@@ -223,7 +223,7 @@ const playStore = {
             <PicturePanel tone={t.tone} from={t.peek === 'top' ? 'bottom' : 'top'} class="mb-5">
               <Phone peek={t.peek} show={t.show} src={t.img} alt={t.alt} class="w-56 sm:w-48 lg:w-56" />
             </PicturePanel>
-            <h3 class="font-display text-2xl font-semibold mb-1"><a href={t.href} class="hover:text-[#ff5a8a]">{t.title} →</a></h3>
+            <h3 class="font-display text-2xl font-semibold mb-1"><a href={t.href} class="hover:text-berry-700">{t.title} →</a></h3>
             <p class="text-base-content/70">{t.line}</p>
           </li>
         ))}
