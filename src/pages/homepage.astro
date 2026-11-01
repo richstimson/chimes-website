@@ -76,6 +76,25 @@ const featureCards = [
   },
 ] as const;
 
+// "No vans near you yet?": customers recruiting vans.
+const growCards = [
+  {
+    title: 'Tell your local van',
+    line: "Next time you buy a 99, send them to chimesapp.com/register. A free listing takes minutes.",
+    href: '/register',
+  },
+  {
+    title: 'Tell us about a van',
+    line: "Send us its name and town and we'll get in touch with them.",
+    href: '#contact',
+  },
+  {
+    title: 'Share Chimes',
+    line: 'The more people nearby use Chimes, the more reason a van has to join. On iPhone: Settings → Share Chimes.',
+    href: '#download',
+  },
+] as const;
+
 const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
 ---
 
@@ -259,6 +278,22 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
             </li>
           ))}
         </ul>
+
+        <!-- Grow the Chimes network (old Features.astro, D15, owner 2026-11-01). Share Chimes is iPhone only
+             (AdvancedSettingsScreen hides it on Android). -->
+        <div id="grow" class="max-w-[640px] mt-14 mb-8 flex flex-col gap-2.5 scroll-mt-6">
+          <h2 class="ch-h2">No vans near you yet?</h2>
+          <p class="text-lg leading-[1.55] text-ink-muted-blue">Chimes is new. Help it grow where you live.</p>
+        </div>
+        <ul class="grid gap-5 md:grid-cols-3 mb-12">
+          {growCards.map((c) => (
+            <li class="ch-card flex flex-col gap-3">
+              <h3 class="text-xl font-bold"><a href={c.href} class="ch-heading-link">{c.title}</a></h3>
+              <p class="text-ink-muted-blue">{c.line}</p>
+            </li>
+          ))}
+        </ul>
+
         <div id="download" class="flex flex-wrap items-center gap-4">
           <StoreBadges />
           <a href="/features" class="ch-btn ch-btn-secondary-blue">See every feature</a>
