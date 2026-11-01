@@ -196,6 +196,24 @@
     font-weight: 700;
     font-size: 18px;
   }
+  /* A card heading that links to its feature page: blue, underlined, with an
+     arrow, so it reads as a link without hovering (owner, 2026-11-01). */
+  .ch-heading-link {
+    color: var(--color-logo-blue);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+    text-decoration-color: color-mix(in srgb, var(--color-logo-blue) 35%, transparent);
+  }
+  /* Inline (not inline-block) with a no-break space, so the arrow never wraps
+     onto a line of its own. */
+  .ch-heading-link::after {
+    content: "\00a0→";
+  }
+  .ch-heading-link:hover,
+  .ch-heading-link:focus-visible {
+    text-decoration-color: var(--color-logo-blue);
+  }
   /* (.eyebrow-pill): vendor eyebrow on the hero. */
   .ch-eyebrow-pill {
     display: inline-block;
