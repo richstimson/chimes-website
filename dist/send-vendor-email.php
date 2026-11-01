@@ -21,9 +21,45 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Get the JSON input
 $input = json_decode(file_get_contents('php://input'), true);
 
+// /register posts JSON when JavaScript runs, and a plain form post when it
+// doesn't. A plain post gets a redirect, not JSON.
+$wantsJson = is_array($input);
+
 if (!$input) {
     // Try form data instead
     $input = $_POST;
+}
+
+// Reply to the caller: JSON for scripts, a page for a plain form post.
+function respond($success, $message, $status = 200) {
+    global $wantsJson;
+    if (!$wantsJson) {
+        if ($success) {
+            header('Location: /register/thanks/', true, 303);
+        } else {
+            http_response_code($status);
+            header('Content-Type: text/html; charset=UTF-8');
+            echo '<p>' . htmlspecialchars($message, ENT_QUOTES, 'UTF-8') . '</p><p><a href="/register/">Back to the form</a></p>';
+        }
+        exit;
+    }
+    http_response_code($status);
+    echo json_encode(['success' => $success, 'message' => $message]);
+    exit;
+}
+
+// Honeypot: the hidden "hp_check" field is left empty by people and filled
+// in by bots. Pretend it worked and send nothing. The name is one browsers
+// don't autofill, so a real vendor is never dropped.
+if (!empty($input['hp_check'])) {
+    error_log("Vendor registration: honeypot filled, dropped: " . json_encode($input));
+    respond(true, 'Registration submitted successfully!');
+}
+
+// A field as a string: an array-valued field (name[]=x) becomes ''.
+function field($input, $key) {
+    $v = $input[$key] ?? '';
+    return is_string($v) ? $v : '';
 }
 
 // Extract and sanitize form data
@@ -42,6 +78,19 @@ $socialOther1 = htmlspecialchars($input['socialOther1'] ?? '', ENT_QUOTES, 'UTF-
 $socialOther2 = htmlspecialchars($input['socialOther2'] ?? '', ENT_QUOTES, 'UTF-8');
 $numVans = htmlspecialchars($input['numVans'] ?? '', ENT_QUOTES, 'UTF-8');
 $operatingDays = htmlspecialchars($input['operatingDays'] ?? '', ENT_QUOTES, 'UTF-8');
+// Fields from /register (the old /vendor-getting-started form sends none of them)
+$listingTypes = ['free' => 'Free listing', 'live' => 'Live van tracking'];
+$listingType = $listingTypes[field($input, 'listingType')] ?? '';
+$sells = htmlspecialchars(field($input, 'sells'), ENT_QUOTES, 'UTF-8');
+$link = htmlspecialchars(field($input, 'link'), ENT_QUOTES, 'UTF-8');
+$vanName = htmlspecialchars(field($input, 'vanName'), ENT_QUOTES, 'UTF-8');
+
+// One cell of the semicolon-separated spreadsheet row. Built from the raw
+// value and escaped last, so "Ben & Jerry's" isn't split at an entity's ";".
+function csvCell($input, $key) {
+    $v = str_replace(array(";", "\r\n", "\r", "\n"), array(",", " ", " ", " "), field($input, $key));
+    return htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+}
 
 // Log the attempt for debugging
 error_log("Vendor registration attempt from: " . $email . " for business: " . $businessName);
@@ -55,16 +104,12 @@ if (!$location) $missingFields[] = 'Main Location';
 
 if (!empty($missingFields)) {
     error_log("Vendor registration error: Missing required fields: " . implode(', ', $missingFields));
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Please fill in the following required fields: ' . implode(', ', $missingFields)]);
-    exit;
+    respond(false, 'Please fill in the following required fields: ' . implode(', ', $missingFields), 400);
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     error_log("Vendor registration error: Invalid email format - " . $email);
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Invalid email address']);
-    exit;
+    respond(false, 'Invalid email address', 400);
 }
 
 // Email configuration - STANDARD BLUEHOST SMTP SETTINGS
@@ -98,7 +143,15 @@ $body = "
 </head>
 <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
     <h2 style='color: #2563eb;'>New Vendor Registration from Chimes Website</h2>
-    
+
+    <div style='background: #fde8ef; padding: 20px; border-radius: 5px; margin: 20px 0;'>
+        <h3>LISTING:</h3>
+        <p><strong>Wants:</strong> " . ($listingType ?: 'Not provided (old form)') . "</p>
+        <p><strong>What they sell:</strong> " . ($sells ?: 'Not provided') . "</p>
+        <p><strong>Website or social link:</strong> " . ($link ?: 'Not provided') . "</p>
+        <p><strong>Van name:</strong> " . ($vanName ?: 'Not provided') . "</p>
+    </div>
+
     <div style='background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;'>
         <h3>BUSINESS INFORMATION:</h3>
         <p><strong>Business Name:</strong> " . ($businessName ?: 'Not provided') . "</p>
@@ -151,10 +204,14 @@ $body = "
         str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $socialOther1 ?: '') . ";" . 
         str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $socialOther2 ?: '') . ";" . 
         str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $numVans ?: '') . ";" . 
-        str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $operatingDays ?: '') . "</p>
-        
+        str_replace(array(";", "\r\n", "\r", "\n"), array(" ", " ", " ", " "), $operatingDays ?: '') . ";" .
+        $listingType . ";" .
+        csvCell($input, 'sells') . ";" .
+        csvCell($input, 'link') . ";" .
+        csvCell($input, 'vanName') . "</p>
+
         <h4 style='margin-top: 20px;'>Header Row (for reference):</h4>
-        <p style='font-family: monospace; background: #fff; padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;'>Business Name;Contact Name;Email;Phone;WhatsApp;Website;Location;Post Codes;Description;Facebook;Instagram;Social Other 1;Social Other 2;Number of Vans;Operating Days</p>
+        <p style='font-family: monospace; background: #fff; padding: 10px; border: 1px solid #ddd; white-space: pre-wrap;'>Business Name;Contact Name;Email;Phone;WhatsApp;Website;Location;Post Codes;Description;Facebook;Instagram;Social Other 1;Social Other 2;Number of Vans;Operating Days;Listing;Sells;Link;Van Name</p>
     </div>
     
     <hr style='margin: 30px 0;'>
@@ -176,11 +233,10 @@ $mailResult = $mailer->send($to, $subject, $body, $from_name . ' <' . $from . '>
 
 if ($mailResult) {
     error_log("Vendor registration: Email sent successfully to: " . $to);
-    echo json_encode(['success' => true, 'message' => 'Registration submitted successfully! We\'ll review your application and get back to you within 24 hours.']);
+    respond(true, 'Registration submitted successfully! We\'ll review your application and get back to you within 24 hours.');
 } else {
     error_log("Vendor registration: Email failed to send to: " . $to);
-    error_log("Vendor registration: Last error: " . error_get_last()['message'] ?? 'Unknown error');
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Failed to submit registration - please try again or email us directly']);
+    error_log("Vendor registration: Last error: " . (error_get_last()['message'] ?? 'Unknown error'));
+    respond(false, 'Failed to submit registration - please try again or email us directly at chimesapp@just-iot.com', 500);
 }
 ?>
