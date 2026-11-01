@@ -306,6 +306,28 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
   <Footer home="/homepage/" />
 </Layout>
 
+<style is:global>
+  /* TRY v2, A2: banner blues in the hero, black and red type kept. The light end sits behind the text,
+     the deep end behind the phones (desktop: left to right; phone: top to bottom). Not for merge. */
+  .bg-hero { background: linear-gradient(180deg, #8ed3ff 0%, #58a2eb 60%, #2070d6 100%) !important; }
+  @media (min-width: 1024px) {
+    .bg-hero { background: linear-gradient(100deg, #8ed3ff 0%, #8ed3ff 30%, #58a2eb 62%, #2070d6 100%) !important; }
+    .bg-hero .ch-btn-customer { background: #fff; color: #1556b8; }
+  }
+  /* B2 = A2 plus: pink and lilac backgrounds become banner-blue tints; red text and buttons stay. */
+  :root {
+    --color-pink-50: #f2f8ff; --color-pink-100: #d4e8fc; --color-lilac-50: #f2f8ff; --color-lilac-100: #d4e8fc;
+    --color-outline-pink: #9cc7f5; --color-ink-muted-pink: #3e4a63;
+  }
+  .ch-step-badge, .bg-badge { background: linear-gradient(135deg, #c81e54 0%, #a3173f 100%) !important; }
+  .bg-customer { background: linear-gradient(180deg, #eaf4ff 0%, #d6ebff 100%) !important; }
+  /* TRY: headline "Chimes" colour, picked by ?chimes=white|deep|red (default: logo blue). */
+  .chimes-white .bg-hero h1 span { color: #fff !important; text-shadow: 0 2px 8px rgb(16 60 130 / 0.45); }
+  .chimes-deep .bg-hero h1 span { color: #1556b8 !important; }
+  .chimes-red .bg-hero h1 span { color: #c81e54 !important; }
+</style>
+<script is:inline>{const c = new URLSearchParams(location.search).get('chimes'); if (c) document.documentElement.classList.add('chimes-' + c);}</script>
+
 <style>
   .ch-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   /* As Phone.astro's frame. */
