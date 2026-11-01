@@ -305,25 +305,6 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
   <Footer />
 </Layout>
 
-<style is:global>
-  /* Blue trial (D25 B2, D26, D29): banner blues in the hero, top to bottom, with the word "Chimes" in
-     white in the header and the headline. The phone hero is about twice as tall, so it starts lighter.
-     Overrides until it moves into app.css. */
-  .bg-hero { background: linear-gradient(180deg, #64a8ee 0%, #8ecdfb 50%, #c6eaff 100%) !important; }
-  @media (min-width: 1024px) {
-    .bg-hero { background: linear-gradient(180deg, #4f97e8 0%, #7fc2f7 50%, #b8e4ff 100%) !important; }
-  }
-  .bg-hero .ch-btn-customer { background: #fff; color: #1556b8; }
-  .bg-hero header .ch-word, .bg-hero h1 span { color: #fff !important; text-shadow: 0 2px 8px rgb(16 60 130 / 0.45); }
-  /* B2 = A2 plus: pink and lilac backgrounds become banner-blue tints; red text and buttons stay. */
-  :root {
-    --color-pink-50: #f2f8ff; --color-pink-100: #d4e8fc; --color-lilac-50: #f2f8ff; --color-lilac-100: #d4e8fc;
-    --color-outline-pink: #9cc7f5; --color-ink-muted-pink: #3e4a63;
-  }
-  .ch-step-badge, .bg-badge { background: linear-gradient(135deg, #c81e54 0%, #a3173f 100%) !important; }
-  .bg-customer { background: linear-gradient(180deg, #eaf4ff 0%, #d6ebff 100%) !important; }
-</style>
-
 <style>
   .ch-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
   /* As Phone.astro's frame. */
