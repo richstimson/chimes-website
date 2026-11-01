@@ -20,7 +20,7 @@ type Plan = {
 
 const plans: Plan[] = [
   {
-    // VRG-007, VMN-011, VMN-012, VLT-007a, VRG-010
+    // VRG-007, VMN-011, VMN-012, VRG-010. No "hide your listing": static listings can't be hidden (owner, 2026-11-01).
     name: 'Free listing',
     price: '£0',
     per: 'for good',
@@ -30,7 +30,6 @@ const plans: Plan[] = [
       'Your pin on the map, with what you sell',
       'Your Facebook, Instagram, website and email on your card',
       'Customers can save you as a favourite',
-      'Closed for the day? Hide your listing with one tap',
       'Sign up with your email and a code. No password',
     ],
     cta: { label: 'Get listed free', href: '/register' },
@@ -51,7 +50,6 @@ const plans: Plan[] = [
       'Everything in Free listing',
       'Live van tracking: customers watch your van come down the road',
       "A chime on customers' phones when you drive into their area",
-      'Start in demo mode, then we switch you to fully live',
       'Stop Sharing or auto-hide whenever you choose',
     ],
     cta: { label: 'Become a launch partner', href: '/register?plan=live' },
@@ -123,7 +121,7 @@ const shown = plans.filter((p) => p.show);
     {shown.map((p) => (
       <li class={`ch-card ${p.card ?? 'ch-card-pink'} flex flex-col gap-4`}>
         <div class="flex flex-col gap-1">
-          <h3 class="text-xl font-bold flex flex-wrap items-center gap-2">{p.name}{p.badge && <span class="ch-eyebrow-pill">{p.badge}</span>}</h3>
+          <h3 class="font-display text-[28px] sm:text-[32px] leading-tight font-bold flex flex-wrap items-center gap-2">{p.name}{p.badge && <span class="ch-eyebrow-pill">{p.badge}</span>}</h3>
           <p><span class="font-display text-5xl font-bold text-raspberry-dark">{p.price}</span>{p.per && <span class="text-ink-muted"> {p.per}</span>}</p>
           <p class="text-sm text-ink-muted">{p.note}</p>
         </div>
