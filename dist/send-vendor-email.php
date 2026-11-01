@@ -116,7 +116,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $smtp_host = 'mail.chimesapp.com';  // Standard format: mail.yourdomain.com
 $smtp_port = 465;              // SSL port
 $smtp_username = 'website@chimesapp.com';  // The email account you created
-$smtp_password = 'Barsing.73'; // Your email password
+$smtp_password = ''; // Unused: PHPMailer::send() uses mail(). Never commit the password; this repo is public.
 
 // Email addresses
 $to = 'chimesapp@just-iot.com';  // Back to your Zoho email
