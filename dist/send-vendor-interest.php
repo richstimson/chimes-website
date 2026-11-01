@@ -75,7 +75,7 @@ $subject = 'New Vendor Interest Registration - ' . $email;
 $smtp_host = 'mail.chimesapp.com';
 $smtp_port = 465; // SSL port
 $smtp_username = 'website@chimesapp.com';
-$smtp_password = 'Barsing.73';
+$smtp_password = ''; // Unused: PHPMailer::send() uses mail(). Never commit the password; this repo is public.
 $smtp_secure = 'ssl';
 
 // Create mailer instance
