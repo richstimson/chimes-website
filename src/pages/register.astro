@@ -100,8 +100,16 @@ const inputClass = 'input w-full min-h-[52px] text-base';
             <input name="phone" type="tel" autocomplete="tel" placeholder="07123 456789" class={inputClass} required />
           </label>
           <label class="flex flex-col gap-1.5 sm:col-span-2">
-            <span class="font-bold">Website, Facebook or Instagram</span>
-            <input name="link" type="text" inputmode="url" placeholder="facebook.com/yourbusiness" class={inputClass} />
+            <span class="font-bold">Website</span>
+            <input name="website" type="text" inputmode="url" autocomplete="url" placeholder="yourbusiness.co.uk" class={inputClass} />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="font-bold">Facebook</span>
+            <input name="facebook" type="text" placeholder="facebook.com/yourbusiness" class={inputClass} />
+          </label>
+          <label class="flex flex-col gap-1.5">
+            <span class="font-bold">Instagram</span>
+            <input name="instagram" type="text" placeholder="@yourbusiness" class={inputClass} />
           </label>
           <label id="vanNameField" class="flex flex-col gap-1.5 sm:col-span-2">
             <span class="font-bold">Van name (Live van tracking, optional)</span>
