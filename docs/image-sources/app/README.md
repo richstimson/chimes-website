@@ -8,7 +8,7 @@ is never deployed. To rebuild a WebP, scale to 600 px wide and convert.
 | `23-map-area-1km.png` | `23-map-area-1km.webp` | iPhone 17 Pro sim, 1206×2622, 2026-10-31 (PR #21) |
 | `24-vendor-card-socials.png` | `24-vendor-card-socials.webp` | iPhone 17 Pro sim, 1206×2622, 2026-10-31 (PR #21) |
 | `25-vendor-card-full.png` | `25-vendor-card-full.webp` | iPhone 17 Pro sim, 1206×2622, 2026-11-01 (PR #22) |
-| not stored | `27-map-clusters-frosty.webp` | Owner's iPhone capture (PR #23); the original is on the owner's phone |
+| `27-map-clusters-frosty.png` | `27-map-clusters-frosty.webp` | Owner's iPhone capture, 1170×2532, 2026-11-01 (PR #23) |
 
 The older WebPs were made from captures already in git in the app repo (`richstimson/locapp-23`), so they
 are not copied here. Each pairing checked on 2026-11-01 (original scaled to the WebP's size, RMSE ≤ 0.034):
