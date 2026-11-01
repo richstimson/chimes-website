@@ -179,6 +179,10 @@ const inputClass = 'input w-full min-h-[52px] text-base';
 
   if (form && submitBtn) {
     form.addEventListener('change', syncVanField);
+    // /register?plan=live (the home page's Track & Notify box) starts on Live van tracking.
+    if (new URLSearchParams(location.search).get('plan') === 'live') {
+      (form.elements.namedItem('listingType') as RadioNodeList).value = 'live';
+    }
     syncVanField();
 
     form.addEventListener('submit', async (e) => {

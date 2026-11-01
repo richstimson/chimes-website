@@ -1,4 +1,7 @@
 <?php
+// The server runs on America/Boise; every form email's date reads as UK time.
+date_default_timezone_set('Europe/London');
+
 /**
  * Lightweight PHPMailer-style SMTP class for Bluehost
  * Simple SMTP implementation without external dependencies

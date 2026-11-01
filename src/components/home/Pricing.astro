@@ -1,33 +1,59 @@
 ---
 // Pricing on the home page (#pricing, the header's "Pricing" link).
-// While Chimes is in launch everything is free (owner, 2026-10-31), so only
-// the launch plan shows. The old home page's three plans (VendorPricing.astro)
-// are kept here with show: false so they survive deleting the old page; turn
-// one on by setting show: true. Their Stripe links are live payment links.
+// Two boxes (owner, 2026-11-01): a listing that is free for good, and Track &
+// Notify free for launch partners. No launch dates on the page (owner). The old
+// home page's three plans (VendorPricing.astro) are kept here with show: false
+// so they survive deleting the old page; turn one on by setting show: true.
+// Their Stripe links are live payment links.
 type Plan = {
   name: string;
+  badge?: string;
   price: string;
   per?: string;
   note: string;
   lead: string;
   ticks: string[];
   cta: { label: string; href: string; external?: boolean };
+  card?: string;
   show: boolean;
 };
 
 const plans: Plan[] = [
   {
-    name: 'Launch offer',
+    // VRG-007, VMN-011, VMN-012, VRG-010. No "hide your listing": static listings can't be hidden (owner, 2026-11-01).
+    name: 'Free listing',
     price: '£0',
-    note: 'Free until we launch in spring 2027. No payment details.',
-    lead: 'Everything Chimes does, free while we launch.',
+    per: 'for good',
+    note: 'No payment details. No catch.',
+    lead: 'Get your van or shop on the Chimes map.',
     ticks: [
-      'Free listing: your pin on the map, with what you sell',
-      'Live van tracking: customers follow your van, marked Live',
-      'A chime on customers\' phones when you drive into their area',
-      'You choose when customers can see you',
+      'Your pin on the map, with what you sell',
+      'Your Facebook, Instagram, website and email on your card',
+      'Customers can save you as a favourite',
+      'Sign up with your email and a code. No password',
     ],
-    cta: { label: 'Register your business', href: '/register' },
+    cta: { label: 'Get listed free', href: '/register' },
+    card: 'ch-card-blue',
+    show: true,
+  },
+  {
+    // VDM-001, VLT-004, ALR-006, VLT-003. Partners give feedback for our market
+    // research and benefits analysis (owner, 2026-11-01).
+    name: 'Track & Notify',
+    badge: 'Launch offer',
+    price: '£0',
+    per: 'for launch partners',
+    note: 'No payment details.',
+    lead:
+      "Chimes is launching soon and we're looking for launch partners. Get Track & Notify free, and in return tell us how Chimes works for your business: what it brings in, and what would make it better.",
+    ticks: [
+      'Everything in Free listing',
+      'Live van tracking: customers watch your van come down the road',
+      "A chime on customers' phones when you drive into their area",
+      'Stop Sharing or auto-hide whenever you choose',
+    ],
+    cta: { label: 'Become a launch partner', href: '/register?plan=live' },
+    card: 'ch-card-pink',
     show: true,
   },
   // From the old home page (VendorPricing.astro, last changed 2026-10-07). Hidden.
@@ -85,17 +111,17 @@ const shown = plans.filter((p) => p.show);
 
 <section id="pricing" class="ch-container pb-12 sm:pb-20">
   <div class="max-w-[640px] mb-8 flex flex-col gap-2.5">
-    <h2 class="ch-h2">Free while we launch.</h2>
+    <h2 class="ch-h2">Free to get on the map.</h2>
     <p class="text-lg leading-[1.55] text-ink-muted">
-      Chimes is new and launches fully in spring 2027. Until then, live tracking and customer alerts are
-      completely free. Join us and give it a try.
+      A listing costs nothing, for good. Want customers to watch your van arrive and get a chime? Join us as
+      a launch partner.
     </p>
   </div>
-  <ul class={`grid gap-5 ${shown.length > 1 ? 'md:grid-cols-3' : 'max-w-[520px]'}`}>
+  <ul class={`grid gap-5 ${shown.length > 2 ? 'md:grid-cols-3' : shown.length === 2 ? 'md:grid-cols-2 max-w-[1040px]' : 'max-w-[520px]'}`}>
     {shown.map((p) => (
-      <li class="ch-card ch-card-pink flex flex-col gap-4">
+      <li class={`ch-card ${p.card ?? 'ch-card-pink'} flex flex-col gap-4`}>
         <div class="flex flex-col gap-1">
-          <h3 class="text-xl font-bold">{p.name}</h3>
+          <h3 class="font-display text-[28px] sm:text-[32px] leading-tight font-bold flex flex-wrap items-center gap-2">{p.name}{p.badge && <span class="ch-eyebrow-pill">{p.badge}</span>}</h3>
           <p><span class="font-display text-5xl font-bold text-raspberry-dark">{p.price}</span>{p.per && <span class="text-ink-muted"> {p.per}</span>}</p>
           <p class="text-sm text-ink-muted">{p.note}</p>
         </div>

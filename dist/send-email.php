@@ -84,7 +84,9 @@ $mailer->setSMTPSecure('ssl');
         ];
 
 // Subject
-$subject = 'Contact Form Submission - Chimes Website';
+// Same "Website - New ..." pattern as the vendor form, which Zoho delivers;
+// "Contact Form Submission" did not arrive (2026-11-01).
+$subject = 'Website - New Contact Message';
 
 // Email body with better formatting
 $body = "
