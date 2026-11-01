@@ -1,0 +1,81 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import StoreBadges from '../components/home/StoreBadges.astro';
+import data from '../data/roadmap-public.json';
+import Layout from '../layouts/Layout.astro';
+
+// The product roadmap. The content is generated in locapp-23
+// (docs/features/roadmap.yaml -> roadmap-public.json); ./sync-roadmap.sh copies
+// it here. Never edit the JSON: change the source in locapp-23. An item is
+// "Shipped" only when its release is live on the App Store.
+
+interface Theme { id: string; title: string; description: string }
+interface Item { id: string; theme: string; title: string; benefit: string; audience: string; group: string }
+
+const themes = data.themes as Theme[];
+const items = data.items as Item[];
+
+const groups = [
+  { id: 'shipped', heading: 'Shipped', blurb: 'On the App Store today.' },
+  { id: 'next', heading: 'Next', blurb: 'In progress, or planned next. No dates are promised.' },
+  { id: 'later', heading: 'Later', blurb: 'Ideas we want to build. They may change.' },
+].map((g) => ({
+  ...g,
+  themes: themes
+    .map((t) => ({ ...t, items: items.filter((i) => i.group === g.id && i.theme === t.id) }))
+    .filter((t) => t.items.length),
+}));
+
+const who = (a: string) => (a === 'vendor' ? 'For vendors' : a === 'customer' ? 'For customers' : 'For everyone');
+---
+
+<Layout
+  title="Product roadmap - Chimes!"
+  description="What Chimes does today, what we are building next, and what comes later: the ice cream app for customers and vendors."
+>
+  <!-- Look: docs/design/CHIMES_DESIGN.md. -->
+  <div class="bg-hero">
+    <Header />
+    <div class="ch-container pt-8 sm:pt-12 pb-12 sm:pb-16 flex flex-col items-start gap-4">
+      <h1 class="ch-h1 text-ink">Product roadmap</h1>
+      <p class="max-w-2xl text-lg text-ink-muted">What Chimes does today, what we are building next, and what may come later.</p>
+      <div class="flex flex-wrap gap-3">
+        {groups.map((g) => <a href={`#${g.id}`} class="ch-btn ch-btn-secondary">{g.heading}</a>)}
+      </div>
+    </div>
+  </div>
+
+  <main class="ch-container pb-12 sm:pb-20 text-ink">
+    {groups.map((g) => (
+      <section id={g.id} class="pt-10">
+        <h2 class="ch-h2">{g.heading}</h2>
+        <p class="text-ink-muted mt-1 mb-6">{g.blurb}</p>
+        {g.themes.map((t) => (
+          <div class:list={['ch-card mb-5', g.id === 'shipped' ? 'ch-card-blue' : g.id === 'next' ? 'ch-card-pink' : 'ch-card-lilac']}>
+            <h3 class="text-xl font-bold">{t.title}</h3>
+            <p class="text-ink-muted mb-4">{t.description}</p>
+            <ul class="grid gap-x-8 gap-y-4 md:grid-cols-2">
+              {t.items.map((i) => (
+                <li class="border-l-4 border-ink/20 pl-4" data-roadmap-id={i.id}>
+                  <p class="font-bold">{g.id === 'shipped' && <span aria-hidden="true">✓ </span>}{i.title}</p>
+                  <p class="text-ink-muted">{i.benefit}</p>
+                  <p class="text-sm text-ink-muted">{who(i.audience)}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    ))}
+
+    <section class="pt-10">
+      <p class="mb-2">Everything that is live is listed in detail on <a href="/features" class="underline">every feature</a>.</p>
+      <p class="font-bold mb-4">Get Chimes. Vendor features are on iPhone.</p>
+      <div class="flex flex-wrap items-center gap-4">
+        <StoreBadges />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
