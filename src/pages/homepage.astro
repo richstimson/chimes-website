@@ -49,8 +49,9 @@ const featureCards = [
     // MAP-010, MAP-011, MAP-012
     title: 'A card for every van',
     line: 'Tap a pin to see who it is and what they sell.',
-    img: '/images/app/16-favourite-vendor-card.webp',
-    alt: "Mr Frosty's card on the Chimes map: mobile caterer, Isle of Wight",
+    // Full card for a tracked van (owner, 2026-11-01): sim capture of Michele's Ices.
+    img: '/images/app/25-vendor-card-full.webp',
+    alt: "Michele's Ices card on the Chimes map: Live, The Best on the Island!, Facebook, Instagram, website and email, with Navigate, WhatsApp and Call",
     peek: 'bottom',
     href: '/features/map',
   },
@@ -58,9 +59,10 @@ const featureCards = [
     // MAP-001, MAP-010
     title: 'Vans and shops nearby',
     line: 'Grouped by area. Even ones not on Chimes yet.',
-    img: '/images/app/15-first-launch-map.webp',
-    alt: 'The Chimes map of England with ice cream vans and shops grouped by area',
-    peek: 'top',
+    // The owner's iPhone capture (2026-11-01): clusters around the Solent, Mr Frosty's selected.
+    img: '/images/app/26-map-clusters-selected.webp',
+    alt: "The Chimes map around the Solent: vans and shops grouped by area, with Mr Frosty's selected near Yarmouth",
+    peek: 'bottom',
     href: '/features/map',
   },
   {
@@ -251,7 +253,8 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
               <h3 class="text-xl font-bold"><a href={c.href} class="hover:text-logo-blue">{c.title}</a></h3>
               <p class="text-ink-muted-blue">{c.line}</p>
               <PicturePanel tone="blue" from={c.peek === 'top' ? 'bottom' : 'top'} class="mt-auto h-[260px]">
-                <Phone peek={c.peek} show={0.5} src={c.img} alt={c.alt} class="w-52" />
+                <!-- 150 px at 0.7 fits the panel's 228 px; wider phones cut the bottom sheet on mobile. -->
+                <Phone peek={c.peek} show={0.7} src={c.img} alt={c.alt} class="w-[150px]" />
               </PicturePanel>
             </li>
           ))}
