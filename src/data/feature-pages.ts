@@ -49,8 +49,8 @@ export const featurePages: FeaturePage[] = [
     },
     panel: {
       kind: 'phone',
-      src: img('16-favourite-vendor-card'),
-      alt: "A listing's card on the Chimes map: Mr Frosty's, mobile caterer, Isle of Wight",
+      src: img('27-map-clusters-frosty'),
+      alt: "A listing's card on the Chimes map: Mr Frosty's, mobile caterer, Isle of Wight, with Facebook, Instagram, website and email buttons",
       peek: 'bottom',
       show: 0.55,
     },
@@ -74,7 +74,7 @@ export const featurePages: FeaturePage[] = [
     ],
     hero: {
       front: { kind: 'card', src: img('21-location-sharing-live-card'), alt: "Chimes Location Sharing: You're Live, with a Stop Sharing button" },
-      back: { kind: 'phone', src: img('02-vendor-card'), alt: "Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons" },
+      back: { kind: 'phone', src: img('25-vendor-card-full'), alt: "Michele's Ices on the Chimes map, Live, position updated just now" },
     },
     panel: { kind: 'card', src: img('22-location-sharing-offline-card'), alt: "Chimes Location Sharing: You're Offline, van not visible to your customers" },
     ids: ['VRG-002', 'VDM-001', 'VDM-005', 'VDM-003', 'VLT-001', 'VLT-004', 'VLT-003', 'VBG-001', 'VBG-002', 'VBG-006', 'MAP-003', 'MAP-004', 'MAP-011', 'ALR-008', 'ALR-014'],
@@ -99,8 +99,8 @@ export const featurePages: FeaturePage[] = [
     },
     panel: {
       kind: 'phone',
-      src: img('11-onboarding-notifications'),
-      alt: 'Chimes asks to send notifications, showing an alert from Michele’s Ices',
+      src: img('23-map-area-1km'),
+      alt: 'The Chimes map with postcode PO30 and a 1 km radius, the area drawn as a blue circle',
       peek: 'top',
       show: 0.5,
     },
@@ -126,8 +126,8 @@ export const featurePages: FeaturePage[] = [
     },
     panel: {
       kind: 'phone',
-      src: img('02-vendor-card'),
-      alt: "Michele's Ices on the Chimes map, Live, with Navigate, WhatsApp and Call buttons",
+      src: img('25-vendor-card-full'),
+      alt: "Michele's Ices on the Chimes map, Live, with Facebook, Instagram, website and email, and Navigate, WhatsApp and Call buttons",
       peek: 'bottom',
       show: 0.55,
     },
