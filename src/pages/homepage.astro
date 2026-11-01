@@ -315,14 +315,18 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
     .bg-hero .ch-btn-customer { background: #fff; color: #1556b8; }
   }
   /* B2 = A2 plus: pink and lilac backgrounds become banner-blue tints; red text and buttons stay. */
-  .try-b {
+  :root {
     --color-pink-50: #f2f8ff; --color-pink-100: #d4e8fc; --color-lilac-50: #f2f8ff; --color-lilac-100: #d4e8fc;
     --color-outline-pink: #9cc7f5; --color-ink-muted-pink: #3e4a63;
   }
-  .try-b .ch-step-badge, .try-b .bg-badge { background: linear-gradient(135deg, #c81e54 0%, #a3173f 100%) !important; }
-  .try-b .bg-customer { background: linear-gradient(180deg, #eaf4ff 0%, #d6ebff 100%) !important; }
+  .ch-step-badge, .bg-badge { background: linear-gradient(135deg, #c81e54 0%, #a3173f 100%) !important; }
+  .bg-customer { background: linear-gradient(180deg, #eaf4ff 0%, #d6ebff 100%) !important; }
+  /* TRY: headline "Chimes" colour, picked by ?chimes=white|deep|red (default: logo blue). */
+  .chimes-white .bg-hero h1 span { color: #fff !important; text-shadow: 0 2px 8px rgb(16 60 130 / 0.45); }
+  .chimes-deep .bg-hero h1 span { color: #1556b8 !important; }
+  .chimes-red .bg-hero h1 span { color: #c81e54 !important; }
 </style>
-<script is:inline>if (location.search.includes('b=1')) document.documentElement.classList.add('try-b');</script>
+<script is:inline>{const c = new URLSearchParams(location.search).get('chimes'); if (c) document.documentElement.classList.add('chimes-' + c);}</script>
 
 <style>
   .ch-hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
