@@ -60,14 +60,16 @@ if [ -n "$DRY_RUN_FLAG" ]; then
     FORCE_SYNC=true
 fi
 
-# Compare with previous checksums if they exist
-if [ -f .deploy-cache/previous-checksums.txt ] && [ "$FORCE_SYNC" = false ]; then
-    # Files added, changed or removed since the last deploy. Lines look like
-    # "MD5 (dist/path) = hash"; a removed file appears only in the previous
-    # list, so compare both ways or deleting a page never syncs.
+# Files added, changed or removed since the last deploy. Lines look like
+# "MD5 (dist/path) = hash"; a removed file appears only in the previous
+# list, so compare both ways or deleting a page never syncs.
+CHANGED_FILES=""
+if [ -f .deploy-cache/previous-checksums.txt ]; then
     CHANGED_FILES=$(comm -3 <(sort .deploy-cache/previous-checksums.txt) <(sort .deploy-cache/current-checksums.txt) \
         | sed -E 's/^[[:space:]]*MD5 \((.*)\) = .*/\1/' | sort -u)
+fi
 
+if [ -f .deploy-cache/previous-checksums.txt ] && [ "$FORCE_SYNC" = false ]; then
     if [ -z "$CHANGED_FILES" ]; then
         echo "⚡ No file content changes detected, skipping sync..."
         exit 0
@@ -104,6 +106,29 @@ LFTP_STATUS=$?
 if [ "$LFTP_STATUS" -ne 0 ]; then
     echo "❌ lftp failed (exit $LFTP_STATUS); deploy cache left unchanged"
     exit "$LFTP_STATUS"
+fi
+
+# --ignore-time makes the mirror compare by size only, so a page whose only
+# change is a same-length asset hash (_slug_.AAAA.css -> _slug_.BBBB.css) is
+# skipped and the server keeps the old page (2026-11-01: 16 pages stale after a
+# theme change). Upload every file whose checksum changed, whatever its size.
+PUT_CMDS=""
+while IFS= read -r f; do
+    [ -f "$f" ] || continue                  # removed: the mirror deleted it
+    case "$f" in dist/_astro/*) continue ;; esac  # hashed names: mirror sends them
+    rel="${f#dist/}"
+    PUT_CMDS="$PUT_CMDS put -O \"$CHIMES_REMOTE_ROOT/$(dirname "$rel")\" \"$f\";"
+    [ -n "$DRY_RUN_FLAG" ] && echo "  would force-upload $rel"
+done <<< "$CHANGED_FILES"
+
+if [ -n "$PUT_CMDS" ] && [ -z "$DRY_RUN_FLAG" ]; then
+    echo "📤 Force-uploading changed files the size-only mirror may skip..."
+    lftp -c "$CHIMES_LFTP_OPEN; $PUT_CMDS"
+    PUT_STATUS=$?
+    if [ "$PUT_STATUS" -ne 0 ]; then
+        echo "❌ lftp put failed (exit $PUT_STATUS); deploy cache left unchanged"
+        exit "$PUT_STATUS"
+    fi
 fi
 
 if [ -n "$DRY_RUN_FLAG" ]; then

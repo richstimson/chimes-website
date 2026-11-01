@@ -336,6 +336,12 @@
   background-size: 80px 80px;
 }
 
+/* iOS zooms the page in when a field under 16px gets focus, and stays zoomed
+   (the contact card looked too wide, 2026-11-01). daisyUI fields are 14px. */
+@media (max-width: 639px) {
+  .input, .textarea, .select { font-size: 16px; }
+}
+
 /* Scroll trigger utilities */
 .scroll-trigger {
   opacity: 0;
