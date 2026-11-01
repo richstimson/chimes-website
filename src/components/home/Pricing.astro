@@ -1,6 +1,6 @@
 ---
 // Pricing on the home page (#pricing, the header's "Pricing" link).
-// Two boxes (owner, 2026-11-01): a listing that is free for good, and Track &
+// Two boxes (owner, 2026-11-01): a listing that is free forever, and Track &
 // Notify free for launch partners. No launch dates on the page (owner). The old
 // home page's three plans (VendorPricing.astro) are kept here with show: false
 // so they survive deleting the old page; turn one on by setting show: true.
@@ -23,7 +23,7 @@ const plans: Plan[] = [
     // VRG-007, VMN-011, VMN-012, VRG-010. No "hide your listing": static listings can't be hidden (owner, 2026-11-01).
     name: 'Free listing',
     price: '£0',
-    per: 'for good',
+    per: 'forever',
     note: 'No payment details. No catch.',
     lead: 'Get your van or shop on the Chimes map.',
     ticks: [
@@ -113,7 +113,7 @@ const shown = plans.filter((p) => p.show);
   <div class="max-w-[640px] mb-8 flex flex-col gap-2.5">
     <h2 class="ch-h2">Free to get on the map.</h2>
     <p class="text-lg leading-[1.55] text-ink-muted">
-      A listing costs nothing, for good. Want customers to watch your van arrive and get a chime? Join us as
+      A listing costs nothing, forever. Want customers to watch your van arrive and get a chime? Join us as
       a launch partner.
     </p>
   </div>
