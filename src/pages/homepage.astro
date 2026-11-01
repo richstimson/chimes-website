@@ -217,7 +217,7 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
         <ol class="grid gap-5 md:grid-cols-3 mb-12">
           <li class="ch-card flex flex-col gap-3">
             <span class="ch-step-badge">1</span>
-            <h3 class="text-xl font-bold"><a href="/features/alerts" class="hover:text-logo-blue">Pick your area</a></h3>
+            <h3 class="text-xl font-bold"><a href="/features/alerts" class="ch-heading-link">Pick your area</a></h3>
             <p class="text-ink-muted-blue">A postcode and a radius.</p>
             <PicturePanel tone="blue" from="bottom" class="mt-auto h-[300px]">
               <!-- Postcode box and a 1 km circle, no vendor card (owner, 2026-10-31). -->
@@ -226,7 +226,7 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
           </li>
           <li class="ch-card flex flex-col gap-3">
             <span class="ch-step-badge">2</span>
-            <h3 class="text-xl font-bold"><a href="/features/alerts" class="hover:text-logo-blue">A van comes near, your phone chimes</a></h3>
+            <h3 class="text-xl font-bold"><a href="/features/alerts" class="ch-heading-link">A van comes near, your phone chimes</a></h3>
             <p class="text-ink-muted-blue">With the van's name and what they sell, app open or not.</p>
             <PicturePanel tone="blue" class="mt-auto h-[300px] flex-col gap-3">
               <!-- iOS alert only: the Android one was dropped (owner, 2026-10-31). -->
@@ -235,7 +235,7 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
           </li>
           <li class="ch-card flex flex-col gap-3">
             <span class="ch-step-badge">3</span>
-            <h3 class="text-xl font-bold"><a href="/features/map" class="hover:text-logo-blue">Go get your ice cream!</a></h3>
+            <h3 class="text-xl font-bold"><a href="/features/map" class="ch-heading-link">Go get your ice cream!</a></h3>
             <p class="text-ink-muted-blue">Tap the van for directions, plus its Facebook, Instagram, website and email.</p>
             <PicturePanel tone="blue" from="top" class="mt-auto h-[300px]">
               <!-- Captured from the pre-cleared review van with links and a title added for the shot, then restored. -->
@@ -250,7 +250,7 @@ const appStoreHref = 'https://apps.apple.com/gb/app/chimes/id6738628000';
         <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-4 mb-8">
           {featureCards.map((c) => (
             <li class="ch-card flex flex-col gap-3">
-              <h3 class="text-xl font-bold"><a href={c.href} class="hover:text-logo-blue">{c.title}</a></h3>
+              <h3 class="text-xl font-bold"><a href={c.href} class="ch-heading-link">{c.title}</a></h3>
               <p class="text-ink-muted-blue">{c.line}</p>
               <PicturePanel tone="blue" from={c.peek === 'top' ? 'bottom' : 'top'} class="mt-auto h-[260px]">
                 <!-- 150 px at 0.7 fits the panel's 228 px; wider phones cut the bottom sheet on mobile. -->
