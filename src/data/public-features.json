@@ -486,17 +486,6 @@
       "releasedOn": "2026-10-17"
     },
     {
-      "id": "VLT-007a",
-      "code": "VLT",
-      "area": "Vendor live / offline sharing, Go Offline daily, publishing cadence",
-      "title": "Vendor with a free listing hides or shows it",
-      "benefit": "Closed for the day? Hide your listing from the map with one tap.",
-      "actor": "vendor",
-      "platform": "ios",
-      "release": "2.2.1",
-      "releasedOn": "2026-10-12"
-    },
-    {
       "id": "VMN-011",
       "code": "VMN",
       "area": "Vendor menus",

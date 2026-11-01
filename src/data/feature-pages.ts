@@ -41,7 +41,6 @@ export const featurePages: FeaturePage[] = [
     bullets: [
       { text: 'A pin in your area with what you sell and how to reach you.', ids: ['VRG-007', 'VMN-011', 'VMN-012', 'MAP-012'] },
       { text: 'Sign up with your email and a code. No password.', ids: ['VRG-001', 'VRG-008', 'VRG-010'] },
-      { text: 'Closed for the day? Hide your listing with one tap.', ids: ['VLT-007a'] },
     ],
     hero: {
       front: { kind: 'phone', src: img('20-register-business'), alt: 'Register your business: Free listing or Live van tracking' },
