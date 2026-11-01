@@ -1,5 +1,9 @@
 # Old `/` vs `/homepage`: what would be lost (D2 check, 2026-10-31)
 
+**Done 2026-11-01 (owner said yes to D2):** `/homepage` is now `/`, `/homepage` redirects there, and the
+old-only components are deleted (`DownloadApp` stays: `/download` uses it). Kept as the record of what the
+old page had.
+
 Before `/homepage` replaces `/` (owner decision D2), this lists everything on the old home page
 (`src/pages/index.astro` and its components) and where, if anywhere, it is on the new one. Checked
 against `feat/register-form`, which adds the "Register your interest" box and `/register`.

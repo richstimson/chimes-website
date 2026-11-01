@@ -26,4 +26,6 @@
 # The App Store listing linked the old privacy page. It now lives at /privacy (2026-10-07).
 <IfModule mod_alias.c>
   RedirectMatch 301 ^/ios-privacy-policy/?$ /privacy
+  # The draft home page at /homepage became / (D2, 2026-11-01).
+  RedirectMatch 301 ^/homepage/?$ /
 </IfModule>

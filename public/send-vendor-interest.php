@@ -30,7 +30,7 @@ function respond($success, $message, $status = 200) {
         } else {
             http_response_code($status);
             header('Content-Type: text/html; charset=UTF-8');
-            echo '<p>' . htmlspecialchars(strip_tags($message), ENT_QUOTES, 'UTF-8') . '</p><p><a href="/homepage/">Back</a></p>';
+            echo '<p>' . htmlspecialchars(strip_tags($message), ENT_QUOTES, 'UTF-8') . '</p><p><a href="/">Back</a></p>';
         }
         exit;
     }

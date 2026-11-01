@@ -4,9 +4,7 @@
 // no background of its own, so on a page that wraps it in bg-hero it sits on
 // the hero gradient; elsewhere it sits on white. Facebook and Instagram are in
 // the footer and the contact section. Below lg the links fold into a menu.
-// `home` is the page that holds the #… sections: the draft /homepage passes
-// its own path so its links stay on it; drop that once it becomes / (D2).
-const { home = '/' } = Astro.props as { home?: string };
+const home = '/';
 const links = [
   { href: `${home}#features`, label: 'Features' },
   { href: `${home}#how-it-works`, label: 'How it works' },
